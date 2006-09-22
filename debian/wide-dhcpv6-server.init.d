@@ -1,7 +1,15 @@
 #!/bin/sh
-#
-# Start/stop the wide-dhcpv6 server
-#
+### BEGIN INIT INFO
+# Provides:          dhcp6s
+# Required-Start:    $syslog $network
+# Required-Stop:     $syslog
+# Should-Start:      $local_fs
+# Should-Stop:       $local_fs
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Start/Stop WIDE DHCPv6 server
+# Description:       (empty)
+### END INIT INFO
 
 PATH=/sbin:/bin:/usr/sbin:/usr/bin
 DHCP6SBIN=/usr/sbin/dhcp6s
@@ -9,12 +17,16 @@ DHCP6SPID=/var/run/dhcp6s.pid
 NAME="dhcp6s"
 DESC="WIDE DHCPv6 server"
 
+. /lib/lsb/init-functtions
+
 test -x $DHCP6SBIN || exit 0
 
 if [ ! -f /etc/default/wide-dhcpv6-server ]; then
-	echo "/etc/default/wide-dhcpv6-server does not exist! - Aborting..."
-	echo "Run 'dpkg-reconfigure wide-dhcpv6-server' to solve the problem."
-	exit 1
+	log_failure_msg \
+            "/etc/default/wide-dhcpv6-server does not exist! - Aborting..."
+	log_failure_msg \
+            "Run 'dpkg-reconfigure wide-dhcpv6-server' to solve the problem."
+	exit 3
 fi
 
 . /etc/default/wide-dhcpv6-server
@@ -39,22 +51,22 @@ check_status()
 
 case "$1" in
 	start)
-		echo -n "Starting $DESC: "
+		log_daemon_msg "Starting $DESC" "$NAME"
 		start-stop-daemon --start --quiet --pidfile $DHCP6SPID \
 			--exec $DHCP6SBIN -- $INTERFACES
 		sleep 2
 		if check_status -q; then
-			echo "$NAME."
+			log_end_msg 0
 		else
-			echo "$NAME failed to start."
+			log_end_msg 1
 			exit 1
 		fi
 		;;
 	stop)
-		echo -n "Stopping $DESC: $NAME"
+		log_daemon_msg "Stopping $DESC" "$NAME"
 		start-stop-daemon --stop --quiet --pidfile $DHCP6SPID
+                log_end_msg $?
 		rm -f $DHCP6SPID
-		echo "."
 		;;
 	restart|force-reload)
 		$0 stop

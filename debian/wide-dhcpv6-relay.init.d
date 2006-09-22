@@ -1,7 +1,15 @@
 #!/bin/sh
-#
-# Start/stop the wide-dhcpv6 relay
-#
+### BEGIN INIT INFO
+# Provides:          dhcp6relay
+# Required-Start:    $syslog $network
+# Required-Stop:     $syslog
+# Should-Start:      $local_fs
+# Should-Stop:       $local_fs
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Start/Stop WIDE DHCPv6 relay agent
+# Description:       (empty)
+### END INIT INFO
 
 PATH=/sbin:/bin:/usr/sbin:/usr/bin
 DHCP6RBIN=/usr/sbin/dhcp6relay
@@ -9,11 +17,15 @@ DHCP6RPID=/var/run/dhcp6relay.pid
 NAME="dhcp6relay"
 DESC="WIDE DHCPv6 relay"
 
+. /lib/lsb/init-functtions
+
 test -x $DHCP6RBIN || exit 0
 
 if [ ! -f /etc/default/wide-dhcpv6-relay ]; then
-	echo "/etc/default/wide-dhcpv6-relay does not exist! - Aborting..."
-	echo "Run 'dpkg-reconfigure wide-dhcpv6-relay' to solve the problem."
+	log_failure_msg \
+            "/etc/default/wide-dhcpv6-relay does not exist! - Aborting..."
+	log_failure_msg \
+            "Run 'dpkg-reconfigure wide-dhcpv6-relay' to solve the problem."
 	exit 1
 fi
 
@@ -39,22 +51,22 @@ check_status()
 
 case "$1" in
 	start)
-		echo -n "Starting $DESC: "
+		log_daemon_msg "Starting $DESC" "$NAME"
 		start-stop-daemon --start --quiet --pidfile $DHCP6RPID \
 			--exec $DHCP6RBIN -- $INTERFACES
 		sleep 2
 		if check_status -q; then
-			echo "$NAME."
+			log_end_msg 0
 		else
-			echo "$NAME failed to start."
+			log_end_msg 1
 			exit 1
 		fi
 		;;
 	stop)
-		echo -n "Stopping $DESC: $NAME"
+		log_daemon_msg "Stopping $DESC" "$NAME"
 		start-stop-daemon --stop --quiet --pidfile $DHCP6RPID
+                log_end_msg $?
 		rm -f $DHCP6RPID
-		echo "."
 		;;
 	restart|force-reload)
 		$0 stop

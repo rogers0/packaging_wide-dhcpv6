@@ -5,37 +5,10 @@
 ## DP: Fixes files installation with dh_install
 
 @DPATCH@
-
---- orig/Makefile.in	2006-02-09 12:24:28.000000000 +0100
-+++ dest/Makefile.in	2006-02-09 12:32:04.000000000 +0100
-@@ -65,7 +65,7 @@
- RELAYOBJS =	dhcp6relay.o common.o timer.o
- LITECLIENTOBJS=	dhcp6lc.o common.o if.o timer.o dhcp6c_script.o
- CTLOBJS= dhcp6_ctlclient.o base64.o auth.o
--CLEANFILES+=	y.tab.h
-+CLEANFILES+=	cfparse.tab.h
- 
- all:	$(TARGET)
- dhcp6c:	$(CLIENTOBJS) $(LIBOBJS)
-@@ -79,12 +79,12 @@
- dhcp6ctl: $(CTLOBJS)
- 	$(CC) $(LDFLAGS) -o $@ $(CTLOBJS) $(LIBOBJS) $(LIBS)
- 
--cfparse.c y.tab.h: cfparse.y
--	yacc -d cfparse.y
--	mv y.tab.c cfparse.c
-+cfparse.c cfparse.tab.h: cfparse.y
-+	bison -d cfparse.y
-+	mv cfparse.tab.c cfparse.c
- 
--cftoken.c: cftoken.l y.tab.h
--	lex cftoken.l
-+cftoken.c: cftoken.l cfparse.tab.h
-+	flex cftoken.l
- 	mv lex.yy.c $@	
- 
- getaddrinfo.o:	$(srcdir)/missing/getaddrinfo.c
-@@ -102,13 +102,14 @@
+diff -urNad wide-dhcpv6-20060902~/Makefile.in wide-dhcpv6-20060902/Makefile.in
+--- wide-dhcpv6-20060902~/Makefile.in	2006-09-02 08:15:14.000000000 +0000
++++ wide-dhcpv6-20060902/Makefile.in	2006-09-21 04:17:54.000000000 +0000
+@@ -94,13 +94,14 @@
  	expand bootp-dhcp-parameters | perl gentab.pl > ianaopts.h
  
  install::

@@ -1,3 +1,26 @@
+wide-dhcpv6 (20060902-1) unstable; urgency=low
+
+  * New upstream release.
+  * debian/wide-dhcpv6-*.init.d:
+    -> LSB compliant init scripts.
+  * debian/patches:
+    -> Added 02_CVS-20060920.dpatch:
+      + Update to CVS 20060920.
+      + Fix a memory violation in lease management.
+      + Fix a bug that dhcp6s inserts SIP server addresses into DNS server
+        address option.
+      + Fix a bug that status-code option might include a unexpected garbage
+        value.
+      + Fix dhcp6s documentation: you need to provide a preferred-lifetime for
+        each address-prefix (Closes: #387416).
+    -> Removed 02_remove-if-USE_POOL-macros.dpatch
+    -> Removed 03_pid_dump.dpatch
+    -> Removed 07_cftoken.l-bison.dpatch
+    -> Removed 08_support-include-statement.dpatch
+       All merged upstream.
+
+ -- Jeremie Corbier <jeremie.corbier@resel.enst-bretagne.fr>  Wed, 20 Sep 2006 14:36:12 -0700
+
 wide-dhcpv6 (20060322-4) unstable; urgency=medium
 
   * debian/wide-dhcpv6-*.postinst: don't modify
