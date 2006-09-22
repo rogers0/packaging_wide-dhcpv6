@@ -1,0 +1,86 @@
+wide-dhcpv6 (20060322-4) unstable; urgency=medium
+
+  * debian/wide-dhcpv6-*.postinst: don't modify
+    /etc/default/wide-dhcpv6-${daemon} if it already exists.
+  * debian/patches:
+    -> Removed 03_dhcp6c_pid_dump.dpatch, 04_dhcp6s_pid_dump.dpatch and
+       05_dhcp6relay_pid_dump.dpatch.
+    -> Added 03_pid_dump.dpatch: upstream patch.
+
+ -- Jeremie Corbier <jeremie.corbier@resel.enst-bretagne.fr>  Wed, 23 Aug 2006 23:21:05 +0200
+
+wide-dhcpv6 (20060322-3) unstable; urgency=low
+
+  * debian/scripts/dhcp6c-script:
+    -> Added resolvconf support if it is installed, thanks to Mattias Guns
+       (Closes: #369674).
+  * debian/patches:
+    -> 01_Makefile.in.dpatch: removes a bashism which caused a FTBFS if
+       /bin/sh does not point to bash (Closes: #376369).
+    -> 08_support-include-statement.dpatch: upstream patch allowing the use of
+       include statements in config files.
+    -> 02_remove-if-USE_POOL-macros.dpatch: upstream patch removing #ifdef
+       USE_POOL macros since it is always enabled (patch needed by
+       08_support-include-statement.dpatch).
+    -> Removed old 02_client-bind-to-link-local.dpatch and
+       08_common.h-missing-macros.dpatch.
+  * Bumped up Standards-Version to 3.7.2.1 (no changes).
+
+ -- Jeremie Corbier <jeremie.corbier@resel.enst-bretagne.fr>  Sat,  8 Jul 2006 14:38:23 +0200
+
+wide-dhcpv6 (20060322-2) unstable; urgency=low
+
+  * Enabled Information Refresh Timer in dhcp6c.
+  * Keys for the communication between dhcp6ctl and dhcp6c or dhcp6s are
+    now automatically created on install.
+  * Added default configuration for the client: installs a default stateless
+    config.
+  * Added a script to update /etc/resolv.conf with received DNS and domain
+    information.
+  * Added if-up/if-down scripts to enable/disable dhcp6c if needed.
+  * Migrated configuration files to /etc/wide-dhcpv6.
+  * Added Czech debconf templates translation, thanks to Miroslav Kure
+    (Closes: #360274).
+  * Bump up Standards-Version to 3.7.0 (no changes).
+
+ -- Jeremie Corbier <jeremie.corbier@resel.enst-bretagne.fr>  Sun, 16 Apr 2006 20:17:59 +0200
+
+wide-dhcpv6 (20060322-1) unstable; urgency=low
+
+  * New upstream release.
+  * Disabled patches as upstream fixed the bugs:
+    -> 02_client-bind-to-link-local.dpatch
+    -> 08_common.h-missing-macros.dpatch
+
+ -- Jeremie Corbier <jeremie.corbier@resel.enst-bretagne.fr>  Tue, 28 Mar 2006 17:41:07 +0200
+
+wide-dhcpv6 (20060214-1) unstable; urgency=low
+
+  * New upstream release.
+  * Added 08_common.h-missing-macros.dpatch: adds macros that exist only in
+    *BSD and which are required for pool management.
+  * Updated the debconf templates to be developper's reference compliant.
+  * Added Swedish debconf templates translation, thanks to Daniel Nylander
+    (Closes: #353785).
+
+ -- Jeremie Corbier <jeremie.corbier@resel.enst-bretagne.fr>  Wed, 8 Mar 2006 14:06:04 +0100
+
+wide-dhcpv6 (20060114-1) unstable; urgency=low
+
+  * Initial release (Closes: #350329).
+  * Added 01_Makefile.in.dpatch:
+    -> minor changes so that the packages build correctly.
+    -> removes config.{log,status} and Makefile provided by the upstream
+       tarball.
+  * Added 02_client-bind-to-link-local.dpatch: a patch for the client. It
+    makes it bind to the link local address of the first configured network
+    interface instead of ::/0, which doesn't work.
+  * Added 03_dhcp6c_pid_dump.dpatch, 04_dhcp6s_pid_dump.dpatch and
+    05_dhcp6relay_pid_dump.dpatch so that daemons dump their PIDs to /var/run.
+  * Added 06_wide-dhcpv6-mans-update.dpatch to update the manpages and adapt
+    them to the linux and especially Debian-like file hierarchy.
+  * Added 07_cftoken.l-bison.dpatch: a little modification which makes the
+    client and the server compile with flex instead of lex.
+
+ -- Jeremie Corbier <jeremie.corbier@resel.enst-bretagne.fr>  Sun, 29 Jan 2006 10:24:22 +0100
+

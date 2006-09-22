@@ -1,0 +1,35 @@
+#!/bin/sh
+# dhcp6c-script for Debian/Ubuntu. JÃ©rÃ©mie Corbier, April, 2006.
+# resolvconf support by Mattias Guns, May 2006.
+
+RESOLVCONF="/sbin/resolvconf"
+
+[ -f /etc/default/wide-dhcpv6-client ] && . /etc/default/wide-dhcpv6-client
+
+if [ -n "$new_domain_name" -o -n "$new_domain_name_servers" ]; then
+    new_resolv_conf=/etc/resolv.conf.dhcp6c-new
+    rm -f $new_resolv_conf
+    if [ -n "$new_domain_name" ]; then
+        echo search $new_domain_name >> $new_resolv_conf
+    fi
+    if [ -n "$new_domain_name_servers" ]; then
+        for nameserver in $new_domain_name_servers; do
+            echo nameserver $nameserver >> $new_resolv_conf
+        done
+    fi
+
+    # Use resolvconf if available
+    if [ -h "/etc/resolv.conf" -a -x "$RESOLVCONF" ]; then
+        for IFACE in $INTERFACES; do
+            cat $new_resolv_conf | $RESOLVCONF -a $IFACE
+        done
+    else
+        # To preserve IPv4 informations...
+        cat /etc/resolv.conf >> $new_resolv_conf
+        chown --reference=/etc/resolv.conf $new_resolv_conf
+        chmod --reference=/etc/resolv.conf $new_resolv_conf
+        mv -f $new_resolv_conf /etc/resolv.conf
+    fi
+fi
+
+exit 0

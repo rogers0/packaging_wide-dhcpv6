@@ -1,0 +1,6 @@
+01_Makefile.in.dpatch
+02_remove-if-USE_POOL-macros.dpatch
+03_pid_dump.dpatch
+06_wide-dhcpv6-mans-update.dpatch
+07_cftoken.l-bison.dpatch
+08_support-include-statement.dpatch

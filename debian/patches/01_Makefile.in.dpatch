@@ -1,0 +1,59 @@
+#! /bin/sh /usr/share/dpatch/dpatch-run
+## 01_Makefile.in.dpatch by  <jeremie.corbier@resel.enst-bretagne.fr>
+##
+## All lines beginning with `## DP:' are a description of the patch.
+## DP: Fixes files installation with dh_install
+
+@DPATCH@
+
+--- orig/Makefile.in	2006-02-09 12:24:28.000000000 +0100
++++ dest/Makefile.in	2006-02-09 12:32:04.000000000 +0100
+@@ -65,7 +65,7 @@
+ RELAYOBJS =	dhcp6relay.o common.o timer.o
+ LITECLIENTOBJS=	dhcp6lc.o common.o if.o timer.o dhcp6c_script.o
+ CTLOBJS= dhcp6_ctlclient.o base64.o auth.o
+-CLEANFILES+=	y.tab.h
++CLEANFILES+=	cfparse.tab.h
+ 
+ all:	$(TARGET)
+ dhcp6c:	$(CLIENTOBJS) $(LIBOBJS)
+@@ -79,12 +79,12 @@
+ dhcp6ctl: $(CTLOBJS)
+ 	$(CC) $(LDFLAGS) -o $@ $(CTLOBJS) $(LIBOBJS) $(LIBS)
+ 
+-cfparse.c y.tab.h: cfparse.y
+-	yacc -d cfparse.y
+-	mv y.tab.c cfparse.c
++cfparse.c cfparse.tab.h: cfparse.y
++	bison -d cfparse.y
++	mv cfparse.tab.c cfparse.c
+ 
+-cftoken.c: cftoken.l y.tab.h
+-	lex cftoken.l
++cftoken.c: cftoken.l cfparse.tab.h
++	flex cftoken.l
+ 	mv lex.yy.c $@	
+ 
+ getaddrinfo.o:	$(srcdir)/missing/getaddrinfo.c
+@@ -102,13 +102,14 @@
+ 	expand bootp-dhcp-parameters | perl gentab.pl > ianaopts.h
+ 
+ install::
+-	$(INSTALL_PROGRAM) -s -o bin -g bin $(TARGET) $(sbindir)
+-	$(INSTALL_DATA) -o bin -g bin dhcp6c.8 $(mandir)/man8
+-	$(INSTALL_DATA) -o bin -g bin dhcp6s.8 $(mandir)/man8
+-	$(INSTALL_DATA) -o bin -g bin dhcp6relay.8 $(mandir)/man8
+-	$(INSTALL_DATA) -o bin -g bin dhcp6ctl.8 $(mandir)/man8
+-	$(INSTALL_DATA) -o bin -g bin dhcp6c.conf.5 $(mandir)/man5
+-	$(INSTALL_DATA) -o bin -g bin dhcp6s.conf.5 $(mandir)/man5
++	$(INSTALL) -d -o root -g root $(sbindir) $(mandir)/man5 $(mandir)/man8
++	$(INSTALL_PROGRAM) -s -o root -g root $(TARGET) $(sbindir)
++	$(INSTALL_DATA) -o root -g root dhcp6c.8 $(mandir)/man8
++	$(INSTALL_DATA) -o root -g root dhcp6s.8 $(mandir)/man8
++	$(INSTALL_DATA) -o root -g root dhcp6relay.8 $(mandir)/man8
++	$(INSTALL_DATA) -o root -g root dhcp6ctl.8 $(mandir)/man8
++	$(INSTALL_DATA) -o root -g root dhcp6c.conf.5 $(mandir)/man5
++	$(INSTALL_DATA) -o root -g root dhcp6s.conf.5 $(mandir)/man5
+ 
+ includes::
+ 

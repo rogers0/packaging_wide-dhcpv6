@@ -1,0 +1,120 @@
+#! /bin/sh /usr/share/dpatch/dpatch-run
+## 06_wide-dhcpv6-mans-update.dpatch by <jeremie.corbier@resel.enst-bretagne.fr>
+##
+## All lines beginning with `## DP:' are a description of the patch.
+## DP: Updates paths to some files in the documentation
+
+@DPATCH@
+
+--- orig/dhcp6c.8	2006-02-02 11:42:35.000000000 +0100
++++ dest/dhcp6c.8	2006-02-02 12:23:37.000000000 +0100
+@@ -102,13 +102,13 @@
+ will send DHCPv6 Release messages to release resources assigned from servers.
+ .\"
+ .Sh FILES
+-.Bl -tag -width /usr/local/etc/dhcp6c.conf -compact
++.Bl -tag -width /etc/wide-dhcpv6/dhcp6c.conf -compact
+ .It Pa /var/run/dhcp6c.pid
+ is the default file that contains pid of the currently running
+ .Nm dhcp6c .
+-.It Pa /usr/local/etc/dhcp6c.conf
++.It Pa /etc/wide-dhcpv6/dhcp6c.conf
+ is the default configuration file.
+-.It Pa /var/db/dhcp6c_duid
++.It Pa /var/lib/dhcp/dhcp6c_duid
+ is the file to store the client's DUID.
+ .El
+ .Sh Configuration Script
+@@ -177,6 +177,6 @@
+ The current implementation uses experimental values,
+ which may cause interoperability problems with other implementations.
+ .Pp
+-Information Refresh Time Option is not recognied in Info-req mode, since
++Information Refresh Time Option is not recognized in Info-req mode, since
+ .Nm
+ terminates after it receives a REPLY message.
+
+--- orig/dhcp6c.conf.5	2006-02-02 12:28:07.000000000 +0100
++++ dest/dhcp6c.conf.5	2006-02-02 12:30:44.000000000 +0100
+@@ -36,7 +36,7 @@
+ .Nd DHCPv6 client configuration file
+ .\"
+ .Sh SYNOPSIS
+-.Pa /usr/local/etc/dhcp6c.conf
++.Pa /etc/wide-dhcpv6/dhcp6c.conf
+ .\"
+ .Sh DESCRIPTION
+ The
+
+--- orig/dhcp6s.8	2006-02-02 12:31:36.000000000 +0100
++++ dest/dhcp6s.8	2006-02-02 12:33:10.000000000 +0100
+@@ -89,7 +89,7 @@
+ to store the shared secret to authenticate the communication with
+ .Nm dhcp6sctl .
+ The default file name used when unspecified is
+-.Pa /usr/local/etc/dhcp6sctlkey .
++.Pa /etc/wide-dhcpv6/dhcp6sctlkey .
+ The default name is intentionally same as that for
+ .Nm dhcp6sctl
+ so that the server and the control command can share the file when
+@@ -104,12 +104,12 @@
+ .El
+ .\"
+ .Sh FILES
+-.Bl -tag -width /usr/local/etc/dhcp6s.conf -compact
+-.It Pa /usr/local/etc/dhcp6s.conf
++.Bl -tag -width /etc/wide-dhcpv6/dhcp6s.conf -compact
++.It Pa /etc/wide-dhcpv6/dhcp6s.conf
+ is the default configuration file.
+-.It Pa /var/db/dhcp6s_duid
++.It Pa /var/lib/dhcpv6/dhcp6s_duid
+ is the default file to store the server's DUID.
+-.It Pa /usr/local/etc/dhcp6sctlkey
++.It Pa /etc/wide-dhcpv6/dhcp6sctlkey
+ is the default key file to communicate with the control command.
+ See
+ .Xr dhcp6sctl 8
+
+--- orig/dhcp6s.conf.5	2006-02-02 17:22:38.000000000 +0100
++++ dest/dhcp6s.conf.5	2006-02-02 17:23:42.000000000 +0100
+@@ -36,7 +36,7 @@
+ .Nd DHCPv6 server configuration file
+ .\"
+ .Sh SYNOPSIS
+-.Pa /usr/local/etc/dhcp6s.conf
++.Pa /etc/wide-dhcpv6/dhcp6s.conf
+ .\"
+ .Sh DESCRIPTION
+ The
+
+--- orig/dhcp6ctl.8	2006-02-05 22:14:10.000000000 +0100
++++ dest/dhcp6ctl.8	2006-02-05 22:16:25.000000000 +0100
+@@ -85,12 +85,11 @@
+ .Ar keyfile
+ to provide the shared secret to communicate with the process.
+ The default file name used when unspecified is
+-.Pa /usr/local/etc/dhcp6cctlkey
++.Pa /etc/wide-dhcpv6/dhcp6cctlkey
+ with a client,
+ and
+-.Pa /usr/local/etc/dhcp6sctlkey
++.Pa /etc/wide-dhcpv6/dhcp6sctlkey
+ with a server.
+-
+ .It Fl p Ar port
+ Specify
+ .Ar port
+@@ -183,10 +182,10 @@
+ .El
+ .\"
+ .Sh FILES
+-.Bl -tag -width /usr/local/etc/dhcp6cctlkey -compact
+-.It Pa /usr/local/etc/dhcp6cctlkey
++.Bl -tag -width /etc/wide-dhcpv6/dhcp6cctlkey -compact
++.It Pa /etc/wide-dhcpv6/dhcp6cctlkey
+ is the default key file to communicate with a client.
+-.It Pa /usr/local/etc/dhcp6sctlkey
++.It Pa /etc/wide-dhcpv6/dhcp6sctlkey
+ is the default key file to communicate with a server.
+ .El
+ .\"

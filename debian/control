@@ -1,0 +1,53 @@
+Source: wide-dhcpv6
+Section: net
+Priority: optional
+Maintainer: Jeremie Corbier <jeremie.corbier@resel.enst-bretagne.fr>
+Build-Depends: cdbs, debhelper (>= 5.0.7), autotools-dev, dpatch, bison, flex
+Standards-Version: 3.7.2.1
+
+Package: wide-dhcpv6-server
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, sharutils
+Conflicts: wide-dhcpv6-client
+Description: DHCPv6 server for automatic IPv6 hosts configuration
+ This is the DHCPv6 server from WIDE project. For more information visit the
+ project web site at http://wide-dhcpv6.sourceforge.net/
+ .
+ DHCPv6 allows prefix delagation and host configuration for the IPv6 network
+ protocol.
+ .
+ Multiple network interfaces are supported by this DHCPv6 package.
+ .
+ Note: This package requires at least a 2.4 kernel with recent USAGI IPv6
+ patches.
+
+Package: wide-dhcpv6-client
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, sharutils
+Conflicts: wide-dhcpv6-server
+Description: DHCPv6 client for automatic IPv6 hosts configuration
+ This is the DHCPv6 client from WIDE project. For more information visit the
+ project web site at http://wide-dhcpv6.sourceforge.net/
+ .
+ DHCPv6 allows prefix delagation and host configuration for the IPv6 network
+ protocol.
+ .
+ Multiple network interfaces are supported by this DHCPv6 package.
+ .
+ Note: This package requires at least a 2.4 kernel with recent USAGI IPv6
+ patches.
+
+Package: wide-dhcpv6-relay
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: DHCPv6 relay for automatic IPv6 hosts configuration
+ This is the DHCPv6 relay from WIDE project. For more information visit the
+ project web site at http://wide-dhcpv6.sourceforge.net/
+ .
+ DHCPv6 allows prefix delagation and host configuration for the IPv6 network
+ protocol.
+ .
+ Multiple network interfaces are supported by this DHCPv6 package.
+ .
+ Note: This package requires at least a 2.4 kernel with recent USAGI IPv6
+ patches.

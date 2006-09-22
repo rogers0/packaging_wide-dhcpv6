@@ -1,0 +1,18 @@
+#!/usr/bin/make -f
+
+include /usr/share/cdbs/1/rules/debhelper.mk
+include /usr/share/cdbs/1/class/autotools.mk
+include /usr/share/cdbs/1/rules/dpatch.mk
+
+# List any files which are not installed
+include /usr/share/cdbs/1/rules/utils.mk
+common-binary-post-install-arch:: list-missing
+
+CFLAGS += -DUSE_DH6OPT_REFRESHTIME
+DEB_MAKE_INSTALL_TARGET += prefix=$(DEB_DESTDIR)/usr
+DEB_INSTALL_DOCS_ALL += README CHANGES
+DEB_CONFIGURE_EXTRA_FLAGS += --with-localdbdir=/var/lib/dhcpv6 --sysconfdir=/etc/wide-dhcpv6
+DEB_UPDATE_RCD_PARAMS += "start 40 2 3 4 5 . stop 40 0 1 6 ."
+
+binary-post-install/wide-dhcpv6-client::
+	chmod +x debian/wide-dhcpv6-client/etc/wide-dhcpv6/dhcp6c-*

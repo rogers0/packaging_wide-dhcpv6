@@ -1,0 +1,140 @@
+#
+#    Translators, if you are not familiar with the PO format, gettext
+#    documentation is worth reading, especially sections dedicated to
+#    this format, e.g. by running:
+#         info -n '(gettext)PO Files'
+#         info -n '(gettext)Header Entry'
+#
+#    Some information specific to po-debconf are available at
+#            /usr/share/doc/po-debconf/README-trans
+#         or http://www.debian.org/intl/l10n/po-debconf/README-trans
+#
+#    Developers do not need to manually edit POT or PO files.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: wide-dhcpv6\n"
+"Report-Msgid-Bugs-To: jeremie.corbier@resel.enst-bretagne.fr\n"
+"POT-Creation-Date: 2006-04-16 20:31+0200\n"
+"PO-Revision-Date: 2006-03-31 22:02+0200\n"
+"Last-Translator: Miroslav Kure <kurem@debian.cz>\n"
+"Language-Team: Czech <debian-l10n-czech@lists.debian.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. Type: note
+#. Description
+#: ../wide-dhcpv6-client.templates:3
+msgid "WIDE DHCPv6 client configuration"
+msgstr "Konfigurace DHCPv6 klienta WIDE"
+
+#. Type: note
+#. Description
+#: ../wide-dhcpv6-client.templates:3
+msgid "The DHCPv6 client requires manual configuration after installation."
+msgstr "Klient DHCPv6 se musÃ­ po instalaci jeÅ¡tÄ ruÄnÄ nastavit."
+
+#. Type: note
+#. Description
+#: ../wide-dhcpv6-client.templates:3
+msgid ""
+"After the DHCPv6 client is installed it has to be manually configured by "
+"editing the file /etc/wide-dhcpv6/dhcp6c.conf. A sample dhcp6c.conf is  "
+"available at /usr/share/doc/wide-dhcpv6-client/examples."
+msgstr ""
+"Po instalaci klienta DHCPv6 jej musÃ­te ruÄnÄ nastavit Ãºpravou souboru /etc/"
+"wide-dhcpv6/dhcp6c.conf. UkÃ¡zkovÃ½ soubor dhcp6c.conf je k dispozici v /usr/"
+"share/doc/wide-dhcpv6-client/examples."
+
+#. Type: note
+#. Description
+#: ../wide-dhcpv6-client.templates:3
+msgid ""
+"Please configure the DHCPv6 client as soon as the installation finishes."
+msgstr "DoporuÄujeme nastavit klienta DHCPv6 okamÅ¾itÄ po skonÄenÃ­ instalace."
+
+#. Type: string
+#. Description
+#: ../wide-dhcpv6-client.templates:15
+msgid "Interfaces on which the DHCPv6 client sends requests:"
+msgstr "RozhranÃ­, na kterÃ¡ mÃ¡ klient DHCPv6 posÃ­lat dotazy:"
+
+#. Type: string
+#. Description
+#: ../wide-dhcpv6-client.templates:15
+msgid ""
+"Network interfaces on which the DHCPv6 client sends requests should be "
+"specified here. Multiple interfaces are separated with spaces. An empty line "
+"temporarily disables dhcp6c."
+msgstr ""
+"Zde byste mÄli zadat sÃ­Å¥ovÃ¡ rozhranÃ­, na kterÃ¡ mÃ¡ klient DHCPv6 posÃ­lat svÃ© "
+"dotazy. VÃ­ce rozhranÃ­ mÅ¯Å¾ete oddÄlit mezerami. PrÃ¡zdnÃ½ ÅÃ¡dek doÄasnÄ dhcp6c "
+"zakÃ¡Å¾e."
+
+#. Type: string
+#. Description
+#: ../wide-dhcpv6-relay.templates:4
+msgid "Interfaces on which the DHCPv6 relay operates:"
+msgstr "RozhranÃ­, na kterÃ½ch mÃ¡ pracovat DHCPv6 relay:"
+
+#. Type: string
+#. Description
+#: ../wide-dhcpv6-relay.templates:4
+msgid ""
+"Network interfaces on which the DHCPv6 relay handles requests should be "
+"specified here. Multiple interfaces are separated with spaces. An empty line "
+"temporarily disables dhcp6relay."
+msgstr ""
+"Zde byste mÄli zadat sÃ­Å¥ovÃ¡ rozhranÃ­, na kterÃ½ch bude DHCPv6 relay "
+"zpracovÃ¡vat dotazy. VÃ­ce rozhranÃ­ mÅ¯Å¾ete oddÄlit mezerami. PrÃ¡zdnÃ½ ÅÃ¡dek "
+"doÄasnÄ dhcp6relay zakÃ¡Å¾e."
+
+#. Type: note
+#. Description
+#: ../wide-dhcpv6-server.templates:3
+msgid "WIDE DHCPv6 server configuration"
+msgstr "Konfigurace DHCPv6 serveru WIDE"
+
+#. Type: note
+#. Description
+#: ../wide-dhcpv6-server.templates:3
+msgid "The DHCPv6 server requires manual configuration after installation."
+msgstr "Server DHCPv6 se musÃ­ po instalaci jeÅ¡tÄ ruÄnÄ nastavit."
+
+#. Type: note
+#. Description
+#: ../wide-dhcpv6-server.templates:3
+msgid ""
+"After the DHCPv6 server is installed it has to be manually configured by "
+"editing the file /etc/wide-dhcpv6/dhcp6s.conf. A sample dhcp6s.conf is  "
+"available at /usr/share/doc/wide-dhcpv6-server/examples."
+msgstr ""
+"Po instalaci serveru DHCPv6 jej musÃ­te ruÄnÄ nastavit Ãºpravou souboru /etc/"
+"wide-dhcpv6/dhcp6s.conf. UkÃ¡zkovÃ½ soubor dhcp6s.conf je k dispozici v /usr/"
+"share/doc/wide-dhcpv6-server/examples."
+
+#. Type: note
+#. Description
+#: ../wide-dhcpv6-server.templates:3
+msgid ""
+"Please configure the DHCPv6 server as soon as the installation finishes."
+msgstr "DoporuÄujeme nastavit server DHCPv6 okamÅ¾itÄ po skonÄenÃ­ instalace."
+
+#. Type: string
+#. Description
+#: ../wide-dhcpv6-server.templates:15
+msgid "Interfaces on which the DHCPv6 server listens to requests:"
+msgstr "RozhranÃ­, na kterÃ½ch mÃ¡ server DHCPv6 naslouchat:"
+
+#. Type: string
+#. Description
+#: ../wide-dhcpv6-server.templates:15
+msgid ""
+"Network interfaces on which the DHCPv6 server listens to requests should be "
+"specified here. Multiple interfaces are separated with spaces. An empty line "
+"temporarily disables dhcp6s."
+msgstr ""
+"Zde byste mÄli zadat sÃ­Å¥ovÃ¡ rozhranÃ­, na kterÃ½ch mÃ¡ server DHCPv6 naslouchat "
+"klientskÃ½m dotazÅ¯m. VÃ­ce rozhranÃ­ mÅ¯Å¾ete oddÄlit mezerami. PrÃ¡zdnÃ½ ÅÃ¡dek "
+"doÄasnÄ dhcp6s zakÃ¡Å¾e."
