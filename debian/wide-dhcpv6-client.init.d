@@ -56,16 +56,16 @@ case "$1" in
 			--exec $DHCP6CBIN -- $INTERFACES
 		sleep 2
 		if check_status -q; then
-			log_end_message 0
+			log_end_msg 0
 		else
-			log_end_message 1
+			log_end_msg 1
 			exit 1
 		fi
 		;;
 	stop)
 		log_daemon_msg "Stopping $DESC" "$NAME"
 		start-stop-daemon --stop --quiet --pidfile $DHCP6CPID
-		log_end_message $?
+		log_end_msg $?
 		rm -f $DHCP6CPID
 		;;
 	restart|force-reload)

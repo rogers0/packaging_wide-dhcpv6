@@ -1,7 +1,11 @@
 wide-dhcpv6 (20060902-2) unstable; urgency=medium
 
+  * The "Why should I test my init files when users can do that better than
+    me" release..
   * Fix typo in wide-dhcpv6-*.init.d: it's /lib/lsb/init-functions, not
     init-functtions.. (Closes: #391718).
+  * In wide-dhcpv6-client.init.d: replace log_end_message by log_end_msg, I
+    must have been smoking crack when I updated those files.
   * Fix typo in dhcp6c.8: dhcp6c_duid is in /var/lib/dhcpv6, not in
     /var/lib/dhcp.
 
