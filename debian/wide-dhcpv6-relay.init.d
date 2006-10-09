@@ -17,7 +17,7 @@ DHCP6RPID=/var/run/dhcp6relay.pid
 NAME="dhcp6relay"
 DESC="WIDE DHCPv6 relay"
 
-. /lib/lsb/init-functtions
+. /lib/lsb/init-functions
 
 test -x $DHCP6RBIN || exit 0
 

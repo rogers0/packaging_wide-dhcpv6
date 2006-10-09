@@ -21,7 +21,7 @@ diff -urNad wide-dhcpv6-20060902~/dhcp6c.8 wide-dhcpv6-20060902/dhcp6c.8
 +.It Pa /etc/wide-dhcpv6/dhcp6c.conf
  is the default configuration file.
 -.It Pa /var/db/dhcp6c_duid
-+.It Pa /var/lib/dhcp/dhcp6c_duid
++.It Pa /var/lib/dhcpv6/dhcp6c_duid
  is the file to store the client's DUID.
  .El
  .Sh Configuration Script

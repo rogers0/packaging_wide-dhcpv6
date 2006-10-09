@@ -17,7 +17,7 @@ DHCP6SPID=/var/run/dhcp6s.pid
 NAME="dhcp6s"
 DESC="WIDE DHCPv6 server"
 
-. /lib/lsb/init-functtions
+. /lib/lsb/init-functions
 
 test -x $DHCP6SBIN || exit 0
 

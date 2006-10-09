@@ -1,3 +1,12 @@
+wide-dhcpv6 (20060902-2) unstable; urgency=medium
+
+  * Fix typo in wide-dhcpv6-*.init.d: it's /lib/lsb/init-functions, not
+    init-functtions.. (Closes: #391718).
+  * Fix typo in dhcp6c.8: dhcp6c_duid is in /var/lib/dhcpv6, not in
+    /var/lib/dhcp.
+
+ -- Jeremie Corbier <jeremie.corbier@resel.enst-bretagne.fr>  Sun,  8 Oct 2006 11:26:40 -0700
+
 wide-dhcpv6 (20060902-1) unstable; urgency=low
 
   * New upstream release.
