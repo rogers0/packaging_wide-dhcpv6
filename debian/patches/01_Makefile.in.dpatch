@@ -5,13 +5,13 @@
 ## DP: Fixes files installation with dh_install
 
 @DPATCH@
-diff -urNad wide-dhcpv6-20060902~/Makefile.in wide-dhcpv6-20060902/Makefile.in
---- wide-dhcpv6-20060902~/Makefile.in	2006-09-02 08:15:14.000000000 +0000
-+++ wide-dhcpv6-20060902/Makefile.in	2006-09-21 04:17:54.000000000 +0000
-@@ -94,13 +94,14 @@
- 	expand bootp-dhcp-parameters | perl gentab.pl > ianaopts.h
+diff -urNad package~/Makefile.in package/Makefile.in
+--- package~/Makefile.in	2006-10-22 13:59:53.000000000 -0700
++++ package/Makefile.in	2006-10-22 15:37:05.000000000 -0700
+@@ -95,13 +95,13 @@
  
  install::
+ 	-mkdir -p $(sbindir) $(mandir)
 -	$(INSTALL_PROGRAM) -s -o bin -g bin $(TARGET) $(sbindir)
 -	$(INSTALL_DATA) -o bin -g bin dhcp6c.8 $(mandir)/man8
 -	$(INSTALL_DATA) -o bin -g bin dhcp6s.8 $(mandir)/man8
@@ -19,7 +19,6 @@ diff -urNad wide-dhcpv6-20060902~/Makefile.in wide-dhcpv6-20060902/Makefile.in
 -	$(INSTALL_DATA) -o bin -g bin dhcp6ctl.8 $(mandir)/man8
 -	$(INSTALL_DATA) -o bin -g bin dhcp6c.conf.5 $(mandir)/man5
 -	$(INSTALL_DATA) -o bin -g bin dhcp6s.conf.5 $(mandir)/man5
-+	$(INSTALL) -d -o root -g root $(sbindir) $(mandir)/man5 $(mandir)/man8
 +	$(INSTALL_PROGRAM) -s -o root -g root $(TARGET) $(sbindir)
 +	$(INSTALL_DATA) -o root -g root dhcp6c.8 $(mandir)/man8
 +	$(INSTALL_DATA) -o root -g root dhcp6s.8 $(mandir)/man8
