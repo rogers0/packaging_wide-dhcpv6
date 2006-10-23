@@ -1,8 +1,11 @@
 wide-dhcpv6 (20061016-1) unstable; urgency=low
 
   * New upstream release.
+  * Cleaned up debian/rules.
+  * debian/patches:
+    -> Removed 02_CVS-20060920.dpatch: merged upstream.
 
- -- Jeremie Corbier <jeremie.corbier@resel.enst-bretagne.fr>  Sun, 22 Oct 2006 14:01:48 -0700
+ -- Jeremie Corbier <jeremie.corbier@resel.enst-bretagne.fr>  Sun, 22 Oct 2006 16:18:50 -0700
 
 wide-dhcpv6 (20060902-2) unstable; urgency=medium
 
