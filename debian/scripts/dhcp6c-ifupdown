@@ -1,7 +1,7 @@
 #!/bin/sh
 # Updates information whenever a network interface is brought up.
 
-[ "$IFACE" == "lo" ] && exit 0
+[ "$IFACE" = "lo" ] && exit 0
 [ -r /etc/default/wide-dhcpv6-client ] || exit 0
 [ -x /usr/sbin/dhcp6ctl ] || exit 0
 
@@ -10,7 +10,7 @@
 case $MODE in
     start|stop)
         for i in $INTERFACES ; do
-            if [ "$IFACE" == "$i" ] ; then
+            if [ "$IFACE" = "$i" ] ; then
                 /usr/sbin/dhcp6ctl $MODE interface $IFACE
                 exit 0
             fi
