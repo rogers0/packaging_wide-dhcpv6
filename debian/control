@@ -7,7 +7,7 @@ Standards-Version: 3.7.2.1
 
 Package: wide-dhcpv6-server
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}, sharutils
+Depends: ${shlibs:Depends}, ${misc:Depends}, lsb-base, sharutils
 Conflicts: wide-dhcpv6-client
 Description: DHCPv6 server for automatic IPv6 hosts configuration
  This is the DHCPv6 server from WIDE project. For more information visit the
@@ -23,7 +23,7 @@ Description: DHCPv6 server for automatic IPv6 hosts configuration
 
 Package: wide-dhcpv6-client
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}, sharutils
+Depends: ${shlibs:Depends}, ${misc:Depends}, lsb-base, sharutils
 Conflicts: wide-dhcpv6-server
 Description: DHCPv6 client for automatic IPv6 hosts configuration
  This is the DHCPv6 client from WIDE project. For more information visit the
@@ -39,7 +39,7 @@ Description: DHCPv6 client for automatic IPv6 hosts configuration
 
 Package: wide-dhcpv6-relay
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}
+Depends: ${shlibs:Depends}, ${misc:Depends}, lsb-base
 Description: DHCPv6 relay for automatic IPv6 hosts configuration
  This is the DHCPv6 relay from WIDE project. For more information visit the
  project web site at http://wide-dhcpv6.sourceforge.net/

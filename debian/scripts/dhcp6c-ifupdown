@@ -5,6 +5,9 @@
 [ -r /etc/default/wide-dhcpv6-client ] || exit 0
 [ -x /usr/sbin/dhcp6ctl ] || exit 0
 
+# Check if dhcp6c is running
+pidof dhcp6c > /dev/null 2>&1 ; [ $? -eq 1 ] && exit 0
+
 . /etc/default/wide-dhcpv6-client
 
 case $MODE in

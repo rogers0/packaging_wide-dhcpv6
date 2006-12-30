@@ -1,15 +1,19 @@
 wide-dhcpv6 (20061016-2) unstable; urgency=low
 
+  * debian/control: added lsb-base as a dependency.
   * debian/patches:
     -> Added 01_CVS_20061227.dpatch:
       + Update to CVS 20061227.
       + dhcp6relay accepts Unique Local IPv6 unicast Addresses.
       + Fix an IA allocation failure from pool in dhcp6s.
       + Fix "-P" option in dhcp6s.
-    -> Updated all other patches.
+    -> Updated 02_Makefile.in.dpatch.
+  * debian/scripts/dhcp6c-ifupdown: check whether dhcp6c is running and exit
+    silently if not. Avoid errors when network is brought up before the client
+    is started (Closes: #404887).
   * debian/dhcp6c.conf: corrected typo in comment (Closes: #404584).
 
- -- Jeremie Corbier <jeremie.corbier@resel.enst-bretagne.fr>  Wed, 27 Dec 2006 09:15:23 -0800
+ -- Jeremie Corbier <jeremie.corbier@resel.enst-bretagne.fr>  Fri, 29 Dec 2006 20:50:45 -0800
 
 wide-dhcpv6 (20061016-1) unstable; urgency=low
 
