@@ -2,7 +2,7 @@ Source: wide-dhcpv6
 Section: net
 Priority: optional
 Maintainer: Jeremie Corbier <jeremie.corbier@resel.enst-bretagne.fr>
-Build-Depends: cdbs, debhelper (>= 5.0.7), autotools-dev, dpatch, bison, flex
+Build-Depends: cdbs, debhelper (>= 5.0.7), autotools-dev, quilt, bison, flex
 Standards-Version: 3.7.2.1
 
 Package: wide-dhcpv6-server

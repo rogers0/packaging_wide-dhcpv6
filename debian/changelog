@@ -1,3 +1,9 @@
+wide-dhcpv6 (20061016-3) unstable; urgency=low
+
+  * Use quilt instead of dpatch.
+
+ -- Jeremie Corbier <jeremie.corbier@resel.enst-bretagne.fr>  Mon, 26 Feb 2007 11:22:44 -0800
+
 wide-dhcpv6 (20061016-2) unstable; urgency=low
 
   * debian/control: added lsb-base as a dependency.

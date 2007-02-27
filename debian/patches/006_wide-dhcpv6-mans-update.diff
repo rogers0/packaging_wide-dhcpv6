@@ -1,10 +1,3 @@
-#! /bin/sh /usr/share/dpatch/dpatch-run
-## 06_wide-dhcpv6-mans-update.dpatch by <jeremie.corbier@resel.enst-bretagne.fr>
-##
-## All lines beginning with `## DP:' are a description of the patch.
-## DP: Updates paths to some files in the documentation
-
-@DPATCH@
 diff -urNad wide-dhcpv6-20060902~/dhcp6c.8 wide-dhcpv6-20060902/dhcp6c.8
 --- wide-dhcpv6-20060902~/dhcp6c.8	2006-07-30 10:24:19.000000000 +0000
 +++ wide-dhcpv6-20060902/dhcp6c.8	2006-09-21 04:24:20.000000000 +0000
