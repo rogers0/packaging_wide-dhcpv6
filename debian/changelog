@@ -1,8 +1,11 @@
 wide-dhcpv6 (20061016-3) unstable; urgency=low
 
   * Use quilt instead of dpatch.
+  * debian/patches:
+    -> Get rid of 002_Makefile.in.diff: dh_fixperms takes care of files
+       ownership.
 
- -- Jeremie Corbier <jeremie.corbier@resel.enst-bretagne.fr>  Mon, 26 Feb 2007 11:22:44 -0800
+ -- Jeremie Corbier <jeremie.corbier@resel.enst-bretagne.fr>  Wed, 28 Feb 2007 10:27:40 -0800
 
 wide-dhcpv6 (20061016-2) unstable; urgency=low
 
