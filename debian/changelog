@@ -4,8 +4,10 @@ wide-dhcpv6 (20061016-3) unstable; urgency=low
   * debian/patches:
     -> Get rid of 002_Makefile.in.diff: dh_fixperms takes care of files
        ownership.
+  * debian/control:
+    -> Added Vcs fields.
 
- -- Jeremie Corbier <jeremie.corbier@resel.enst-bretagne.fr>  Wed, 28 Feb 2007 10:27:40 -0800
+ -- Jeremie Corbier <jeremie.corbier@resel.enst-bretagne.fr>  Tue, 27 Mar 2007 10:59:11 -0700
 
 wide-dhcpv6 (20061016-2) unstable; urgency=low
 

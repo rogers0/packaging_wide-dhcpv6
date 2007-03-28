@@ -4,6 +4,8 @@ Priority: optional
 Maintainer: Jeremie Corbier <jeremie.corbier@resel.enst-bretagne.fr>
 Build-Depends: cdbs, debhelper (>= 5.0.7), autotools-dev, quilt, bison, flex
 Standards-Version: 3.7.2.1
+XS-Vcs-Bzr: http://bazaar.launchpad.net/~jcorbier/wide-dhcpv6/package
+XS-Vcs-Browser: http://codebrowse.launchpad.net/~jcorbier/wide-dhcpv6/package/files
 
 Package: wide-dhcpv6-server
 Architecture: any
