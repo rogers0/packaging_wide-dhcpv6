@@ -1,13 +1,15 @@
-wide-dhcpv6 (20061016-3) unstable; urgency=low
+wide-dhcpv6 (20070507-1) unstable; urgency=low
 
+  * Mew upstream release.
   * Use quilt instead of dpatch.
   * debian/patches:
     -> Get rid of 002_Makefile.in.diff: dh_fixperms takes care of files
        ownership.
+    -> Removed 001_bugfixes_20061227.diff: merged upstream.
   * debian/control:
     -> Added Vcs fields.
 
- -- Jeremie Corbier <jeremie.corbier@resel.enst-bretagne.fr>  Tue, 27 Mar 2007 10:59:11 -0700
+ -- Jeremie Corbier <jeremie.corbier@resel.enst-bretagne.fr>  Tue, 07 May 2007 10:37:01 -0700
 
 wide-dhcpv6 (20061016-2) unstable; urgency=low
 
