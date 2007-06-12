@@ -2,6 +2,8 @@ wide-dhcpv6 (20070507-2) unstable; urgency=low
 
   * Added German debconf templates translation, thanks to Helge Kreutzmann
     (Closes: #428267).
+  * Removed extra spaces in the debconf templates. All translations updated
+    and unfuzzied (Closes: 428268).
 
  -- Jeremie Corbier <jeremie.corbier@resel.enst-bretagne.fr>  Mon, 11 Jun 2007 22:02:31 -0700
 

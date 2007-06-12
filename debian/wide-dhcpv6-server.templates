@@ -4,7 +4,7 @@ _Description: WIDE DHCPv6 server configuration
  The DHCPv6 server requires manual configuration after installation.
  .
  After the DHCPv6 server is installed it has to be manually configured
- by editing the file /etc/wide-dhcpv6/dhcp6s.conf. A sample dhcp6s.conf is 
+ by editing the file /etc/wide-dhcpv6/dhcp6s.conf. A sample dhcp6s.conf is
  available at /usr/share/doc/wide-dhcpv6-server/examples.
  .
  Please configure the DHCPv6 server as soon as the installation finishes.
