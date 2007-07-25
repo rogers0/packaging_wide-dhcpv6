@@ -1,1 +1,4 @@
+001_use-sig_atomic_t.diff -p0
+002_singular-point-check-fix.diff -p0
+003_sprint_uint64-buffer-overrun-fix.diff -p0
 006_wide-dhcpv6-mans-update.diff
