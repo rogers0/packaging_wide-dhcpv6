@@ -46,7 +46,7 @@ msgid ""
 msgstr ""
 "Après l'installation du client DHCPv6, vous devrez le configurer vous-même "
 "en modifiant /etc/wide-dhcpv6/dhcp6c.conf. Un fichier d'exemple est "
-"disponibledans le répertoire /usr/share/doc/wide-dhcpv6-client/examples."
+"disponible dans le répertoire /usr/share/doc/wide-dhcpv6-client/examples."
 
 #. Type: note
 #. Description
@@ -117,7 +117,7 @@ msgid ""
 msgstr ""
 "Après l'installation du serveur DHCPv6, vous devrez le configurer vous-même "
 "en modifiant /etc/wide-dhcpv6/dhcp6s.conf. Un fichier d'exemple est "
-"disponibledans le répertoire /usr/share/doc/wide-dhcpv6-server/examples."
+"disponible dans le répertoire /usr/share/doc/wide-dhcpv6-server/examples."
 
 #. Type: note
 #. Description
