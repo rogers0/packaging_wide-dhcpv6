@@ -2,3 +2,4 @@
 002_singular-point-check-fix.diff -p0
 003_sprint_uint64-buffer-overrun-fix.diff -p0
 006_wide-dhcpv6-mans-update.diff
+100_dont-strip-binaries.diff

@@ -1,9 +1,12 @@
 wide-dhcpv6 (20070507-3) unstable; urgency=low
 
+  * debian/patches:
+    -> Added 100_dont-strip-binaries.diff: prevent upstream build system from
+       stripping binaries (Closes: #438262).
   * Added Portuguese debconf templates translation, thanks to AmÃ©rico Monteiro
     (Closes: #437280).
 
- -- Jeremie Corbier <jeremie.corbier@resel.enst-bretagne.fr>  Sat, 11 Aug 2007 13:07:39 -0700
+ -- Jeremie Corbier <jeremie.corbier@resel.enst-bretagne.fr>  Thu, 16 Aug 2007 09:10:41 -0700
 
 wide-dhcpv6 (20070507-2) unstable; urgency=low
 
