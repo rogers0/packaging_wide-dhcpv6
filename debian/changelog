@@ -1,8 +1,10 @@
 wide-dhcpv6 (20070507-4) UNRELEASED; urgency=low
 
-  * debian/control: now use official Vcs-* and Homepage fields.
+  * debian/control:
+    -> Bumped up Standards-Version to 3.7.3: no changes needed.
+    -> Now use official Vcs-* and Homepage fields.
 
- -- Jeremie Corbier <jeremie.corbier@resel.enst-bretagne.fr>  Mon, 03 Dec 2007 10:49:05 +0100
+ -- Jeremie Corbier <jeremie.corbier@resel.enst-bretagne.fr>  Mon, 03 Dec 2007 10:51:22 +0100
 
 wide-dhcpv6 (20070507-3) unstable; urgency=low
 
