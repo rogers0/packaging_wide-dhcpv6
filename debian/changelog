@@ -1,3 +1,9 @@
+wide-dhcpv6 (20070507-4) UNRELEASED; urgency=low
+
+  * debian/control: now use official Vcs-* and Homepage fields.
+
+ -- Jeremie Corbier <jeremie.corbier@resel.enst-bretagne.fr>  Mon, 03 Dec 2007 10:49:05 +0100
+
 wide-dhcpv6 (20070507-3) unstable; urgency=low
 
   * debian/patches:
