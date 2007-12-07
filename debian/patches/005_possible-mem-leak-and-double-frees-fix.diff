@@ -1,0 +1,35 @@
+--- common.c	2007/07/25 07:09:25	1.14
++++ common.c	2007/12/06 14:53:49	1.16
+@@ -1518,7 +1518,7 @@
+ 		/* option length field overrun */
+ 		if (np > ep) {
+ 			dprintf(LOG_INFO, FNAME, "malformed DHCP options");
+-			return (-1);
++			goto fail;
+ 		}
+ 
+ 		switch (opt) {
+@@ -2289,6 +2289,7 @@
+ 		}
+ 		memcpy(p, tmpbuf, optlen);
+ 		free(tmpbuf);
++		tmpbuf = NULL;
+ 		p = (struct dhcp6opt *)((char *)p + optlen);
+ 		len += optlen;
+ 	}
+@@ -2369,6 +2370,7 @@
+ 			goto fail;
+ 		}
+ 		free(tmpbuf);
++		tmpbuf = NULL;
+ 	}
+ 
+ 	if (dhcp6_set_domain(DH6OPT_SIP_SERVER_D, &optinfo->sipname_list,
+@@ -2441,6 +2443,7 @@
+ 		}
+ 		memcpy(p, tmpbuf, optlen);
+ 		free(tmpbuf);
++		tmpbuf = NULL;
+ 		p = (struct dhcp6opt *)((char *)p + optlen);
+ 		len += optlen;
+ 	}

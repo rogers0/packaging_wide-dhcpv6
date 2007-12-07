@@ -4,11 +4,13 @@ wide-dhcpv6 (20070507-4) UNRELEASED; urgency=low
     -> Added 004_dhcp6s_accepts_relayed_req_msgs_with_auth_opt.diff: upstream
        patch. Fix a bug which caused dhcp6s not to accept relayed request
        messages with authentication option.
+    -> Added 005_possible-mem-leak-and-double-frees-fix.diff: upstream patch.
+       Fix a possible memory leak and a possible double free.
   * debian/control:
     -> Bumped up Standards-Version to 3.7.3: no changes needed.
     -> Now use official Vcs-* and Homepage fields.
 
- -- Jeremie Corbier <jeremie.corbier@resel.enst-bretagne.fr>  Fri, 07 Dec 2007 15:03:09 +0100
+ -- Jeremie Corbier <jeremie.corbier@resel.enst-bretagne.fr>  Fri, 07 Dec 2007 15:09:49 +0100
 
 wide-dhcpv6 (20070507-3) unstable; urgency=low
 
