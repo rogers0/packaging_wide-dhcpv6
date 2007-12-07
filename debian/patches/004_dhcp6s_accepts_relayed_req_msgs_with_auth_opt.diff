@@ -1,0 +1,10 @@
+--- dhcp6s.c	2007/07/24 15:48:58	1.16
++++ dhcp6s.c	2007/12/06 15:04:06	1.17
+@@ -955,6 +955,7 @@
+ 			goto end;
+ 		}
+ 		/* dh6 and optend should have been updated. */
++		len = (ssize_t)((char *)optend - (char *)dh6);
+ 	}
+ 
+ 	/*

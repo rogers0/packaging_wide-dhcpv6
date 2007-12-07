@@ -1,5 +1,6 @@
 001_use-sig_atomic_t.diff -p0
 002_singular-point-check-fix.diff -p0
 003_sprint_uint64-buffer-overrun-fix.diff -p0
+004_dhcp6s_accepts_relayed_req_msgs_with_auth_opt.diff -p0
 006_wide-dhcpv6-mans-update.diff
 100_dont-strip-binaries.diff
