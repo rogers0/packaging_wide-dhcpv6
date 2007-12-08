@@ -1,4 +1,4 @@
-wide-dhcpv6 (20070507-4) UNRELEASED; urgency=low
+wide-dhcpv6 (20070507-4) unstable; urgency=low
 
   * debian/patches:
     -> Added 004_dhcp6s_accepts_relayed_req_msgs_with_auth_opt.diff: upstream
