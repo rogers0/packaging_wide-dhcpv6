@@ -5,3 +5,4 @@
 005_possible-mem-leak-and-double-frees-fix.diff -p0
 006_wide-dhcpv6-mans-update.diff
 100_dont-strip-binaries.diff
+010_incorrect-valid-lifetime-in-IA_NA.diff
