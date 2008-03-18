@@ -4,8 +4,11 @@ wide-dhcpv6 (20070507-5) unstable; urgency=low
     ->  Added 010_incorrect-valid-lifetime-in-IA_NA.diff: fix a bug where
         IA_NA in replies to Renew and Rebind messages contain the preferred
         lifetime instead of the valid lifetime in their valid lifetime field.
+    -> Added 020_malformed-OPTION_DOMAIN_LIST.diff: fix a bug where
+       OPTION_DOMAIN_LIST options could be malformed because of a
+       miscalculated option length.
 
- -- Jeremie Corbier <jeremie.corbier@resel.enst-bretagne.fr>  Tue, 18 Mar 2008 11:32:25 +0100
+ -- Jeremie Corbier <jeremie.corbier@resel.enst-bretagne.fr>  Tue, 18 Mar 2008 11:36:42 +0100
 
 wide-dhcpv6 (20070507-4) unstable; urgency=low
 
