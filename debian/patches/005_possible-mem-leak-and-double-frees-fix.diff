@@ -1,6 +1,8 @@
---- common.c	2007/07/25 07:09:25	1.14
-+++ common.c	2007/12/06 14:53:49	1.16
-@@ -1518,7 +1518,7 @@
+Index: common.c
+===================================================================
+--- common.c.orig	2008-03-18 12:10:18.000000000 +0100
++++ common.c	2008-03-18 12:19:03.000000000 +0100
+@@ -1520,7 +1520,7 @@
  		/* option length field overrun */
  		if (np > ep) {
  			dprintf(LOG_INFO, FNAME, "malformed DHCP options");
@@ -9,7 +11,7 @@
  		}
  
  		switch (opt) {
-@@ -2289,6 +2289,7 @@
+@@ -2291,6 +2291,7 @@
  		}
  		memcpy(p, tmpbuf, optlen);
  		free(tmpbuf);
@@ -17,7 +19,7 @@
  		p = (struct dhcp6opt *)((char *)p + optlen);
  		len += optlen;
  	}
-@@ -2369,6 +2370,7 @@
+@@ -2371,6 +2372,7 @@
  			goto fail;
  		}
  		free(tmpbuf);
@@ -25,7 +27,7 @@
  	}
  
  	if (dhcp6_set_domain(DH6OPT_SIP_SERVER_D, &optinfo->sipname_list,
-@@ -2441,6 +2443,7 @@
+@@ -2443,6 +2445,7 @@
  		}
  		memcpy(p, tmpbuf, optlen);
  		free(tmpbuf);
@@ -33,3 +35,42 @@
  		p = (struct dhcp6opt *)((char *)p + optlen);
  		len += optlen;
  	}
+@@ -2552,6 +2555,8 @@
+ 		    &auth->dh6_auth_proto, &p, optep, &len) != 0) {
+ 			goto fail;
+ 		}
++
++		free(auth);
+ 	}
+ 
+ 	return (len);
+@@ -2559,6 +2564,8 @@
+   fail:
+ 	if (tmpbuf)
+ 		free(tmpbuf);
++	if (auth)
++		free(auth);
+ 	return (-1);
+ }
+ #undef COPY_OPTION
+Index: config.c
+===================================================================
+--- config.c.orig	2008-03-18 12:10:32.000000000 +0100
++++ config.c	2008-03-18 12:15:35.000000000 +0100
+@@ -2029,7 +2029,7 @@
+ 
+ 	if ((host = malloc(sizeof(*host))) == NULL) {
+ 		dprintf(LOG_ERR, FNAME, "memory allocation failed");
+-		return (NULL);
++		goto bad;
+ 	}
+ 	memset(host, 0, sizeof(*host));
+ 	TAILQ_INIT(&host->prefix_list);
+@@ -2121,6 +2121,7 @@
+ 	}
+ 	if ((pool->name = strdup(name)) == NULL) {
+ 		dprintf(LOG_ERR, FNAME, "memory allocation failed");
++		free(pool);
+ 		return (NULL);
+ 	}
+ 	pool->min = range->min;
