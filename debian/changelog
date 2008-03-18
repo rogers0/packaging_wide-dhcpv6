@@ -1,9 +1,9 @@
 wide-dhcpv6 (20070507-5) unstable; urgency=low
 
   * debian/patches:
-    ->  Added 010_incorrect-valid-lifetime-in-IA_NA.diff: fix a bug where
-        IA_NA in replies to Renew and Rebind messages contain the preferred
-        lifetime instead of the valid lifetime in their valid lifetime field.
+    -> Added 010_incorrect-valid-lifetime-in-IA_NA.diff: fix a bug where IA_NA
+       in replies to Renew and Rebind messages contain the preferred lifetime
+       instead of the valid lifetime in their valid lifetime field.
     -> Added 020_malformed-OPTION_DOMAIN_LIST.diff: fix a bug where
        OPTION_DOMAIN_LIST options could be malformed because of a
        miscalculated option length.
