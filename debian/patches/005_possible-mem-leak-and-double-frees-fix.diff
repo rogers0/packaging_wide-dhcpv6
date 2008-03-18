@@ -1,7 +1,7 @@
 Index: common.c
 ===================================================================
---- common.c.orig	2008-03-18 12:10:18.000000000 +0100
-+++ common.c	2008-03-18 12:19:03.000000000 +0100
+--- common.c.orig	2008-03-18 12:30:21.000000000 +0100
++++ common.c	2008-03-18 12:31:22.000000000 +0100
 @@ -1520,7 +1520,7 @@
  		/* option length field overrun */
  		if (np > ep) {
@@ -35,8 +35,18 @@ Index: common.c
  		p = (struct dhcp6opt *)((char *)p + optlen);
  		len += optlen;
  	}
-@@ -2552,6 +2555,8 @@
+@@ -2544,14 +2547,18 @@
+ 			default:
+ 				dprintf(LOG_ERR, FNAME,
+ 				    "unexpected authentication protocol");
++				free(auth);
+ 				goto fail;
+ 			}
+ 		}
+ 
+ 		if (copy_option(DH6OPT_AUTH, authlen - 4,
  		    &auth->dh6_auth_proto, &p, optep, &len) != 0) {
++			free(auth);
  			goto fail;
  		}
 +
@@ -44,19 +54,10 @@ Index: common.c
  	}
  
  	return (len);
-@@ -2559,6 +2564,8 @@
-   fail:
- 	if (tmpbuf)
- 		free(tmpbuf);
-+	if (auth)
-+		free(auth);
- 	return (-1);
- }
- #undef COPY_OPTION
 Index: config.c
 ===================================================================
---- config.c.orig	2008-03-18 12:10:32.000000000 +0100
-+++ config.c	2008-03-18 12:15:35.000000000 +0100
+--- config.c.orig	2008-03-18 12:21:35.000000000 +0100
++++ config.c	2008-03-18 12:30:21.000000000 +0100
 @@ -2029,7 +2029,7 @@
  
  	if ((host = malloc(sizeof(*host))) == NULL) {
