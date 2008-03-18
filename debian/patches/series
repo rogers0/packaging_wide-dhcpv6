@@ -7,3 +7,4 @@
 100_dont-strip-binaries.diff
 010_incorrect-valid-lifetime-in-IA_NA.diff
 020_malformed-OPTION_DOMAIN_LIST.diff
+030_NULL-pointer-access-with-non-binding-Decline-messages.diff

@@ -7,8 +7,11 @@ wide-dhcpv6 (20070507-5) unstable; urgency=low
     -> Added 020_malformed-OPTION_DOMAIN_LIST.diff: fix a bug where
        OPTION_DOMAIN_LIST options could be malformed because of a
        miscalculated option length.
+    -> Added 030_NULL-pointer-access-with-non-binding-Decline-messages.diff:
+       fix a possible NULL pointer access when receiving a Decline message for
+       a non-binding address.
 
- -- Jeremie Corbier <jeremie.corbier@resel.enst-bretagne.fr>  Tue, 18 Mar 2008 11:36:42 +0100
+ -- Jeremie Corbier <jeremie.corbier@resel.enst-bretagne.fr>  Tue, 18 Mar 2008 11:57:46 +0100
 
 wide-dhcpv6 (20070507-4) unstable; urgency=low
 

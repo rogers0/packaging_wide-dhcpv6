@@ -1,0 +1,13 @@
+Index: wide-dhcpv6/dhcp6s.c
+===================================================================
+--- wide-dhcpv6.orig/dhcp6s.c	2008-03-18 11:52:21.000000000 +0100
++++ wide-dhcpv6/dhcp6s.c	2008-03-18 11:53:54.000000000 +0100
+@@ -2654,7 +2654,7 @@
+ 		if ((lvia = find_binding_ia(lv, binding)) == NULL) {
+ 			dprintf(LOG_DEBUG, FNAME, "no binding found "
+ 			    "for address %s",
+-			    in6addr2str(&lvia->val_prefix6.addr, 0));
++			    in6addr2str(&lv->val_statefuladdr6.addr, 0));
+ 			continue;
+ 		}
+ 
