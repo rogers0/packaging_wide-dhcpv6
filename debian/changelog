@@ -12,8 +12,9 @@ wide-dhcpv6 (20070507-5) unstable; urgency=low
        a non-binding address.
     -> Updated 005_possible-mem-leak-and-double-frees-fix.diff: more memory
        leaks fixes.
+    -> Updated 006_wide-dhcpv6-mans-update.diff: fix dhcp6ctl manpage.
 
- -- Jeremie Corbier <jeremie.corbier@resel.enst-bretagne.fr>  Tue, 18 Mar 2008 12:22:16 +0100
+ -- Jeremie Corbier <jeremie.corbier@resel.enst-bretagne.fr>  Tue, 18 Mar 2008 12:47:39 +0100
 
 wide-dhcpv6 (20070507-4) unstable; urgency=low
 

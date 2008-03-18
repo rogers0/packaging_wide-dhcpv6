@@ -1,7 +1,8 @@
-diff -urNad wide-dhcpv6-20060902~/dhcp6c.8 wide-dhcpv6-20060902/dhcp6c.8
---- wide-dhcpv6-20060902~/dhcp6c.8	2006-07-30 10:24:19.000000000 +0000
-+++ wide-dhcpv6-20060902/dhcp6c.8	2006-09-21 04:24:20.000000000 +0000
-@@ -102,13 +102,13 @@
+Index: wide-dhcpv6/dhcp6c.8
+===================================================================
+--- wide-dhcpv6.orig/dhcp6c.8	2008-03-18 12:10:12.000000000 +0100
++++ wide-dhcpv6/dhcp6c.8	2008-03-18 12:38:29.000000000 +0100
+@@ -114,13 +114,13 @@
  will send DHCPv6 Release messages to release resources assigned from servers.
  .\"
  .Sh FILES
@@ -18,7 +19,7 @@ diff -urNad wide-dhcpv6-20060902~/dhcp6c.8 wide-dhcpv6-20060902/dhcp6c.8
  is the file to store the client's DUID.
  .El
  .Sh Configuration Script
-@@ -191,6 +191,6 @@
+@@ -203,6 +203,6 @@
  is incomplete and violates DHCPv6 protocol spec, in several aspects.
  In particular, temporary address assignment is intentionally omitted.
  .Pp
@@ -26,9 +27,10 @@ diff -urNad wide-dhcpv6-20060902~/dhcp6c.8 wide-dhcpv6-20060902/dhcp6c.8
 +Information Refresh Time Option is not recognized in Info-req mode, since
  .Nm
  terminates after it receives a REPLY message.
-diff -urNad wide-dhcpv6-20060902~/dhcp6c.conf.5 wide-dhcpv6-20060902/dhcp6c.conf.5
---- wide-dhcpv6-20060902~/dhcp6c.conf.5	2006-07-30 10:24:19.000000000 +0000
-+++ wide-dhcpv6-20060902/dhcp6c.conf.5	2006-09-21 04:24:20.000000000 +0000
+Index: wide-dhcpv6/dhcp6c.conf.5
+===================================================================
+--- wide-dhcpv6.orig/dhcp6c.conf.5	2008-03-18 12:10:12.000000000 +0100
++++ wide-dhcpv6/dhcp6c.conf.5	2008-03-18 12:38:29.000000000 +0100
 @@ -36,7 +36,7 @@
  .Nd DHCPv6 client configuration file
  .\"
@@ -38,9 +40,10 @@ diff -urNad wide-dhcpv6-20060902~/dhcp6c.conf.5 wide-dhcpv6-20060902/dhcp6c.conf
  .\"
  .Sh DESCRIPTION
  The
-diff -urNad wide-dhcpv6-20060902~/dhcp6ctl.8 wide-dhcpv6-20060902/dhcp6ctl.8
---- wide-dhcpv6-20060902~/dhcp6ctl.8	2005-12-11 06:28:33.000000000 +0000
-+++ wide-dhcpv6-20060902/dhcp6ctl.8	2006-09-21 04:24:20.000000000 +0000
+Index: wide-dhcpv6/dhcp6ctl.8
+===================================================================
+--- wide-dhcpv6.orig/dhcp6ctl.8	2008-03-18 12:10:12.000000000 +0100
++++ wide-dhcpv6/dhcp6ctl.8	2008-03-18 12:38:51.000000000 +0100
 @@ -85,12 +85,11 @@
  .Ar keyfile
  to provide the shared secret to communicate with the process.
@@ -56,6 +59,15 @@ diff -urNad wide-dhcpv6-20060902~/dhcp6ctl.8 wide-dhcpv6-20060902/dhcp6ctl.8
  .It Fl p Ar port
  Specify
  .Ar port
+@@ -99,7 +98,7 @@
+ and 5547 for a server.
+ .It Fl s Ar address
+ Specify
+-.A address
++.Ar address
+ as the listening address of the process.
+ The default address used when unspecified is ::1.
+ .El
 @@ -183,10 +182,10 @@
  .El
  .\"
@@ -70,10 +82,11 @@ diff -urNad wide-dhcpv6-20060902~/dhcp6ctl.8 wide-dhcpv6-20060902/dhcp6ctl.8
  is the default key file to communicate with a server.
  .El
  .\"
-diff -urNad wide-dhcpv6-20060902~/dhcp6relay.8 wide-dhcpv6-20060902/dhcp6relay.8
---- wide-dhcpv6-20060902~/dhcp6relay.8	2006-07-29 01:42:09.000000000 +0000
-+++ wide-dhcpv6-20060902/dhcp6relay.8	2006-09-21 04:24:44.000000000 +0000
-@@ -100,7 +100,6 @@
+Index: wide-dhcpv6/dhcp6relay.8
+===================================================================
+--- wide-dhcpv6.orig/dhcp6relay.8	2008-03-18 12:10:12.000000000 +0100
++++ wide-dhcpv6/dhcp6relay.8	2008-03-18 12:38:29.000000000 +0100
+@@ -107,7 +107,6 @@
  is the default file that contains pid of the currently running
  .Nm .
  .El
@@ -81,9 +94,10 @@ diff -urNad wide-dhcpv6-20060902~/dhcp6relay.8 wide-dhcpv6-20060902/dhcp6relay.8
  .Sh SEE ALSO
  .Xr dhcp6c 8 ,
  .Xr dhcp6s 8
-diff -urNad wide-dhcpv6-20060902~/dhcp6s.8 wide-dhcpv6-20060902/dhcp6s.8
---- wide-dhcpv6-20060902~/dhcp6s.8	2006-07-30 10:24:19.000000000 +0000
-+++ wide-dhcpv6-20060902/dhcp6s.8	2006-09-21 04:24:20.000000000 +0000
+Index: wide-dhcpv6/dhcp6s.8
+===================================================================
+--- wide-dhcpv6.orig/dhcp6s.8	2008-03-18 12:10:12.000000000 +0100
++++ wide-dhcpv6/dhcp6s.8	2008-03-18 12:38:29.000000000 +0100
 @@ -102,7 +102,7 @@
  to store the shared secret to authenticate the communication with
  .Nm dhcp6sctl .
@@ -110,9 +124,10 @@ diff -urNad wide-dhcpv6-20060902~/dhcp6s.8 wide-dhcpv6-20060902/dhcp6s.8
  is the default key file to communicate with the control command.
  See
  .Xr dhcp6sctl 8
-diff -urNad wide-dhcpv6-20060902~/dhcp6s.conf.5 wide-dhcpv6-20060902/dhcp6s.conf.5
---- wide-dhcpv6-20060902~/dhcp6s.conf.5	2006-09-21 04:24:20.000000000 +0000
-+++ wide-dhcpv6-20060902/dhcp6s.conf.5	2006-09-21 04:24:20.000000000 +0000
+Index: wide-dhcpv6/dhcp6s.conf.5
+===================================================================
+--- wide-dhcpv6.orig/dhcp6s.conf.5	2008-03-18 12:10:12.000000000 +0100
++++ wide-dhcpv6/dhcp6s.conf.5	2008-03-18 12:38:29.000000000 +0100
 @@ -36,7 +36,7 @@
  .Nd DHCPv6 server configuration file
  .\"
