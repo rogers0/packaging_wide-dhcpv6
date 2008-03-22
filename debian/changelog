@@ -1,3 +1,11 @@
+wide-dhcpv6 (20070507-6) unstable; urgency=low
+
+  * debian/patches:
+    -> Updated 006_wide-dhcpv6-mans-update.diff: escape a minus sign in
+       dhcp6c.conf.5 so it is not interpreted as a hyphen by groff.
+
+ -- Jeremie Corbier <jeremie.corbier@resel.enst-bretagne.fr>  Sat, 22 Mar 2008 17:34:21 +0100
+
 wide-dhcpv6 (20070507-5) unstable; urgency=low
 
   * debian/patches:
