@@ -1,6 +1,9 @@
 wide-dhcpv6 (20080615-1) unstable; urgency=low
 
   * New upstream release.
+  * Made it possible for the server to actually handle several network
+    interfaces.  It required to remove the possibility to control the server
+    with dhcp6ctl though.
   * debian/patches:
     -> Removed 001_use-sig_atomic_t.diff, 002_singular-point-check-fix.diff,
        003_sprint_uint64-buffer-overrun-fix.diff,
@@ -14,7 +17,7 @@ wide-dhcpv6 (20080615-1) unstable; urgency=low
        dhcp6c.conf.5 so it is not interpreted as a hyphen by groff.
   * Bumped up Standards-Version to 3.8.0: no changes needed.
 
- -- Jeremie Corbier <jeremie.corbier@resel.enst-bretagne.fr>  Sat, 21 Jun 2008 15:53:24 +0200
+ -- Jeremie Corbier <jeremie.corbier@resel.enst-bretagne.fr>  Sat, 21 Jun 2008 18:25:11 +0200
 
 wide-dhcpv6 (20070507-5) unstable; urgency=low
 

@@ -16,20 +16,7 @@ esac
 # debconf
 . /usr/share/debconf/confmodule
 
-DHCP6SCTLKEY=/etc/wide-dhcpv6/dhcp6sctlkey
 INITCONFFILE=/etc/default/wide-dhcpv6-server
-
-# The key mustn't be world readable
-umask 066
-
-[ -r "${DHCP6SCTLKEY}" ] || {
-	echo "Generating ${DHCP6SCTLKEY}..." >&2
-	dd if=/dev/random bs=32 count=1 2>/dev/null | \
-		uuencode -m ${DHCP6SCTLKEY} | \
-		head -n 2 | tail -n 1 > ${DHCP6SCTLKEY}
-}
-
-umask 022
 
 [ -r "${INITCONFFILE}" ] || {
 	echo "Generating ${INITCONFFILE}..." >&2

@@ -10,10 +10,6 @@ case "$1" in
         if [ -e /etc/default/wide-dhcpv6-server ]; then
             rm -f /etc/default/wide-dhcpv6-server
         fi
-
-	if [ -e /etc/wide-dhcpv6/dhcp6sctlkey ]; then
-	    rm -rf /etc/wide-dhcpv6/dhcp6sctlkey
-	fi
         ;;
     *)
         # Nothing to do...
