@@ -1,4 +1,3 @@
-002_singular-point-check-fix.diff -p0
 003_sprint_uint64-buffer-overrun-fix.diff -p0
 004_dhcp6s_accepts_relayed_req_msgs_with_auth_opt.diff -p0
 005_possible-mem-leak-and-double-frees-fix.diff -p0
