@@ -1,3 +1,2 @@
 006_wide-dhcpv6-mans-update.diff
 100_dont-strip-binaries.diff
-030_NULL-pointer-access-with-non-binding-Decline-messages.diff

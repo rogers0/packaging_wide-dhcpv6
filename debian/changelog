@@ -7,12 +7,14 @@ wide-dhcpv6 (20080615-1) unstable; urgency=low
        004_dhcp6s_accepts_relayed_req_msgs_with_auth_opt.diff,
        005_possible-mem-leak-and-double-frees-fix.diff,
        010_incorrect-valid-lifetime-in-IA_NA.diff,
-       020_malformed-OPTION_DOMAIN_LIST.diff: fixed upstream.
+       020_malformed-OPTION_DOMAIN_LIST.diff,
+       030_NULL-pointer-access-with-non-binding-Decline-messages.diff:
+       fixed upstream.
     -> Updated 006_wide-dhcpv6-mans-update.diff: escape a minus sign in
        dhcp6c.conf.5 so it is not interpreted as a hyphen by groff.
   * Bumped up Standards-Version to 3.8.0: no changes needed.
 
- -- Jeremie Corbier <jeremie.corbier@resel.enst-bretagne.fr>  Sat, 21 Jun 2008 15:52:15 +0200
+ -- Jeremie Corbier <jeremie.corbier@resel.enst-bretagne.fr>  Sat, 21 Jun 2008 15:53:24 +0200
 
 wide-dhcpv6 (20070507-5) unstable; urgency=low
 
