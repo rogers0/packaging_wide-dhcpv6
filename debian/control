@@ -10,7 +10,7 @@ Homepage: http://wide-dhcpv6.sourceforge.net/
 
 Package: wide-dhcpv6-server
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}, lsb-base, sharutils
+Depends: ${shlibs:Depends}, ${misc:Depends}, lsb-base
 Description: DHCPv6 server for automatic IPv6 hosts configuration
  This is the DHCPv6 server from WIDE project. For more information visit the
  project web site at http://wide-dhcpv6.sourceforge.net/
