@@ -1,3 +1,31 @@
+2006-07-30  SUZUKI, Shinsuke <suz@kame.net>
+	* supported the following options:
+		NIS server option, NIS domain option (RFC3898)
+		NIS+ server option, NIS+ domain option (RFC3898)
+		BCMCS server option, BCMCS domain option (RFC4280)
+	* changed the name of the enviromental variable for SIP server
+	  address (new_sip_servers).
+	* removed a configure option to control the NTP option number.
+	  (since one year has been passed since its official assignment)
+
+2006-07-29  SUZUKI, Shinsuke <suz@kame.net>
+	* dhcp6s and dhcp6relay dumps process-id file, like dhcp6c
+
+2006-05-05  SUZUKI, Shinsuke <suz@kame.net>
+	* fixed a compilation error on netbsd
+	* updated the list of the supported RFCs
+	* NTP option number has been already assigned by IANA
+	* added other official option numbers for future implementors
+
+2006-04-26  SUZUKI, Shinsuke <suz@kame.net>
+	* supported 'include' statement
+	(contributed by Bruno STEVANT)
+
+2006-04-11  SUZUKI, Shinsuke <suz@kame.net>
+	* removed 'ifdef USE_POOL' macros, since it is always ON
+	* rename some pool-related variables to prepare for the support of prefix-pool
+
+	--- 20060322 tar ball released ---
 2006-03-20  SUZUKI, Shinsuke <suz@kame.net>
 	* fixed a bug that dhcp6c cannot receive a DHCPv6 packet on linux.
 	(Request ID=1435976, and a patch proposed by Yasuyuki KOZAKAI)
@@ -5,6 +33,7 @@
 2006-03-08  SUZUKI, Shinsuke <suz@kame.net>
 	* added some missing queue-management macros to make it compilable on linux
 
+	--- 20060214 tar ball released ---
 2006-01-26  SUZUKI, Shinsuke <suz@kame.net>
 	* supported IA-NA address-pool (contributed by: WIDE Project Secure6-WG)
 		ToDo: IA-PD prefix-pool, write a manual

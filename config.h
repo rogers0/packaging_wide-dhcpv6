@@ -33,9 +33,6 @@
 TAILQ_HEAD(ia_conflist, ia_conf);
 TAILQ_HEAD(pifc_list, prefix_ifconf);
 
-#define USE_POOL
-
-#ifdef USE_POOL
 struct dhcp6_poolspec {
 	char* name;
 	u_int32_t pltime;
@@ -56,7 +53,6 @@ struct pool_conf {
 	struct in6_addr max;
 	struct in6_addr cur;
 };
-#endif /* USE_POOL */
 
 /* per-interface information */
 struct dhcp6_if {
@@ -80,9 +76,7 @@ struct dhcp6_if {
 #define DHCIFF_RAPID_COMMIT 0x2
 
 	int server_pref;	/* server preference (server only) */
-#ifdef USE_POOL
 	struct dhcp6_poolspec pool;	/* address pool (server only) */
-#endif
 	char *scriptpath;	/* path to config script (client only) */
 
 	struct dhcp6_list reqopt_list;
@@ -224,10 +218,8 @@ struct host_conf {
 	struct dhcp6_list prefix_list;
 	/* address to be assigned for the host */
 	struct dhcp6_list addr_list;
-#ifdef USE_POOL
 	/* address pool from which addresses are assigned for the host */
 	struct dhcp6_poolspec pool;
-#endif
 
 	/* secret key shared with the client for delayed authentication */
 	struct keyinfo *delayedkey;
@@ -272,12 +264,15 @@ struct cf_list {
 enum { DECL_SEND, DECL_ALLOW, DECL_INFO_ONLY, DECL_REQUEST, DECL_DUID,
        DECL_PREFIX, DECL_PREFERENCE, DECL_SCRIPT, DECL_DELAYEDKEY,
        DECL_ADDRESS,
-       DECL_RANGE, DECL_ADDRESSPOOL,	/* USE_POOL */
+       DECL_RANGE, DECL_ADDRESSPOOL,
        IFPARAM_SLA_ID, IFPARAM_SLA_LEN,
        DHCPOPT_RAPID_COMMIT, DHCPOPT_AUTHINFO,
        DHCPOPT_DNS, DHCPOPT_DNSNAME,
        DHCPOPT_IA_PD, DHCPOPT_IA_NA, DHCPOPT_NTP,
        DHCPOPT_REFRESHTIME,
+       DHCPOPT_NIS, DHCPOPT_NISNAME, 
+       DHCPOPT_NISP, DHCPOPT_NISPNAME, 
+       DHCPOPT_BCMCS, DHCPOPT_BCMCSNAME, 
        CFLISTENT_GENERIC,
        IACONF_PIF, IACONF_PREFIX, IACONF_ADDR,
        DHCPOPT_SIP, DHCPOPT_SIPNAME,
@@ -297,6 +292,12 @@ extern struct dhcp6_list sipnamelist;
 extern struct dhcp6_list dnslist;
 extern struct dhcp6_list dnsnamelist;
 extern struct dhcp6_list ntplist;
+extern struct dhcp6_list nislist;
+extern struct dhcp6_list nisnamelist;
+extern struct dhcp6_list nisplist;
+extern struct dhcp6_list nispnamelist;
+extern struct dhcp6_list bcmcslist;
+extern struct dhcp6_list bcmcsnamelist;
 extern long long optrefreshtime;
 
 extern struct dhcp6_if *ifinit __P((char *));
@@ -319,7 +320,6 @@ extern struct dhcp6_prefix *find_prefix6 __P((struct dhcp6_list *,
 					      struct dhcp6_prefix *));
 extern struct ia_conf *find_iaconf __P((struct ia_conflist *, int, u_int32_t));
 extern struct keyinfo *find_key __P((char *, size_t, u_int32_t));
-#ifdef USE_POOL
 extern int configure_pool __P((struct cf_namelist *));
 extern struct pool_conf *find_pool __P((const char *));
 extern int is_available_in_pool __P((struct pool_conf *, struct in6_addr *));
@@ -327,5 +327,4 @@ extern int get_free_address_from_pool __P((struct pool_conf *,
 	struct in6_addr *));
 struct host_conf *create_dynamic_hostconf __P((struct duid *,
 	struct dhcp6_poolspec *));
-#endif /* USE_POOL */
-
+extern char *qstrdup __P((char *));

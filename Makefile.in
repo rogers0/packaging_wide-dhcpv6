@@ -25,7 +25,7 @@
 # SUCH DAMAGE.
 
 #
-# $Id: Makefile.in,v 1.6 2006/03/08 05:44:53 suzsuz Exp $
+# $Id: Makefile.in,v 1.10 2006/09/02 08:15:14 suzsuz Exp $
 # $KAME: Makefile.in,v 1.45 2005/10/16 16:25:38 suz Exp $
 #
 
@@ -51,11 +51,6 @@ bindir=	@bindir@
 sbindir=@sbindir@
 mandir=	@mandir@
 
-CFLAGS+= @DHCPOPT_DNS@ @DH6OPT_DNSNAME@ \
-	@DH6OPT_IA_PD@ @DH6OPT_IA_PD_PREFIX@ \
-	@DH6OPT_REFRESHTIME@ \
-	-DCONF_DH6OPT_NTP=@dhcpopt_ntp@ \
-
 GENSRCS=cfparse.c cftoken.c
 CLIENTOBJS=	dhcp6c.o common.o config.o prefixconf.o dhcp6c_ia.o timer.o \
 	dhcp6c_script.o if.o base64.o auth.o dhcp6_ctl.o addrconf.o lease.o \
@@ -63,7 +58,6 @@ CLIENTOBJS=	dhcp6c.o common.o config.o prefixconf.o dhcp6c_ia.o timer.o \
 SERVOBJS=	dhcp6s.o common.o if.o config.o timer.o lease.o \
 	base64.o auth.o dhcp6_ctl.o $(GENSRCS:%.c=%.o)
 RELAYOBJS =	dhcp6relay.o common.o timer.o
-LITECLIENTOBJS=	dhcp6lc.o common.o if.o timer.o dhcp6c_script.o
 CTLOBJS= dhcp6_ctlclient.o base64.o auth.o
 CLEANFILES+=	y.tab.h
 
@@ -74,17 +68,15 @@ dhcp6s:	$(SERVOBJS) $(LIBOBJS)
 	$(CC) $(LDFLAGS) -o dhcp6s $(SERVOBJS) $(LIBOBJS) $(LIBS)
 dhcp6relay: $(RELAYOBJS) $(LIBOBJS)
 	$(CC) $(LDFLAGS) -o $@ $(RELAYOBJS) $(LIBOBJS) $(LIBS)
-dhcp6lc:$(LITECLIENTOBJS) $(LIBOBJS)
-	$(CC) $(LDFLAGS) -o $@ $(LITECLIENTOBJS) $(LIBOBJS) $(LIBS)
 dhcp6ctl: $(CTLOBJS)
 	$(CC) $(LDFLAGS) -o $@ $(CTLOBJS) $(LIBOBJS) $(LIBS)
 
 cfparse.c y.tab.h: cfparse.y
-	yacc -d cfparse.y
+	@YACC@ -d cfparse.y
 	mv y.tab.c cfparse.c
 
 cftoken.c: cftoken.l y.tab.h
-	lex cftoken.l
+	@LEX@ cftoken.l
 	mv lex.yy.c $@	
 
 getaddrinfo.o:	$(srcdir)/missing/getaddrinfo.c
@@ -122,8 +114,9 @@ depend:
 	mkdep ${CFLAGS:M-[ID]*} $(srcdir)/*.c
 
 package:
-	tar -zcvf wide-dhcpv6.tar.gz $(srcdir)/*.[chyl1-8] $(srcdir)/Makefile* \
+	tar -zcvf wide-dhcpv6.tar.gz $(srcdir)/*.[chyl1-8] $(srcdir)/Makefile.in \
 		$(srcdir)/README $(srcdir)/COPYRIGHT $(srcdir)/CHANGES \
-		$(srcdir)/config* $(srcdir)/install-sh  $(srcdir)/*.sample \
+		$(srcdir)/configure $(srcdir)/configure.in \
+		$(srcdir)/install-sh  $(srcdir)/*.sample \
 		$(srcdir)/missing/arc4random.?  $(srcdir)/missing/strlcat.c \
 		$(srcdir)/missing/strlcpy.c

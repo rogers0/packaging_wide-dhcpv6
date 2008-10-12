@@ -74,14 +74,13 @@
 #include <base64.h>
 #include <control.h>
 #include <dhcp6_ctl.h>
-#ifdef USE_POOL
 #include <signal.h>
 #include <lease.h>
-#endif
 
 #define DUID_FILE LOCALDBDIR "/dhcp6s_duid"
 #define DHCP6S_CONF SYSCONFDIR "/dhcp6s.conf"
 #define DEFAULT_KEYFILE SYSCONFDIR "/dhcp6sctlkey"
+#define DHCP6S_PIDFILE "/var/run/dhcp6s.pid"
 
 #define CTLSKEW 300
 
@@ -125,6 +124,8 @@ struct relayinfo {
 TAILQ_HEAD(relayinfolist, relayinfo);
 
 static int debug = 0;
+static u_long sig_flags = 0;
+#define SIGF_TERM 0x1
 
 const dhcp6_mode_t dhcp6_mode = DHCP6_MODE_SERVER;
 char *device = NULL;
@@ -146,6 +147,7 @@ static struct dhcp6_list arg_dnslist;
 static char *ctlkeyfile = DEFAULT_KEYFILE;
 static struct keyinfo *ctlkey = NULL;
 static int ctldigestlen;
+static char *pid_file = DHCP6S_PIDFILE;
 
 static inline int get_val32 __P((char **, int *, u_int32_t *));
 static inline int get_val __P((char **, int *, void *, size_t));
@@ -157,6 +159,8 @@ static int server6_do_ctlcommand __P((char *, ssize_t));
 static void server6_reload __P((void));
 static void server6_stop __P((void));
 static void server6_recv __P((int));
+static void process_signals __P((void));
+static void server6_signal __P((int));
 static void free_relayinfo __P((struct relayinfo *));
 static int process_relayforw __P((struct dhcp6 **, struct dhcp6opt **,
     struct relayinfolist *, struct sockaddr *));
@@ -189,10 +193,8 @@ static int make_ia __P((struct dhcp6_listval *, struct dhcp6_list *,
     struct dhcp6_list *, struct host_conf *, int));
 static int make_match_ia __P((struct dhcp6_listval *, struct dhcp6_list *,
     struct dhcp6_list *));
-#ifdef USE_POOL
 static int make_iana_from_pool __P((struct dhcp6_poolspec *,
     struct dhcp6_listval *, struct dhcp6_list *));
-#endif
 static void calc_ia_timo __P((struct dhcp6_ia *, struct dhcp6_list *,
     struct host_conf *));
 static void update_binding_duration __P((struct dhcp6_binding *));
@@ -216,10 +218,11 @@ main(argc, argv)
 	int argc;
 	char **argv;
 {
-	int ch;
+	int ch, pid;
 	struct in6_addr a;
 	struct dhcp6_listval *dlv;
 	char *progname;
+	FILE *pidfp;
 
 	if ((progname = strrchr(*argv, '/')) == NULL)
 		progname = *argv;
@@ -232,9 +235,15 @@ main(argc, argv)
 	TAILQ_INIT(&siplist);
 	TAILQ_INIT(&sipnamelist);
 	TAILQ_INIT(&ntplist);
+	TAILQ_INIT(&nislist);
+	TAILQ_INIT(&nisnamelist);
+	TAILQ_INIT(&nisplist);
+	TAILQ_INIT(&nispnamelist);
+	TAILQ_INIT(&bcmcslist);
+	TAILQ_INIT(&bcmcsnamelist);
 
 	srandom(time(NULL) & getpid());
-	while ((ch = getopt(argc, argv, "c:dDfk:n:p:")) != -1) {
+	while ((ch = getopt(argc, argv, "c:dDfk:n:p:P:")) != -1) {
 		switch (ch) {
 		case 'c':
 			conffile = optarg;
@@ -268,6 +277,8 @@ main(argc, argv)
 		case 'p':
 			ctlport = optarg;
 			break;
+		case 'P':
+			pid_file = optarg;
 		default:
 			usage();
 			/* NOTREACHED */
@@ -299,6 +310,14 @@ main(argc, argv)
 		if (daemon(0, 0) < 0)
 			err(1, "daemon");
 	}
+
+	/* dump current PID */
+	pid = getpid();
+	if ((pidfp = fopen(pid_file, "w")) != NULL) {
+		fprintf(pidfp, "%d\n", pid);
+		fclose(pidfp);
+	}
+
 	/* prohibit a mixture of old and new style of DNS server config */
 	if (!TAILQ_EMPTY(&arg_dnslist)) {
 		if (!TAILQ_EMPTY(&dnslist)) {
@@ -321,7 +340,7 @@ usage()
 {
 	fprintf(stderr,
 	    "usage: dhcp6s [-c configfile] [-dDf] [-k ctlkeyfile] "
-	    "[-p ctlport] intface\n");
+	    "[-p ctlport] [-P pidfile] intface\n");
 	exit(0);
 }
 
@@ -340,12 +359,10 @@ server6_init()
 	static struct sockaddr_in6 sa6_any_relay_storage;
 
 	TAILQ_INIT(&dhcp6_binding_head);
-#ifdef USE_POOL
 	if (lease_init() != 0) {
 		dprintf(LOG_ERR, FNAME, "failed to initialize the lease table");
 		exit(1);
 	}
-#endif
 
 	ifidx = if_nametoindex(device);
 	if (ifidx == 0) {
@@ -549,7 +566,21 @@ server6_init()
 		exit(1);
 	}
 
+	if (signal(SIGTERM, server6_signal) == SIG_ERR) {
+		dprintf(LOG_WARNING, FNAME, "failed to set signal: %s",
+		    strerror(errno));
+		exit(1);
+	}
 	return;
+}
+
+static void
+process_signals()
+{
+	if ((sig_flags & SIGF_TERM)) {
+		unlink(pid_file);
+		exit(0);
+	}
 }
 
 static void
@@ -562,6 +593,9 @@ server6_mainloop()
 
 	
 	while (1) {
+		if (sig_flags)
+			process_signals();
+
 		w = dhcp6_check_timer();
 
 		FD_ZERO(&r);
@@ -576,10 +610,12 @@ server6_mainloop()
 		ret = select(maxsock + 1, &r, NULL, NULL, w);
 		switch (ret) {
 		case -1:
-			dprintf(LOG_ERR, FNAME, "select: %s",
-			    strerror(errno));
-			exit(1);
-			/* NOTREACHED */
+			if (errno != EINTR) {
+				dprintf(LOG_ERR, FNAME, "select: %s",
+				    strerror(errno));
+				exit(1);
+			}
+			continue;
 		case 0:		/* timeout */
 			break;
 		default:
@@ -1076,10 +1112,10 @@ set_statelessinfo(type, optinfo)
 	int type;
 	struct dhcp6_optinfo *optinfo;
 {
-	/* SIP server domain name */
+	/* SIP domain name */
 	if (dhcp6_copy_list(&optinfo->sipname_list, &sipnamelist)) {
 		dprintf(LOG_ERR, FNAME,
-		    "failed to copy SIP server domain list");
+		    "failed to copy SIP domain list");
 		return (-1);
 	}
 
@@ -1104,6 +1140,45 @@ set_statelessinfo(type, optinfo)
 	/* NTP server */
 	if (dhcp6_copy_list(&optinfo->ntp_list, &ntplist)) {
 		dprintf(LOG_ERR, FNAME, "failed to copy NTP servers");
+		return (-1);
+	}
+
+	/* NIS domain name */
+	if (dhcp6_copy_list(&optinfo->nisname_list, &nisnamelist)) {
+		dprintf(LOG_ERR, FNAME,
+		    "failed to copy NIS domain list");
+		return (-1);
+	}
+
+	/* NIS server */
+	if (dhcp6_copy_list(&optinfo->nis_list, &nislist)) {
+		dprintf(LOG_ERR, FNAME, "failed to copy NIS servers");
+		return (-1);
+	}
+
+	/* NIS+ domain name */
+	if (dhcp6_copy_list(&optinfo->nispname_list, &nispnamelist)) {
+		dprintf(LOG_ERR, FNAME,
+		    "failed to copy NIS+ domain list");
+		return (-1);
+	}
+
+	/* NIS+ server */
+	if (dhcp6_copy_list(&optinfo->nisp_list, &nisplist)) {
+		dprintf(LOG_ERR, FNAME, "failed to copy NIS+ servers");
+		return (-1);
+	}
+
+	/* BCMCS domain name */
+	if (dhcp6_copy_list(&optinfo->bcmcsname_list, &bcmcsnamelist)) {
+		dprintf(LOG_ERR, FNAME,
+		    "failed to copy BCMCS domain list");
+		return (-1);
+	}
+
+	/* BCMCS server */
+	if (dhcp6_copy_list(&optinfo->bcmcs_list, &bcmcslist)) {
+		dprintf(LOG_ERR, FNAME, "failed to copy BCMCS servers");
 		return (-1);
 	}
 
@@ -1253,14 +1328,12 @@ react_solicit(ifp, dh6, len, optinfo, from, fromlen, relayinfohead)
 		struct dhcp6_list conflist;
 		struct dhcp6_listval *iana;
 
-#ifdef USE_POOL
 		if (client_conf == NULL && ifp->pool.name) {
 			if ((client_conf = create_dynamic_hostconf(&optinfo->clientID,
 				&ifp->pool)) == NULL)
 				dprintf(LOG_NOTICE, FNAME,
 			    	"failed to make host configuration");
 		}
-#endif
 		TAILQ_INIT(&conflist);
 
 		/* make a local copy of the configured addresses */
@@ -1470,14 +1543,12 @@ react_request(ifp, pi, dh6, len, optinfo, from, fromlen, relayinfohead)
 		struct dhcp6_list conflist;
 		struct dhcp6_listval *iana;
 
-#ifdef USE_POOL
 		if (client_conf == NULL && ifp->pool.name) {
 			if ((client_conf = create_dynamic_hostconf(&optinfo->clientID,
 				&ifp->pool)) == NULL)
 				dprintf(LOG_NOTICE, FNAME,
 			    	"failed to make host configuration");
 		}
-#endif
 		TAILQ_INIT(&conflist);
 
 		/* make a local copy of the configured prefixes */
@@ -2193,9 +2264,7 @@ release_binding_ia(iap, retlist, optinfo)
 						    lvia->val_prefix6.plen);
 						break;
 					case DHCP6_LISTVAL_IANA:
-#ifdef USE_POOL
 						release_address(&lvia->val_prefix6.addr);
-#endif
 						dprintf(LOG_DEBUG, FNAME,
 						    "bound address %s "
 						    "has been released",
@@ -2219,6 +2288,20 @@ release_binding_ia(iap, retlist, optinfo)
 	}
 
 	return (0);
+}
+
+static void
+server6_signal(sig)
+	int sig;
+{
+
+	dprintf(LOG_INFO, FNAME, "received a signal (%d)", sig);
+
+	switch (sig) {
+	case SIGTERM:
+		sig_flags |= SIGF_TERM;
+		break;
+	}
 }
 
 static int
@@ -2430,17 +2513,12 @@ make_ia(spec, conflist, retlist, client_conf, do_binding)
 	 * trivial case:
 	 * if the configuration is empty, we cannot make any IA.
 	 */
-#ifdef USE_POOL
 	if (TAILQ_EMPTY(conflist)) {
 		if (spec->type != DHCP6_LISTVAL_IANA ||
 			client_conf->pool.name == NULL) {
 			return (0);
 		}
 	}
-#else
-	if (TAILQ_EMPTY(conflist))
-		return (0);
-#endif /* USE_POOL */
 
 	TAILQ_INIT(&ialist);
 
@@ -2448,7 +2526,6 @@ make_ia(spec, conflist, retlist, client_conf, do_binding)
 	for (specia = TAILQ_FIRST(&spec->sublist); specia;
 	    specia = TAILQ_NEXT(specia, link)) {
 		/* try to find an IA that matches the spec best. */
-#ifdef USE_POOL
 		if (!TAILQ_EMPTY(conflist)) {
 			if (make_match_ia(specia, conflist, &ialist))
 				found++;
@@ -2457,13 +2534,8 @@ make_ia(spec, conflist, retlist, client_conf, do_binding)
 			if (make_iana_from_pool(&client_conf->pool, specia, &ialist))
 				found++;
 		}
-#else
-		if (make_match_ia(specia, conflist, &ialist))
-			found++;
-#endif /* USE_POOL */
 	}
 	if (found == 0) {
-#ifdef USE_POOL
 		if (!TAILQ_EMPTY(conflist)) {
 			struct dhcp6_listval *v;
 
@@ -2484,17 +2556,6 @@ make_ia(spec, conflist, retlist, client_conf, do_binding)
 			if (make_iana_from_pool(&client_conf->pool, NULL, &ialist))
 				found = 1;
 		}
-#else
-		struct dhcp6_listval *v;
-
-		/* use the first IA in the configuration list */
-		v = TAILQ_FIRST(conflist);
-		if (dhcp6_add_listval(&ialist, v->type, &v->uv, NULL)) {
-			found = 1;
-			TAILQ_REMOVE(conflist, v, link);
-			dhcp6_clear_listval(v);
-		}
-#endif /* USE_POOL */
 	}
 	if (found) {
 		memset(&ia, 0, sizeof(ia));
@@ -2543,10 +2604,8 @@ make_match_ia(spec, conflist, retlist)
 			break;
 		case DHCP6_LISTVAL_STATEFULADDR6:
 			/* No "partial match" for addresses */
-#ifdef USE_POOL
 			if (is_leased(&spec->val_statefuladdr6.addr))
 				match = 0;
-#endif
 			break;
 		default:
 			dprintf(LOG_ERR, FNAME, "unsupported IA type");
@@ -2570,7 +2629,6 @@ make_match_ia(spec, conflist, retlist)
 	return (matched);
 }
 
-#ifdef USE_POOL
 /* making sublist of iana */
 static int
 make_iana_from_pool(poolspec, spec, retlist)
@@ -2614,7 +2672,6 @@ make_iana_from_pool(poolspec, spec, retlist)
 
 	return (found);
 }
-#endif /* USE_POOL */
 
 static void
 calc_ia_timo(ia, ialist, client_conf)
@@ -2623,7 +2680,7 @@ calc_ia_timo(ia, ialist, client_conf)
 	struct host_conf *client_conf; /* unused yet */
 {
 	struct dhcp6_listval *iav;
-	u_int32_t base = DHCP6_DURATITION_INFINITE;
+	u_int32_t base = DHCP6_DURATION_INFINITE;
 	int iatype;
 
 	iatype = TAILQ_FIRST(ialist)->type;
@@ -2636,7 +2693,7 @@ calc_ia_timo(ia, ialist, client_conf)
 		switch (iatype) {
 		case DHCP6_LISTVAL_PREFIX6:
 		case DHCP6_LISTVAL_STATEFULADDR6:
-			if (base == DHCP6_DURATITION_INFINITE ||
+			if (base == DHCP6_DURATION_INFINITE ||
 			    iav->val_prefix6.pltime < base)
 				base = iav->val_prefix6.pltime;
 			break;
@@ -2652,9 +2709,9 @@ calc_ia_timo(ia, ialist, client_conf)
 		 * We could also set the parameters to 0 if we let the client
 		 * decide the renew timing (not implemented yet).
 		 */
-		if (base == DHCP6_DURATITION_INFINITE) {
-			ia->t1 = DHCP6_DURATITION_INFINITE;
-			ia->t2 = DHCP6_DURATITION_INFINITE;
+		if (base == DHCP6_DURATION_INFINITE) {
+			ia->t1 = DHCP6_DURATION_INFINITE;
+			ia->t2 = DHCP6_DURATION_INFINITE;
 		} else {
 			ia->t1 = base / 2;
 			ia->t2 = (base * 4) / 5;
@@ -2669,7 +2726,7 @@ update_binding_duration(binding)
 {
 	struct dhcp6_list *ia_list = &binding->val_list;
 	struct dhcp6_listval *iav;
-	int duration = DHCP6_DURATITION_INFINITE;
+	int duration = DHCP6_DURATION_INFINITE;
 	u_int32_t past, min_lifetime;
 	time_t now = time(NULL);
 
@@ -2700,7 +2757,7 @@ update_binding_duration(binding)
 			}
 
 			if (min_lifetime == 0 ||
-			    (lifetime != DHCP6_DURATITION_INFINITE &&
+			    (lifetime != DHCP6_DURATION_INFINITE &&
 			    lifetime < min_lifetime))
 				min_lifetime = lifetime;
 		}
@@ -2730,7 +2787,7 @@ add_binding(clientid, btype, iatype, iaid, val0)
 	void *val0;
 {
 	struct dhcp6_binding *binding = NULL;
-	u_int32_t duration = DHCP6_DURATITION_INFINITE;
+	u_int32_t duration = DHCP6_DURATION_INFINITE;
 
 	if ((binding = malloc(sizeof(*binding))) == NULL) {
 		dprintf(LOG_NOTICE, FNAME, "failed to allocate memory");
@@ -2755,7 +2812,6 @@ add_binding(clientid, btype, iatype, iaid, val0)
 			    "failed to copy binding data");
 			goto fail;
 		}
-#ifdef USE_POOL
 		/* lease address */
 		if (iatype == DHCP6_LISTVAL_IANA) {
 			struct dhcp6_list *ia_list = &binding->val_list;
@@ -2783,7 +2839,6 @@ add_binding(clientid, btype, iatype, iaid, val0)
 				goto fail;
 			}
 		}
-#endif /* USE_POOL */
 		break;
 	default:
 		dprintf(LOG_ERR, FNAME, "unexpected binding type(%d)", btype);
@@ -2793,7 +2848,7 @@ add_binding(clientid, btype, iatype, iaid, val0)
 	/* calculate duration and start timer accordingly */
 	binding->updatetime = time(NULL);
 	update_binding_duration(binding);
-	if (binding->duration != DHCP6_DURATITION_INFINITE) {
+	if (binding->duration != DHCP6_DURATION_INFINITE) {
 		struct timeval timo;
 
 		binding->timer = dhcp6_add_timer(binding_timo, binding);
@@ -2856,7 +2911,7 @@ update_binding(binding)
 	update_binding_duration(binding);
 
 	/* if the lease duration is infinite, there's nothing to do. */
-	if (binding->duration == DHCP6_DURATITION_INFINITE)
+	if (binding->duration == DHCP6_DURATION_INFINITE)
 		return;
 
 	/* reset the timer with the duration */
@@ -2889,7 +2944,6 @@ free_binding(binding)
 	/* free configuration info in a type dependent manner. */
 	switch (binding->type) {
 	case DHCP6_BINDING_IA:
-#ifdef USE_POOL
 		/* releaes address */
 		if (binding->iatype == DHCP6_LISTVAL_IANA) {
 			struct dhcp6_list *ia_list = &binding->val_list;
@@ -2904,7 +2958,6 @@ free_binding(binding)
 				release_address(&lv->val_statefuladdr6.addr);
 			}
 		}
-#endif /* USE_POOL */
 		dhcp6_clear_list(&binding->val_list);
 		break;
 	default:
@@ -2947,17 +3000,15 @@ binding_timo(arg)
 				return (NULL); /* XXX */
 			}
 
-			if (lifetime != DHCP6_DURATITION_INFINITE &&
+			if (lifetime != DHCP6_DURATION_INFINITE &&
 			    lifetime <= past) {
 				dprintf(LOG_DEBUG, FNAME, "bound prefix %s/%d"
 				    " in %s has expired",
 				    in6addr2str(&iav->val_prefix6.addr, 0),
 				    iav->val_prefix6.plen,
 				    bindingstr(binding));
-#ifdef USE_POOL
 				if (binding->iatype == DHCP6_LISTVAL_IANA) 
 					release_address(&iav->val_prefix6.addr);
-#endif
 				TAILQ_REMOVE(ia_list, iav, link);
 				dhcp6_clear_listval(iav);
 			}
@@ -2979,7 +3030,7 @@ binding_timo(arg)
 	update_binding_duration(binding);
 
 	/* if the lease duration is infinite, there's nothing to do. */
-	if (binding->duration == DHCP6_DURATITION_INFINITE)
+	if (binding->duration == DHCP6_DURATION_INFINITE)
 		return (NULL);
 
 	/* reset the timer with the duration */

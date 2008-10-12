@@ -83,14 +83,18 @@ extern void yyerror __P((char *, ...))
 	} while (0)
 
 static struct cf_namelist *iflist_head, *hostlist_head, *iapdlist_head;
-static struct cf_namelist *poollist_head;
+static struct cf_namelist *addrpoollist_head;
 static struct cf_namelist *authinfolist_head, *keylist_head;
 static struct cf_namelist *ianalist_head;
 struct cf_list *cf_dns_list, *cf_dns_name_list, *cf_ntp_list;
 struct cf_list *cf_sip_list, *cf_sip_name_list;
+struct cf_list *cf_nis_list, *cf_nis_name_list;
+struct cf_list *cf_nisp_list, *cf_nisp_name_list;
+struct cf_list *cf_bcmcs_list, *cf_bcmcs_name_list;
 long long cf_refreshtime = -1;
 
 extern int yylex __P((void));
+extern int cfswitch_buffer __P((char *));
 static int add_namelist __P((struct cf_namelist *, struct cf_namelist **));
 static void cleanup __P((void));
 static void cleanup_namelist __P((struct cf_namelist *));
@@ -105,12 +109,16 @@ static void cleanup_cflist __P((struct cf_list *));
 %token HOST HOSTNAME DUID
 %token OPTION RAPID_COMMIT IA_PD DNS_SERVERS DNS_NAME NTP_SERVERS REFRESHTIME
 %token SIP_SERVERS SIP_NAME
+%token NIS_SERVERS NIS_NAME
+%token NISP_SERVERS NISP_NAME
+%token BCMCS_SERVERS BCMCS_NAME
 %token INFO_ONLY
 %token SCRIPT DELAYEDKEY
 %token AUTHENTICATION PROTOCOL ALGORITHM DELAYED RECONFIG HMACMD5 MONOCOUNTER
 %token AUTHNAME RDM KEY
 %token KEYINFO REALM KEYID SECRET KEYNAME EXPIRE
-%token POOL POOLNAME RANGE TO ADDRESS_POOL
+%token ADDRPOOL POOLNAME RANGE TO ADDRESS_POOL
+%token INCLUDE
 
 %token NUMBER SLASH EOS BCL ECL STRING QSTRING PREFIX INFINITY
 %token COMMA
@@ -150,7 +158,8 @@ statement:
 	|	ia_statement
 	|	authentication_statement
 	|	key_statement
-	|	pool_statement
+	|	addrpool_statement
+	|	include_statement
 	;
 
 interface_statement:
@@ -233,6 +242,78 @@ option_statement:
 			} else {
 				cf_sip_name_list->tail->next = l;
 				cf_sip_name_list->tail = l->tail;
+			}
+		}
+	|	OPTION NIS_SERVERS address_list EOS
+		{
+			if (cf_nis_list == NULL)
+				cf_nis_list = $3;
+			else {
+				cf_nis_list->tail->next = $3;
+				cf_nis_list->tail = $3->tail;
+			}
+		}
+	|	OPTION NIS_NAME QSTRING EOS
+		{
+			struct cf_list *l;
+
+			MAKE_CFLIST(l, CFLISTENT_GENERIC, $3, NULL);
+
+			if (cf_nis_name_list == NULL) {
+				cf_nis_name_list = l;
+				cf_nis_name_list->tail = l;
+				cf_nis_name_list->next = NULL;
+			} else {
+				cf_nis_name_list->tail->next = l;
+				cf_nis_name_list->tail = l->tail;
+			}
+		}
+	|	OPTION NISP_SERVERS address_list EOS
+		{
+			if (cf_nisp_list == NULL)
+				cf_nisp_list = $3;
+			else {
+				cf_nisp_list->tail->next = $3;
+				cf_nisp_list->tail = $3->tail;
+			}
+		}
+	|	OPTION NISP_NAME QSTRING EOS
+		{
+			struct cf_list *l;
+
+			MAKE_CFLIST(l, CFLISTENT_GENERIC, $3, NULL);
+
+			if (cf_nisp_name_list == NULL) {
+				cf_nisp_name_list = l;
+				cf_nisp_name_list->tail = l;
+				cf_nisp_name_list->next = NULL;
+			} else {
+				cf_nisp_name_list->tail->next = l;
+				cf_nisp_name_list->tail = l->tail;
+			}
+		}
+	|	OPTION BCMCS_SERVERS address_list EOS
+		{
+			if (cf_bcmcs_list == NULL)
+				cf_bcmcs_list = $3;
+			else {
+				cf_bcmcs_list->tail->next = $3;
+				cf_bcmcs_list->tail = $3->tail;
+			}
+		}
+	|	OPTION BCMCS_NAME QSTRING EOS
+		{
+			struct cf_list *l;
+
+			MAKE_CFLIST(l, CFLISTENT_GENERIC, $3, NULL);
+
+			if (cf_bcmcs_name_list == NULL) {
+				cf_bcmcs_name_list = l;
+				cf_bcmcs_name_list->tail = l;
+				cf_bcmcs_name_list->next = NULL;
+			} else {
+				cf_bcmcs_name_list->tail->next = l;
+				cf_bcmcs_name_list->tail = l->tail;
 			}
 		}
 	|	OPTION REFRESHTIME NUMBER EOS
@@ -336,14 +417,25 @@ key_statement:
 	}
 	;
 
-pool_statement:
-	POOL POOLNAME BCL declarations ECL EOS
+include_statement:
+	INCLUDE QSTRING EOS
+	{
+		if (cfswitch_buffer($2)) {
+			free($2);
+			return (-1);
+		}
+		free($2);
+	}
+	;
+
+addrpool_statement:
+	ADDRPOOL POOLNAME BCL declarations ECL EOS
 	{
 		struct cf_namelist *pool;
 
 		MAKE_NAMELIST(pool, $2, $4);
 
-		if (add_namelist(pool, &poollist_head))
+		if (add_namelist(pool, &addrpoollist_head))
 			return (-1);
 	}
 	;
@@ -388,6 +480,7 @@ address_list_ent:
 
 		$$ = l;
 	}
+	;
 
 declarations:
 		{ $$ = NULL; }
@@ -520,6 +613,7 @@ dhcpoption_list:
 
 			$$ = $1;
 		}
+	;
 
 dhcpoption:
 		RAPID_COMMIT
@@ -602,6 +696,54 @@ dhcpoption:
 			/* currently no value */
 			$$ = l;
 		}
+	|	NIS_SERVERS
+		{
+			struct cf_list *l;
+
+			MAKE_CFLIST(l, DHCPOPT_NIS, NULL, NULL);
+			/* currently no value */
+			$$ = l;
+		}
+	|	NIS_NAME
+		{
+			struct cf_list *l;
+
+			MAKE_CFLIST(l, DHCPOPT_NISNAME, NULL, NULL);
+			/* currently no value */
+			$$ = l;
+		}
+	|	NISP_SERVERS
+		{
+			struct cf_list *l;
+
+			MAKE_CFLIST(l, DHCPOPT_NISP, NULL, NULL);
+			/* currently no value */
+			$$ = l;
+		}
+	|	NISP_NAME
+		{
+			struct cf_list *l;
+
+			MAKE_CFLIST(l, DHCPOPT_NISPNAME, NULL, NULL);
+			/* currently no value */
+			$$ = l;
+		}
+	|	BCMCS_SERVERS
+		{
+			struct cf_list *l;
+
+			MAKE_CFLIST(l, DHCPOPT_BCMCS, NULL, NULL);
+			/* currently no value */
+			$$ = l;
+		}
+	|	BCMCS_NAME
+		{
+			struct cf_list *l;
+
+			MAKE_CFLIST(l, DHCPOPT_BCMCSNAME, NULL, NULL);
+			/* currently no value */
+			$$ = l;
+		}
 	;
 
 rangeparam:
@@ -650,7 +792,7 @@ addressparam:
 			/* validate other parameters later */
 			pconf0.plen = 128; /* XXX this field is ignored */
 			if ($2 < 0)
-				pconf0.pltime = DHCP6_DURATITION_INFINITE;
+				pconf0.pltime = DHCP6_DURATION_INFINITE;
 			else
 				pconf0.pltime = (u_int32_t)$2;
 			pconf0.vltime = pconf0.pltime;
@@ -677,11 +819,11 @@ addressparam:
 			/* validate other parameters later */
 			pconf0.plen = 128; /* XXX */
 			if ($2 < 0)
-				pconf0.pltime = DHCP6_DURATITION_INFINITE;
+				pconf0.pltime = DHCP6_DURATION_INFINITE;
 			else
 				pconf0.pltime = (u_int32_t)$2;
 			if ($3 < 0)
-				pconf0.vltime = DHCP6_DURATITION_INFINITE;
+				pconf0.vltime = DHCP6_DURATION_INFINITE;
 			else
 				pconf0.vltime = (u_int32_t)$3;
 
@@ -693,6 +835,7 @@ addressparam:
 
 			$$ = pconf;
 		}
+	;
 
 prefixparam:
 		STRING SLASH NUMBER duration
@@ -709,7 +852,7 @@ prefixparam:
 			/* validate other parameters later */
 			pconf0.plen = $3;
 			if ($4 < 0)
-				pconf0.pltime = DHCP6_DURATITION_INFINITE;
+				pconf0.pltime = DHCP6_DURATION_INFINITE;
 			else
 				pconf0.pltime = (u_int32_t)$4;
 			pconf0.vltime = pconf0.pltime;
@@ -736,11 +879,11 @@ prefixparam:
 			/* validate other parameters later */
 			pconf0.plen = $3;
 			if ($4 < 0)
-				pconf0.pltime = DHCP6_DURATITION_INFINITE;
+				pconf0.pltime = DHCP6_DURATION_INFINITE;
 			else
 				pconf0.pltime = (u_int32_t)$4;
 			if ($5 < 0)
-				pconf0.vltime = DHCP6_DURATITION_INFINITE;
+				pconf0.vltime = DHCP6_DURATION_INFINITE;
 			else
 				pconf0.vltime = (u_int32_t)$5;
 
@@ -752,6 +895,7 @@ prefixparam:
 
 			$$ = pconf;
 		}
+	;
 
 poolparam:
 		STRING duration
@@ -772,7 +916,7 @@ poolparam:
 
 			/* validate other parameters later */
 			if ($2 < 0)
-				pool->pltime = DHCP6_DURATITION_INFINITE;
+				pool->pltime = DHCP6_DURATION_INFINITE;
 			else
 				pool->pltime = (u_int32_t)$2;
 			pool->vltime = pool->pltime;
@@ -797,11 +941,11 @@ poolparam:
 
 			/* validate other parameters later */
 			if ($2 < 0)
-				pool->pltime = DHCP6_DURATITION_INFINITE;
+				pool->pltime = DHCP6_DURATION_INFINITE;
 			else
 				pool->pltime = (u_int32_t)$2;
 			if ($3 < 0)
-				pool->vltime = DHCP6_DURATITION_INFINITE;
+				pool->vltime = DHCP6_DURATION_INFINITE;
 			else
 				pool->vltime = (u_int32_t)$3;
 
@@ -1090,8 +1234,8 @@ cleanup()
 	authinfolist_head = NULL;
 	cleanup_namelist(keylist_head);
 	keylist_head = NULL;
-	cleanup_namelist(poollist_head);
-	poollist_head = NULL;
+	cleanup_namelist(addrpoollist_head);
+	addrpoollist_head = NULL;
 
 	cleanup_cflist(cf_sip_list);
 	cf_sip_list = NULL;
@@ -1103,6 +1247,18 @@ cleanup()
 	cf_dns_name_list = NULL;
 	cleanup_cflist(cf_ntp_list);
 	cf_ntp_list = NULL;
+	cleanup_cflist(cf_nis_list);
+	cf_nis_list = NULL;
+	cleanup_cflist(cf_nis_name_list);
+	cf_nis_name_list = NULL;
+	cleanup_cflist(cf_nisp_list);
+	cf_nisp_list = NULL;
+	cleanup_cflist(cf_nisp_name_list);
+	cf_nisp_name_list = NULL;
+	cleanup_cflist(cf_bcmcs_list);
+	cf_bcmcs_list = NULL;
+	cleanup_cflist(cf_bcmcs_name_list);
+	cf_bcmcs_name_list = NULL;
 }
 
 static void
@@ -1129,11 +1285,9 @@ cleanup_cflist(p)
 		return;
 
 	n = p->next;
-#ifdef USE_POOL
 	if (p->type == DECL_ADDRESSPOOL) {
 		free(((struct dhcp6_poolspec *)p->ptr)->name);
 	}
-#endif
 	if (p->ptr)
 		free(p->ptr);
 	if (p->list)
@@ -1161,10 +1315,8 @@ cf_post_config()
 	if (configure_ia(ianalist_head, IATYPE_NA))
 		config_fail();
 
-#ifdef USE_POOL
-	if (configure_pool(poollist_head))
+	if (configure_pool(addrpoollist_head))
 		config_fail();
-#endif /* USE_POOL */
 
 	if (configure_interface(iflist_head))
 		config_fail();
