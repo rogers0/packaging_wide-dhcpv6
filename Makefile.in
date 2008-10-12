@@ -25,7 +25,7 @@
 # SUCH DAMAGE.
 
 #
-# $Id: Makefile.in,v 1.5 2006/01/26 06:21:37 suzsuz Exp $
+# $Id: Makefile.in,v 1.6 2006/03/08 05:44:53 suzsuz Exp $
 # $KAME: Makefile.in,v 1.45 2005/10/16 16:25:38 suz Exp $
 #
 
