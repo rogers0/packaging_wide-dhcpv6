@@ -75,6 +75,7 @@ static u_long sig_flags = 0;
 static char *relaydevice;
 static char *boundaddr;
 static char *serveraddr = DH6ADDR_ALLSERVER;
+static char *scriptpath;
 
 static char *rmsgctlbuf;
 static socklen_t rmsgctllen;
@@ -100,6 +101,7 @@ TAILQ_HEAD(, prefix_list) global_prefixes; /* list of non-link-local prefixes */
 static char *global_strings[] = {
 	/* "fec0::/10",	site-local unicast addresses were deprecated */
 	"2000::/3",
+	"FC00::/7",  /* Unique Local Address (RFC4193) */
 	NULL
 };
 
@@ -116,13 +118,16 @@ static void relay_to_server __P((struct dhcp6 *, ssize_t,
     struct sockaddr_in6 *, char *, unsigned int));
 static void relay_to_client __P((struct dhcp6_relay *, ssize_t,
     struct sockaddr *));
+extern int relay6_script __P((char *, struct sockaddr_in6 *,
+    struct dhcp6 *, int));
+
 
 static void
 usage()
 {
 	fprintf(stderr,
 	    "usage: dhcp6relay [-dDf] [-b boundaddr] [-H hoplim] "
-	    "[-r relay-IF] [-s serveraddr] [-p pidfile] IF ...\n");
+	    "[-r relay-IF] [-s serveraddr] [-p pidfile] [-S script] IF ...\n");
 	exit(0);
 }
 
@@ -141,7 +146,7 @@ main(argc, argv)
 	else
 		progname++;
 
-	while((ch = getopt(argc, argv, "b:dDfH:r:s:p:")) != -1) {
+	while((ch = getopt(argc, argv, "b:dDfH:r:s:S:p:")) != -1) {
 		switch(ch) {
 		case 'b':
 			boundaddr = optarg;
@@ -172,6 +177,9 @@ main(argc, argv)
 			break;
 		case 's':
 			serveraddr = optarg;
+			break;
+		case 'S':
+			scriptpath = optarg;
 			break;
 		case 'p':
 			pid_file = optarg;
@@ -269,7 +277,7 @@ make_prefix(pstr0)
 	/* fill in each member of the entry */
 	memset(pent, 0, sizeof (*pent));
 	pent->paddr.sin6_family = AF_INET6;
-#ifndef __linux__
+#ifdef HAVE_SA_LEN
 	pent->paddr.sin6_len = sizeof (struct sockaddr_in6);
 #endif
 	pent->paddr.sin6_addr = paddr;
@@ -359,12 +367,14 @@ relay6_init(int ifnum, char *iflist[])
 		    strerror(errno));
 		goto failexit;
 	}
+#ifdef IPV6_V6ONLY
 	if (setsockopt(csock, IPPROTO_IPV6, IPV6_V6ONLY,
 	    &on, sizeof (on)) < 0) {
 		dprintf(LOG_ERR, FNAME, "setsockopt(csock, IPV6_V6ONLY): %s",
 		    strerror(errno));
 		goto failexit;
 	}
+#endif
 	if (bind(csock, res->ai_addr, res->ai_addrlen) < 0) {
 		dprintf(LOG_ERR, FNAME, "bind(csock): %s", strerror(errno));
 		goto failexit;
@@ -469,12 +479,14 @@ relay6_init(int ifnum, char *iflist[])
 		goto failexit;
 	}
 	on = 1;
+#ifdef IPV6_V6ONLY
 	if (setsockopt(ssock, IPPROTO_IPV6, IPV6_V6ONLY,
 	    &on, sizeof (on)) < 0) {
 		dprintf(LOG_ERR, FNAME, "setsockopt(ssock, IPV6_V6ONLY): %s",
 		    strerror(errno));
 		goto failexit;
 	}
+#endif
 	if (bind(ssock, res->ai_addr, res->ai_addrlen) < 0) {
 		dprintf(LOG_ERR, FNAME, "bind(ssock): %s", strerror(errno));
 		goto failexit;
@@ -513,8 +525,6 @@ static void
 relay6_signal(sig)
 	int sig;
 {
-
-	dprintf(LOG_INFO, FNAME, "received a signal (%d)", sig);
 
 	switch (sig) {
 	case SIGTERM:
@@ -911,6 +921,8 @@ relay_to_client(dh6relay, len, from)
 	unsigned int ifid;
 	char ifnamebuf[IFNAMSIZ];
 	int cc;
+	int relayed = 0;
+	struct dhcp6 *dh6;
 	struct msghdr mh;
 	struct in6_pktinfo pktinfo;
 	static struct iovec iov[2];
@@ -992,6 +1004,16 @@ relay_to_client(dh6relay, len, from)
 	}
 
 	peer = sa6_client;
+	dh6 = (struct dhcp6 *) optinfo.relaymsg_msg;
+	if (dh6->dh6_msgtype != DH6_RELAY_REPLY) {
+		relayed++;
+	} else {
+		/* 
+		 * change dst port to server/relay port, since it's a
+		 * reply to relay, not to a client
+		 */
+		peer.sin6_port = htons(547);	/* DH6PORT_UPSTREAM */
+	}
 	memcpy(&peer.sin6_addr, &dh6relay->dh6relay_peeraddr,
 	    sizeof (peer.sin6_addr));
 	if (IN6_IS_ADDR_LINKLOCAL(&peer.sin6_addr))
@@ -1027,6 +1049,9 @@ relay_to_client(dh6relay, len, from)
 		    "relay a message to a client %s",
 		    addr2str((struct sockaddr *)&peer));
 	}
+
+	if (relayed && scriptpath != NULL)
+		relay6_script(scriptpath, &peer, dh6, optinfo.relaymsg_len);
 
   out:
 	dhcp6_clear_options(&optinfo);
