@@ -359,7 +359,6 @@ dhcp6_get_addr(optlen, cp, type, list)
 	struct dhcp6_list *list;
 {
 	void *val;
-	int option;
 
 	if (optlen % sizeof(struct in6_addr) || optlen == 0) {
 		dprintf(LOG_INFO, FNAME,
@@ -514,7 +513,7 @@ dhcp6_set_domain(type, list, p, optep, len)
 		memcpy(cp, name, nlen);
 		cp += nlen;
 	}
-	if (copy_option(type, optlen, tmpbuf, p, optep, len) != 0) {
+	if (copy_option(type, cp - tmpbuf, tmpbuf, p, optep, len) != 0) {
 		free(tmpbuf);
 		return -1;
 	}
@@ -663,8 +662,11 @@ dhcp6_auth_replaycheck(method, prev, current)
 	prev = ntohq(prev);
 	current = ntohq(current);
 
-	/* we call the singular point guilty */
-        if (prev == (current ^ 8000000000000000ULL)) {
+	/*
+	 * we call the singular point guilty, since we cannot guess
+	 * whether the serial number is increasing or not.
+	 */
+        if (prev == (current ^ 0x8000000000000000ULL)) {
 		dprintf(LOG_INFO, FNAME, "detected a singular point");
 		return (1);
 	}
@@ -1485,12 +1487,11 @@ dhcp6_get_options(p, ep, optinfo)
 	struct dhcp6_optinfo *optinfo;
 {
 	struct dhcp6opt *np, opth;
-	int i, opt, optlen, reqopts;
-	u_int16_t num;
+	int i, opt, optlen, reqopts, num;
+	u_int16_t num16;
 	char *bp, *cp, *val;
 	u_int16_t val16;
 	u_int32_t val32;
-	struct in6_addr valaddr;
 	struct dhcp6opt_ia optia;
 	struct dhcp6_ia ia;
 	struct dhcp6_list sublist;
@@ -1517,7 +1518,7 @@ dhcp6_get_options(p, ep, optinfo)
 		/* option length field overrun */
 		if (np > ep) {
 			dprintf(LOG_INFO, FNAME, "malformed DHCP options");
-			return (-1);
+			goto fail;
 		}
 
 		switch (opt) {
@@ -1548,14 +1549,14 @@ dhcp6_get_options(p, ep, optinfo)
 			if (optlen < sizeof(u_int16_t))
 				goto malformed;
 			memcpy(&val16, cp, sizeof(val16));
-			num = ntohs(val16);
+			num16 = ntohs(val16);
 			dprintf(LOG_DEBUG, "", "  status code: %s",
-			    dhcp6_stcodestr(num));
+			    dhcp6_stcodestr(num16));
 
 			/* need to check duplication? */
 
 			if (dhcp6_add_listval(&optinfo->stcode_list,
-			    DHCP6_LISTVAL_STCODE, &num, NULL) == NULL) {
+			    DHCP6_LISTVAL_STCODE, &num16, NULL) == NULL) {
 				dprintf(LOG_ERR, FNAME, "failed to copy "
 				    "status code");
 				goto fail;
@@ -1571,7 +1572,7 @@ dhcp6_get_options(p, ep, optinfo)
 				u_int16_t opttype;
 
 				memcpy(&opttype, val, sizeof(u_int16_t));
-				num = ntohs(opttype);
+				num = (int)ntohs(opttype);
 
 				dprintf(LOG_DEBUG, "",
 					"  requested option: %s",
@@ -2146,11 +2147,12 @@ sprint_uint64(buf, buflen, i64)
 	u_int64_t i64;
 {
 	u_int16_t rd0, rd1, rd2, rd3;
+	u_int16_t *ptr = (u_int16_t *)(void *)&i64;
 
-	rd0 = ntohs(*(u_int16_t *)(void *)&i64);
-	rd1 = ntohs(*((u_int16_t *)(void *)(&i64 + 1)));
-	rd2 = ntohs(*((u_int16_t *)(void *)(&i64 + 2)));
-	rd3 = ntohs(*((u_int16_t *)(void *)(&i64 + 3)));
+	rd0 = ntohs(*ptr++);
+	rd1 = ntohs(*ptr++);
+	rd2 = ntohs(*ptr++);
+	rd3 = ntohs(*ptr);
 
 	snprintf(buf, buflen, "%04x %04x %04x %04x", rd0, rd1, rd2, rd3);
 
@@ -2243,7 +2245,7 @@ dhcp6_set_options(type, optbp, optep, optinfo)
 	struct dhcp6_optinfo *optinfo;
 {
 	struct dhcp6opt *p = optbp;
-	struct dhcp6_listval *stcode, *op, *d;
+	struct dhcp6_listval *stcode, *op;
 	int len = 0, optlen;
 	char *tmpbuf = NULL;
 
@@ -2287,6 +2289,7 @@ dhcp6_set_options(type, optbp, optep, optinfo)
 		}
 		memcpy(p, tmpbuf, optlen);
 		free(tmpbuf);
+		tmpbuf = NULL;
 		p = (struct dhcp6opt *)((char *)p + optlen);
 		len += optlen;
 	}
@@ -2367,6 +2370,7 @@ dhcp6_set_options(type, optbp, optep, optinfo)
 			goto fail;
 		}
 		free(tmpbuf);
+		tmpbuf = NULL;
 	}
 
 	if (dhcp6_set_domain(DH6OPT_SIP_SERVER_D, &optinfo->sipname_list,
@@ -2439,6 +2443,7 @@ dhcp6_set_options(type, optbp, optep, optinfo)
 		}
 		memcpy(p, tmpbuf, optlen);
 		free(tmpbuf);
+		tmpbuf = NULL;
 		p = (struct dhcp6opt *)((char *)p + optlen);
 		len += optlen;
 	}
@@ -2540,6 +2545,7 @@ dhcp6_set_options(type, optbp, optep, optinfo)
 			default:
 				dprintf(LOG_ERR, FNAME,
 				    "unexpected authentication protocol");
+				free(auth);
 				goto fail;
 			}
 		}
@@ -2548,6 +2554,7 @@ dhcp6_set_options(type, optbp, optep, optinfo)
 		    &auth->dh6_auth_proto, &p, optep, &len) != 0) {
 			goto fail;
 		}
+		free(auth);
 	}
 
 	return (len);

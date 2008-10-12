@@ -974,8 +974,6 @@ configure_authinfo(authlist)
 int
 configure_global_option()
 {
-	struct cf_list *cl;
-
 	/* SIP Server address */
 	if (configure_addr(cf_sip_list, &siplist0, "SIP") < 0)
 		goto bad;
@@ -1543,26 +1541,12 @@ add_options(opcode, ifc, cfl0)
 	struct dhcp6_ifconf *ifc;
 	struct cf_list *cfl0;
 {
-	struct dhcp6_listval *opt;
 	struct cf_list *cfl;
 	int opttype;
 	struct authinfo *ainfo;
 	struct ia_conf *iac;
 
 	for (cfl = cfl0; cfl; cfl = cfl->next) {
-		if (opcode ==  DHCPOPTCODE_REQUEST) {
-			for (opt = TAILQ_FIRST(&ifc->reqopt_list); opt;
-			     opt = TAILQ_NEXT(opt, link)) {
-				if (opt->val_num == cfl->type) {
-					dprintf(LOG_INFO, FNAME,
-					    "duplicated requested"
-					    " option: %s",
-					    dhcp6optstr(cfl->type));
-					goto next; /* ignore it */
-				}
-			}
-		}
-
 		switch(cfl->type) {
 		case DHCPOPT_RAPID_COMMIT:
 			switch (opcode) {
@@ -1706,6 +1690,14 @@ add_options(opcode, ifc, cfl0)
 			}
 			switch(opcode) {
 			case DHCPOPTCODE_REQUEST:
+				if (dhcp6_find_listval(&ifc->reqopt_list,
+					DHCP6_LISTVAL_NUM, &opttype, 0)
+				    != NULL) {
+					dprintf(LOG_INFO, FNAME,
+					    "duplicated requested option: %s",
+					    dhcp6optstr(opttype));
+					goto next; /* ignore it */
+				}
 				if (dhcp6_add_listval(&ifc->reqopt_list,
 				    DHCP6_LISTVAL_NUM, &opttype, NULL)
 				    == NULL) {
@@ -2029,7 +2021,7 @@ create_dynamic_hostconf(duid, pool)
 
 	if ((host = malloc(sizeof(*host))) == NULL) {
 		dprintf(LOG_ERR, FNAME, "memory allocation failed");
-		return (NULL);
+		goto bad;
 	}
 	memset(host, 0, sizeof(*host));
 	TAILQ_INIT(&host->prefix_list);
@@ -2121,6 +2113,7 @@ create_pool(name, range)
 	}
 	if ((pool->name = strdup(name)) == NULL) {
 		dprintf(LOG_ERR, FNAME, "memory allocation failed");
+		free(pool);
 		return (NULL);
 	}
 	pool->min = range->min;
