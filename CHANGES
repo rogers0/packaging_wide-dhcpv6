@@ -1,3 +1,73 @@
+	--- 20070507 tar ball released ---
+2007-05-03  SUZUKI, Shinsuke <suz@kame.net>
+	* dhcp6relay.c: changes the destination port of a relayed DHCP packet
+	  from 546 to 547, when it is supposed to be bound for a relay,
+	  instead of a client.  (the situation occurs when DHCPv6-relays are
+	  cascased in a row)
+	* dhcp6s.c: fixed a Solicitation message validation error (introduced 
+	  on Mar 21 2007)
+
+2007-03-23  SUZUKI, Shinsuke <suz@kame.net>
+	* dhcp6relay.c,dhcp6.c: in signal-receiving procedure, not uses 
+	a function that is not always designed to be signal-safe 
+	(Bug-ID 1678874)
+
+2007-03-21  SUZUKI, Shinsuke <suz@kame.net>
+	fixed several bugs found in IPv6-Ready-Logo DHCPv6 Self-Test script.
+	* dhcp6s.c, config.h, if.c: implemented DHCPv6 Confirm message processing
+	on DHCPv6 server.
+	* dhcp6s.c, lease.c: implemented DHCPv6 Decline message processing on DHCPv6 server.
+	* dhcp6s.c: fixed a Solicitation message validation as stated in RFC3315 15.2.
+	* dhcp6s.c: fixed a bug that Rebind does not work for IA-NA.
+	* config.c: supported an address pool that has only one entry.
+
+2007-03-20  SUZUKI, Shinsuke <suz@kame.net>
+	* common.c: fixed a bug that IA-PD/IA-NA cannot coexist in one DHCP message
+	  when they have the same IA-ID.
+
+2007-02-28  SUZUKI, Shinsuke <suz@kame.net>
+	* config.c: fixed a typo.
+
+2007-02-27  SUZUKI, Shinsuke <suz@kame.net>
+	* dhcp6relay.c, dhcp6relay_script.c, common.[ch], dhcp6c_script.c,
+	  Makefile.in, dhcp6relay.8:
+	  supported script execution for dhcp6relay (contributed by Bruno STEVANT)
+
+	* Makefile.in, configure.in, configure, auth.h, common.c, control.h, dhcp6.h,
+	  dhcp6s.c, missing/{arc4random.h, daemon.c, err.h, getifaddrs.c, ifaddrs.h,
+	  sys/queue.h, warnx.c}
+	  supported compilation on Solaris (contributed by James Carlson)
+
+2007-02-12  SUZUKI, Shinsuke <suz@kame.net>
+	* cftoken.l: accepts interface names, such as eth0.100(Linux VLAN interface)
+	  or foobar (named by "ifconfig name" command).  (Bug-ID 1644637)
+	* configure.in, Makefile.in: allows a user to specify the owner/group for the
+	  installed files.  (suggested by Tsuyoshi MOMOSE and Tomofumi Hayashi)
+
+2007-01-11  SUZUKI, Shinsuke <suz@kame.net>
+	* dhcp6s.conf.5: fixed an incorrect descrption regarding NTP option.
+2006-12-04  SUZUKI, Shinsuke <suz@kame.net>
+	* dhcp6c.8: clarified the behavior of the Info-req mode.
+	* addrconf.c, common.[ch], configure, configure.in, dhcp6relay.c,
+	prefixconf.c: introduced a HAVE_SA_LEN macro to support OSes 
+	(other than linux) without length field in sockaddr_*
+
+2006-11-15  SUZUKI, Shinsuke <suz@kame.net>
+	* dhcp6s.c: fixed an IA allocation failure from pool when it doubly
+	requested by the same client.  (patch submitted by Hajimu UMEMOTO)
+	* Makefile.in: creates man/man[58] in "make install" 
+	(suggested by Masahide NAKAMURA)
+
+2006-11-05  SUZUKI, Shinsuke <suz@kame.net>
+	* dhcp6s.c: dhcp6s recognizes "-P" option.
+	(patch submitted by Masahide NAKAMURA)
+
+	* dhcp6relay.c: accepts ULA (Bug-ID 1584704)
+
+	* Makefile.in: fixed a compilation error on SuSE and Debian Linux.
+	(patch submitted by Masahide NAKAMURA)
+
+	--- 20061016 tar ball released ---
 2006-10-13  SUZUKI, Shinsuke <suz@kame.net>
 	* Makefile.in: creates the target directory in "make install" 
 	(suggested by Masahide NAKAMURA)

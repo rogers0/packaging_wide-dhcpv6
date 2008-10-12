@@ -25,7 +25,7 @@
 # SUCH DAMAGE.
 
 #
-# $Id: Makefile.in,v 1.11 2006/10/13 12:19:12 suzsuz Exp $
+# $Id: Makefile.in,v 1.16 2007/02/27 14:47:11 suzsuz Exp $
 # $KAME: Makefile.in,v 1.45 2005/10/16 16:25:38 suz Exp $
 #
 
@@ -33,12 +33,14 @@ prefix=	@prefix@
 srcdir=	@srcdir@
 sysconfdir= @sysconfdir@
 localdbdir= @localdbdir@
+user= @user@
+group= @group@
 
 CFLAGS=	@CFLAGS@ @DEFS@ -DSYSCONFDIR=\"${sysconfdir}\" \
 	-DLOCALDBDIR=\"${localdbdir}\"
 LDFLAGS=@LDFLAGS@
 LIBOBJS=@LIBOBJS@
-LIBS=	@LIBS@ -ly -ll
+LIBS=	@LIBS@ @LEXLIB@
 CC=	@CC@
 TARGET=	dhcp6c dhcp6s dhcp6relay dhcp6ctl
 
@@ -57,7 +59,7 @@ CLIENTOBJS=	dhcp6c.o common.o config.o prefixconf.o dhcp6c_ia.o timer.o \
 	$(GENSRCS:%.c=%.o)
 SERVOBJS=	dhcp6s.o common.o if.o config.o timer.o lease.o \
 	base64.o auth.o dhcp6_ctl.o $(GENSRCS:%.c=%.o)
-RELAYOBJS =	dhcp6relay.o common.o timer.o
+RELAYOBJS =	dhcp6relay.o dhcp6relay_script.o common.o timer.o
 CTLOBJS= dhcp6_ctlclient.o base64.o auth.o
 CLEANFILES+=	y.tab.h
 
@@ -88,20 +90,26 @@ strlcat.o:	$(srcdir)/missing/strlcat.c
 strlcpy.o:	$(srcdir)/missing/strlcpy.c
 	$(CC) -c $(srcdir)/missing/$*.c
 arc4random.o:	$(srcdir)/missing/arc4random.c
+	$(CC) $(CFLAGS) -c $(srcdir)/missing/$*.c
+getifaddrs.o:	$(srcdir)/missing/getifaddrs.c
+	$(CC) -c $(srcdir)/missing/$*.c
+daemon.o:	$(srcdir)/missing/daemon.c
+	$(CC) -c $(srcdir)/missing/$*.c
+warnx.o:	$(srcdir)/missing/warnx.c
 	$(CC) -c $(srcdir)/missing/$*.c
 
 $(srcdir)/ianaopts.h: gentab.pl bootp-dhcp-parameters
 	expand bootp-dhcp-parameters | perl gentab.pl > ianaopts.h
 
 install::
-	-mkdir -p $(sbindir) $(mandir)
-	$(INSTALL_PROGRAM) -s -o bin -g bin $(TARGET) $(sbindir)
-	$(INSTALL_DATA) -o bin -g bin dhcp6c.8 $(mandir)/man8
-	$(INSTALL_DATA) -o bin -g bin dhcp6s.8 $(mandir)/man8
-	$(INSTALL_DATA) -o bin -g bin dhcp6relay.8 $(mandir)/man8
-	$(INSTALL_DATA) -o bin -g bin dhcp6ctl.8 $(mandir)/man8
-	$(INSTALL_DATA) -o bin -g bin dhcp6c.conf.5 $(mandir)/man5
-	$(INSTALL_DATA) -o bin -g bin dhcp6s.conf.5 $(mandir)/man5
+	-mkdir -p $(sbindir) $(mandir)/man5 $(mandir)/man8
+	$(INSTALL_PROGRAM) -s -o $(user) -g $(group) $(TARGET) $(sbindir)
+	$(INSTALL_DATA) -o $(user) -g $(group) dhcp6c.8 $(mandir)/man8
+	$(INSTALL_DATA) -o $(user) -g $(group) dhcp6s.8 $(mandir)/man8
+	$(INSTALL_DATA) -o $(user) -g $(group) dhcp6relay.8 $(mandir)/man8
+	$(INSTALL_DATA) -o $(user) -g $(group) dhcp6ctl.8 $(mandir)/man8
+	$(INSTALL_DATA) -o $(user) -g $(group) dhcp6c.conf.5 $(mandir)/man5
+	$(INSTALL_DATA) -o $(user) -g $(group) dhcp6s.conf.5 $(mandir)/man5
 
 includes::
 
@@ -120,4 +128,7 @@ package:
 		$(srcdir)/configure $(srcdir)/configure.in \
 		$(srcdir)/install-sh  $(srcdir)/*.sample \
 		$(srcdir)/missing/arc4random.?  $(srcdir)/missing/strlcat.c \
-		$(srcdir)/missing/strlcpy.c
+		$(srcdir)/missing/strlcpy.c $(srcdir)/missing/daemon.c \
+		$(srcdir)/missing/err.h $(srcdir)/missing/warnx.c \
+		$(srcdir)/missing/ifaddrs.h $(srcdir)/missing/getifaddrs.c \
+		$(srcdir)/missing/sys/queue.h

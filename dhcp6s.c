@@ -178,6 +178,12 @@ static int react_rebind __P((struct dhcp6_if *, struct dhcp6 *, ssize_t,
 static int react_release __P((struct dhcp6_if *, struct in6_pktinfo *,
     struct dhcp6 *, ssize_t, struct dhcp6_optinfo *, struct sockaddr *, int,
     struct relayinfolist *));
+static int react_decline __P((struct dhcp6_if *, struct in6_pktinfo *,
+    struct dhcp6 *, ssize_t, struct dhcp6_optinfo *, struct sockaddr *, int,
+    struct relayinfolist *));
+static int react_confirm __P((struct dhcp6_if *, struct in6_pktinfo *,
+    struct dhcp6 *, ssize_t,
+    struct dhcp6_optinfo *, struct sockaddr *, int, struct relayinfolist *));
 static int react_informreq __P((struct dhcp6_if *, struct dhcp6 *, ssize_t,
     struct dhcp6_optinfo *, struct sockaddr *, int, struct relayinfolist *));
 static int server6_send __P((int, struct dhcp6_if *, struct dhcp6 *,
@@ -188,6 +194,8 @@ static int make_ia_stcode __P((int, u_int32_t, u_int16_t,
 static int update_ia __P((int, struct dhcp6_listval *,
     struct dhcp6_list *, struct dhcp6_optinfo *));
 static int release_binding_ia __P((struct dhcp6_listval *, struct dhcp6_list *,
+    struct dhcp6_optinfo *));
+static int decline_binding_ia __P((struct dhcp6_listval *, struct dhcp6_list *,
     struct dhcp6_optinfo *));
 static int make_ia __P((struct dhcp6_listval *, struct dhcp6_list *,
     struct dhcp6_list *, struct host_conf *, int));
@@ -279,6 +287,7 @@ main(argc, argv)
 			break;
 		case 'P':
 			pid_file = optarg;
+			break;
 		default:
 			usage();
 			/* NOTREACHED */
@@ -440,12 +449,14 @@ server6_init()
 		exit(1);
 	}
 #endif
+#ifdef IPV6_V6ONLY
 	if (setsockopt(insock, IPPROTO_IPV6, IPV6_V6ONLY,
 	    &on, sizeof(on)) < 0) {
 		dprintf(LOG_ERR, FNAME,
 		    "setsockopt(inbound, IPV6_V6ONLY): %s", strerror(errno));
 		exit(1);
 	}
+#endif
 	if (bind(insock, res->ai_addr, res->ai_addrlen) < 0) {
 		dprintf(LOG_ERR, FNAME, "bind(insock): %s", strerror(errno));
 		exit(1);
@@ -516,7 +527,7 @@ server6_init()
 		    strerror(errno));
 		exit(1);
 	}
-#ifndef __linux__
+#if !defined(__linux__) && !defined(__sun__)
 	/* make the socket write-only */
 	if (shutdown(outsock, 0)) {
 		dprintf(LOG_ERR, FNAME, "shutdown(outbound, 0): %s",
@@ -977,6 +988,14 @@ server6_recv(s)
 		(void)react_release(ifp, pi, dh6, len, &optinfo,
 		    (struct sockaddr *)&from, fromlen, &relayinfohead);
 		break;
+	case DH6_DECLINE:
+		(void)react_decline(ifp, pi, dh6, len, &optinfo,
+		    (struct sockaddr *)&from, fromlen, &relayinfohead);
+		break;
+	case DH6_CONFIRM:
+		(void)react_confirm(ifp, pi, dh6, len, &optinfo,
+		    (struct sockaddr *)&from, fromlen, &relayinfohead);
+		break;
 	case DH6_INFORM_REQ:
 		(void)react_informreq(ifp, dh6, len, &optinfo,
 		    (struct sockaddr *)&from, fromlen, &relayinfohead);
@@ -1221,6 +1240,16 @@ react_solicit(ifp, dh6, len, optinfo, from, fromlen, relayinfohead)
 		    duidstr(&optinfo->clientID));
 	}
 
+	/*
+	 * Servers MUST discard any Solicit messages that do include a
+	 * Server Identifier option.
+	 * [RFC3315 Section 15.2]
+	 */
+	if (optinfo->serverID.duid_len) {
+		dprintf(LOG_INFO, FNAME, "server ID option found");
+		return (-1);
+	}
+
 	/* get per-host configuration for the client, if any. */
 	if ((client_conf = find_hostconf(&optinfo->clientID))) {
 		dprintf(LOG_DEBUG, FNAME, "found a host configuration for %s",
@@ -1419,7 +1448,7 @@ react_request(ifp, pi, dh6, len, optinfo, from, fromlen, relayinfohead)
 	}
 	/* the message must include a Client Identifier option */
 	if (optinfo->clientID.duid_len == 0) {
-		dprintf(LOG_INFO, FNAME, "no server ID option");
+		dprintf(LOG_INFO, FNAME, "no client ID option");
 		return (-1);
 	}
 
@@ -1652,7 +1681,7 @@ react_renew(ifp, pi, dh6, len, optinfo, from, fromlen, relayinfohead)
 	}
 	/* the message must include a Client Identifier option */
 	if (optinfo->clientID.duid_len == 0) {
-		dprintf(LOG_INFO, FNAME, "no server ID option");
+		dprintf(LOG_INFO, FNAME, "no client ID option");
 		return (-1);
 	}
 
@@ -1764,7 +1793,7 @@ react_rebind(ifp, dh6, len, optinfo, from, fromlen, relayinfohead)
 
 	/* the message must include a Client Identifier option */
 	if (optinfo->clientID.duid_len == 0) {
-		dprintf(LOG_INFO, FNAME, "no server ID option");
+		dprintf(LOG_INFO, FNAME, "no client ID option");
 		return (-1);
 	}
 
@@ -1821,15 +1850,16 @@ react_rebind(ifp, dh6, len, optinfo, from, fromlen, relayinfohead)
 	}
 
 	/*
-	 * If the returned iapd_list is empty, we do not have an explicit
-	 * knowledge about validity nor invalidity for any IA_PD information
+	 * If the returned iana/pd_list is empty, we do not have an explicit
+	 * knowledge about validity nor invalidity for any IA_NA/PD information
 	 * in the Rebind message.  In this case, we should rather ignore the
 	 * message than to send a Reply with empty information back to the
 	 * client, which may annoy the recipient.  However, if we have at least
 	 * one useful information, either positive or negative, based on some
 	 * explicit knowledge, we should reply with the responsible part.
 	 */
-	if (TAILQ_EMPTY(&roptinfo.iapd_list)) {
+	if (TAILQ_EMPTY(&roptinfo.iapd_list) &&
+	    TAILQ_EMPTY(&roptinfo.iana_list)) {
 		dprintf(LOG_INFO, FNAME, "no useful information for a rebind");
 		goto fail;	/* discard the rebind */
 	}
@@ -1882,7 +1912,7 @@ react_release(ifp, pi, dh6, len, optinfo, from, fromlen, relayinfohead)
 	}
 	/* the message must include a Client Identifier option */
 	if (optinfo->clientID.duid_len == 0) {
-		dprintf(LOG_INFO, FNAME, "no server ID option");
+		dprintf(LOG_INFO, FNAME, "no client ID option");
 		return (-1);
 	}
 
@@ -1978,6 +2008,296 @@ react_release(ifp, pi, dh6, len, optinfo, from, fromlen, relayinfohead)
 
   fail:
 	dhcp6_clear_options(&roptinfo);
+	return (-1);
+}
+
+static int
+react_decline(ifp, pi, dh6, len, optinfo, from, fromlen, relayinfohead)
+	struct dhcp6_if *ifp;
+	struct in6_pktinfo *pi;
+	struct dhcp6 *dh6;
+	ssize_t len;
+	struct dhcp6_optinfo *optinfo;
+	struct sockaddr *from;
+	int fromlen;
+	struct relayinfolist *relayinfohead;
+{
+	struct dhcp6_optinfo roptinfo;
+	struct dhcp6_listval *ia;
+	struct host_conf *client_conf;
+	u_int16_t stcode;
+
+	/* message validation according to Section 15.8 of RFC3315 */
+
+	/* the message must include a Server Identifier option */
+	if (optinfo->serverID.duid_len == 0) {
+		dprintf(LOG_INFO, FNAME, "no server ID option");
+		return (-1);
+	}
+	/* the contents of the Server Identifier option must match ours */
+	if (duidcmp(&optinfo->serverID, &server_duid)) {
+		dprintf(LOG_INFO, FNAME, "server ID mismatch");
+		return (-1);
+	}
+	/* the message must include a Client Identifier option */
+	if (optinfo->clientID.duid_len == 0) {
+		dprintf(LOG_INFO, FNAME, "no client ID option");
+		return (-1);
+	}
+
+	/*
+	 * configure necessary options based on the options in request.
+	 */
+	dhcp6_init_options(&roptinfo);
+
+	/* server identifier option */
+	if (duidcpy(&roptinfo.serverID, &server_duid)) {
+		dprintf(LOG_ERR, FNAME, "failed to copy server ID");
+		goto fail;
+	}
+	/* copy client information back */
+	if (duidcpy(&roptinfo.clientID, &optinfo->clientID)) {
+		dprintf(LOG_ERR, FNAME, "failed to copy client ID");
+		goto fail;
+	}
+
+	/* get per-host configuration for the client, if any. */
+	if ((client_conf = find_hostconf(&optinfo->clientID))) {
+		dprintf(LOG_DEBUG, FNAME,
+		    "found a host configuration named %s", client_conf->name);
+	}
+
+	/* process authentication */
+	if (process_auth(dh6, len, client_conf, optinfo, &roptinfo)) {
+		dprintf(LOG_INFO, FNAME, "failed to process authentication "
+		    "information for %s",
+		    clientstr(client_conf, &optinfo->clientID));
+		goto fail;
+	}
+
+	/*
+	 * When the server receives a Decline message via unicast from a
+	 * client to which the server has not sent a unicast option, the server
+	 * discards the Decline message and responds with a Reply message
+	 * containing a Status Code option with value UseMulticast, a Server
+	 * Identifier option containing the server's DUID, the Client
+	 * Identifier option from the client message and no other options.
+	 * [RFC3315 18.2.6]
+	 * (Our current implementation never sends a unicast option.)
+	 */
+	if (!IN6_IS_ADDR_MULTICAST(&pi->ipi6_addr) &&
+	    TAILQ_EMPTY(relayinfohead)) {
+		stcode = DH6OPT_STCODE_USEMULTICAST;
+
+		dprintf(LOG_INFO, FNAME, "unexpected unicast message from %s",
+		    addr2str(from));
+		if (dhcp6_add_listval(&roptinfo.stcode_list,
+		    DHCP6_LISTVAL_STCODE, &stcode, NULL) == NULL) {
+			dprintf(LOG_ERR, FNAME, "failed to add a status code");
+			goto fail;
+		}
+		server6_send(DH6_REPLY, ifp, dh6, optinfo, from,
+		    fromlen, &roptinfo, relayinfohead, client_conf);
+		goto end;
+	}
+
+	/*
+	 * Locates the client's binding on IA-NA and verifies that the
+	 * information from the client matches the information stored
+	 * for that client.  (IA-PD is just ignored [RFC3633 12.1])
+	 */
+	for (ia = TAILQ_FIRST(&optinfo->iana_list); ia;
+	    ia = TAILQ_NEXT(ia, link)) {
+		if (decline_binding_ia(ia, &roptinfo.iana_list, optinfo))
+			goto fail;
+	}
+
+	/*
+	 * After all the addresses have been processed, the server generates a
+	 * Reply message and includes a Status Code option with value Success.
+	 * [RFC3315 Section 18.2.7]
+	 */
+	stcode = DH6OPT_STCODE_SUCCESS;
+	if (dhcp6_add_listval(&roptinfo.stcode_list,
+	    DHCP6_LISTVAL_STCODE, &stcode, NULL) == NULL) {
+		dprintf(LOG_NOTICE, FNAME, "failed to add a status code");
+		goto fail;
+	}
+
+	(void)server6_send(DH6_REPLY, ifp, dh6, optinfo, from, fromlen,
+	    &roptinfo, relayinfohead, client_conf);
+
+  end:
+	dhcp6_clear_options(&roptinfo);
+	return (0);
+
+  fail:
+	dhcp6_clear_options(&roptinfo);
+	return (-1);
+}
+
+static int
+react_confirm(ifp, pi, dh6, len, optinfo, from, fromlen, relayinfohead)
+	struct dhcp6_if *ifp;
+	struct in6_pktinfo *pi;
+	struct dhcp6 *dh6;
+	ssize_t len;
+	struct dhcp6_optinfo *optinfo;
+	struct sockaddr *from;
+	int fromlen;
+	struct relayinfolist *relayinfohead;
+{
+	struct dhcp6_optinfo roptinfo;
+	struct dhcp6_list conflist;
+	struct dhcp6_listval *iana, *iaaddr;
+	struct host_conf *client_conf;
+	u_int16_t stcode = DH6OPT_STCODE_SUCCESS;
+	int error;
+
+	/* message validation according to Section 15.5 of RFC3315 */
+
+	/* the message may not include a Server Identifier option */
+	if (optinfo->serverID.duid_len) {
+		dprintf(LOG_INFO, FNAME, "server ID option found");
+		return (-1);
+	}
+	/* the message must include a Client Identifier option */
+	if (optinfo->clientID.duid_len == 0) {
+		dprintf(LOG_INFO, FNAME, "no client ID option");
+		return (-1);
+	}
+
+	dhcp6_init_options(&roptinfo);
+
+	/* server identifier option */
+	if (duidcpy(&roptinfo.serverID, &server_duid)) {
+		dprintf(LOG_ERR, FNAME, "failed to copy server ID");
+		goto fail;
+	}
+	/* copy client information back */
+	if (duidcpy(&roptinfo.clientID, &optinfo->clientID)) {
+		dprintf(LOG_ERR, FNAME, "failed to copy client ID");
+		goto fail;
+	}
+
+	/* get per-host configuration for the client, if any. */
+	if ((client_conf = find_hostconf(&optinfo->clientID))) {
+		dprintf(LOG_DEBUG, FNAME,
+		    "found a host configuration named %s", client_conf->name);
+	}
+
+	/* process authentication */
+	if (process_auth(dh6, len, client_conf, optinfo, &roptinfo)) {
+		dprintf(LOG_INFO, FNAME, "failed to process authentication "
+		    "information for %s",
+		    clientstr(client_conf, &optinfo->clientID));
+		goto fail;
+	}
+
+	if (client_conf == NULL && ifp->pool.name) {
+		if ((client_conf = create_dynamic_hostconf(&optinfo->clientID,
+			&ifp->pool)) == NULL) {
+			dprintf(LOG_NOTICE, FNAME,
+		    	"failed to make host configuration");
+			goto fail;
+		}
+	}
+	TAILQ_INIT(&conflist);
+	/* make a local copy of the configured addresses */
+	if (dhcp6_copy_list(&conflist, &client_conf->addr_list)) {
+		dprintf(LOG_NOTICE, FNAME,
+		    "failed to make local data");
+		goto fail;
+	}
+
+	/*
+	 * the message must include an IPv6 address to be confirmed
+	 * [RFC3315 18.2]. (IA-PD is just ignored [RFC3633 12.1])
+	 */
+	if (TAILQ_EMPTY(&optinfo->iana_list)) {
+		dprintf(LOG_INFO, FNAME, "no IA-NA option found");
+		goto fail;
+	}
+	for (iana = TAILQ_FIRST(&optinfo->iana_list); iana;
+	    iana = TAILQ_NEXT(iana, link)) {
+		if (TAILQ_EMPTY(&iana->sublist)) {
+			dprintf(LOG_INFO, FNAME,
+			    "no IA-ADDR option found in IA-NA %d",
+			    iana->val_ia.iaid);
+			goto fail;
+		}
+
+		/*
+		 * check whether the confirmed prefix matches 
+		 * the prefix from where the message originates.
+		 * XXX: prefix length is assumed to be 64
+		 */
+		for (iaaddr = TAILQ_FIRST(&iana->sublist); iaaddr;
+		    iaaddr = TAILQ_NEXT(iaaddr, link)) {
+		
+			struct in6_addr *confaddr = &iaaddr->val_statefuladdr6.addr;
+			struct in6_addr *linkaddr;
+			struct sockaddr_in6 *src = (struct sockaddr_in6 *)from;
+
+			if (!IN6_IS_ADDR_LINKLOCAL(&src->sin6_addr)) {
+				/* CONFIRM is relayed via a DHCP-relay */
+				struct relayinfo *relayinfo;
+
+				if (relayinfohead == NULL) {
+					dprintf(LOG_INFO, FNAME,
+					    "no link-addr found");
+					goto fail;
+				}
+				relayinfo = TAILQ_LAST(relayinfohead, relayinfolist);
+
+				/* XXX: link-addr is supposed to be a global address */
+				linkaddr = &relayinfo->linkaddr;
+			} else {
+				/* CONFIRM is directly arrived */
+				linkaddr = &ifp->addr;
+			}
+
+			if (memcmp(linkaddr, confaddr, 8) != 0) {
+				dprintf(LOG_INFO, FNAME,
+				    "%s does not seem to belong to %s's link",
+				    in6addr2str(confaddr, 0),
+				    in6addr2str(linkaddr, 0));
+				stcode = DH6OPT_STCODE_NOTONLINK;
+				goto send_reply;
+			}
+		}
+	}
+
+	/* 
+	 * even when the given address seems to be on the appropriate link,
+	 * the confirm should be ignore if there's no corrensponding IA-NA
+	 * configuration.
+	 */
+	for (iana = TAILQ_FIRST(&optinfo->iana_list); iana;
+	    iana = TAILQ_NEXT(iana, link)) {
+		if (make_ia(iana, &conflist, &roptinfo.iana_list,
+		    client_conf, 1) == 0) {
+			dprintf(LOG_DEBUG, FNAME,
+			    "IA-NA configuration not found");
+			goto fail;
+		}
+	}
+
+send_reply:
+	if (dhcp6_add_listval(&roptinfo.stcode_list,
+	    DHCP6_LISTVAL_STCODE, &stcode, NULL) == NULL)
+		goto fail;
+	error = server6_send(DH6_REPLY, ifp, dh6, optinfo, from, fromlen,
+			     &roptinfo, relayinfohead, client_conf);
+
+	dhcp6_clear_options(&roptinfo);
+	dhcp6_clear_list(&conflist);
+
+	return (error);
+
+  fail:
+	dhcp6_clear_options(&roptinfo);
+	dhcp6_clear_list(&conflist);
 	return (-1);
 }
 
@@ -2290,6 +2610,73 @@ release_binding_ia(iap, retlist, optinfo)
 	return (0);
 }
 
+static int
+decline_binding_ia(iap, retlist, optinfo)
+	struct dhcp6_listval *iap;
+	struct dhcp6_list *retlist;
+	struct dhcp6_optinfo *optinfo;
+{
+	struct dhcp6_binding *binding;
+	struct dhcp6_listval *lv, *lvia;
+
+	if ((binding = find_binding(&optinfo->clientID, DHCP6_BINDING_IA,
+	    iap->type, iap->val_ia.iaid)) == NULL) {
+		/*
+		 * For each IA in the Decline message for which the server has
+		 * no binding information, the server adds an IA option using
+		 * the IAID from the Release message and includes a Status Code
+		 * option with the value NoBinding in the IA option.
+		 */
+		if (make_ia_stcode(iap->type, iap->val_ia.iaid,
+		    DH6OPT_STCODE_NOBINDING, retlist)) {
+			dprintf(LOG_NOTICE, FNAME,
+			    "failed to make an option list");
+			return (-1);
+		}
+
+		return (0);
+	}
+
+	/*
+	 * If the IAs in the message are in a binding for the client and the 
+	 * addresses in the IAs have been assigned by the server to those IAs,
+	 * the server deletes the addresses from the IAs and makes the addresses
+	 * available for assignment to other clients. [RFC3315 Section 18.2.7]
+	 */
+	for (lv = TAILQ_FIRST(&iap->sublist); lv;
+	    lv = TAILQ_NEXT(lv, link)) {
+		if (binding->iatype != DHCP6_LISTVAL_IANA) {
+			/* should never reach here */
+			continue;
+		}
+
+		if ((lvia = find_binding_ia(lv, binding)) == NULL) {
+			dprintf(LOG_DEBUG, FNAME, "no binding found "
+			    "for address %s",
+			    in6addr2str(&lvia->val_prefix6.addr, 0));
+			continue;
+		}
+
+		dprintf(LOG_DEBUG, FNAME,
+		    "bound address %s has been marked as declined",
+		    in6addr2str(&lvia->val_prefix6.addr, 0));
+		decline_address(&lvia->val_prefix6.addr);
+
+		TAILQ_REMOVE(&binding->val_list, lvia, link);
+		dhcp6_clear_listval(lvia);
+		if (TAILQ_EMPTY(&binding->val_list)) {
+			/*
+			 * if the binding has become empty,
+			 * stop procedure.
+			 */
+			remove_binding(binding);
+			return (0);
+		}
+	}
+
+	return (0);
+}
+
 static void
 server6_signal(sig)
 	int sig;
@@ -2500,13 +2887,12 @@ make_ia(spec, conflist, retlist, client_conf, do_binding)
 		    bia = TAILQ_NEXT(bia, link)) {
 			if ((v = dhcp6_find_listval(conflist,
 			    bia->type, &bia->uv, 0)) != NULL) {
-				found++;
 				TAILQ_REMOVE(conflist, v, link);
 				dhcp6_clear_listval(v);
 			}
 		}
 
-		return (found);
+		return (1);
 	}
 
 	/*
