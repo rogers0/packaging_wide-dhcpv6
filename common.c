@@ -2166,7 +2166,7 @@ dhcp6_set_options(type, optbp, optep, optinfo)
 	     stcode = TAILQ_NEXT(stcode, link)) {
 		u_int16_t code;
 
-		code = htons(stcode->val_num);
+		code = htons(stcode->val_num16);
 		if (copy_option(DH6OPT_STATUS_CODE, sizeof(code), &code, &p,
 		    optep, &len) != 0) {
 			goto fail;
@@ -2222,7 +2222,7 @@ dhcp6_set_options(type, optbp, optep, optinfo)
 	    &p, optep, &len) != 0)
 		goto fail;
 
-	if (dhcp6_set_addr(DH6OPT_DNS, &optinfo->sip_list,
+	if (dhcp6_set_addr(DH6OPT_DNS, &optinfo->dns_list,
 	    &p, optep, &len) != 0)
 		goto fail;
 

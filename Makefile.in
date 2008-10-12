@@ -25,7 +25,7 @@
 # SUCH DAMAGE.
 
 #
-# $Id: Makefile.in,v 1.10 2006/09/02 08:15:14 suzsuz Exp $
+# $Id: Makefile.in,v 1.11 2006/10/13 12:19:12 suzsuz Exp $
 # $KAME: Makefile.in,v 1.45 2005/10/16 16:25:38 suz Exp $
 #
 
@@ -94,6 +94,7 @@ $(srcdir)/ianaopts.h: gentab.pl bootp-dhcp-parameters
 	expand bootp-dhcp-parameters | perl gentab.pl > ianaopts.h
 
 install::
+	-mkdir -p $(sbindir) $(mandir)
 	$(INSTALL_PROGRAM) -s -o bin -g bin $(TARGET) $(sbindir)
 	$(INSTALL_DATA) -o bin -g bin dhcp6c.8 $(mandir)/man8
 	$(INSTALL_DATA) -o bin -g bin dhcp6s.8 $(mandir)/man8

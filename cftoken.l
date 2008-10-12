@@ -96,7 +96,7 @@ comma		,
 comment		\#.*
 semi		\;
 quotedstring	\"[^\"]*\"
-string		[a-zA-Z0-9:\._][a-zA-Z0-9:\._]*
+string		[a-zA-Z0-9:\._\-][a-zA-Z0-9:\._\-]*
 digit		[0-9]
 integer 	{digit}+
 number		{integer}|({digit}*\.{integer})
@@ -199,12 +199,16 @@ ecl		\}
 <S_CNF>sip-server-domain-name { DECHO; return (SIP_NAME); }
 <S_CNF>ntp-servers { DECHO; return (NTP_SERVERS); }
 <S_CNF>nis-server-address { DECHO; return (NIS_SERVERS); }
-<S_CNF>nis-server-domain-name { DECHO; return (NIS_NAME); }
+<S_CNF>nis-domain-name { DECHO; return (NIS_NAME); }
 <S_CNF>nisp-server-address { DECHO; return (NISP_SERVERS); }
-<S_CNF>nisp-server-domain-name { DECHO; return (NISP_NAME); }
+<S_CNF>nisp-domain-name { DECHO; return (NISP_NAME); }
 <S_CNF>bcmcs-server-address { DECHO; return (BCMCS_SERVERS); }
 <S_CNF>bcmcs-server-domain-name { DECHO; return (BCMCS_NAME); }
 <S_CNF>refreshtime { DECHO; return (REFRESHTIME); }
+
+	/* provided for a backward compatibility to WIDE-DHCPv6 before Oct 1 2006 */
+<S_CNF>nis-server-domain-name { DECHO; return (NIS_NAME); }
+<S_CNF>nisp-server-domain-name { DECHO; return (NISP_NAME); }	
 
 	/* generic options */
 <S_CNF>information-only { DECHO; return (INFO_ONLY); }
