@@ -124,7 +124,7 @@ struct relayinfo {
 TAILQ_HEAD(relayinfolist, relayinfo);
 
 static int debug = 0;
-static u_long sig_flags = 0;
+static sig_atomic_t sig_flags = 0;
 #define SIGF_TERM 0x1
 
 const dhcp6_mode_t dhcp6_mode = DHCP6_MODE_SERVER;
@@ -955,6 +955,7 @@ server6_recv(s)
 			goto end;
 		}
 		/* dh6 and optend should have been updated. */
+		len = (ssize_t)((char *)optend - (char *)dh6);
 	}
 
 	/*
@@ -2502,7 +2503,7 @@ update_ia(msgtype, iap, retlist, optinfo)
 					saddr.pltime =
 					    blv->val_statefuladdr6.pltime;
 					saddr.vltime =
-					    blv->val_statefuladdr6.pltime;
+					    blv->val_statefuladdr6.vltime;
 				}
 
 				if (dhcp6_add_listval(&ialist,
@@ -2653,14 +2654,14 @@ decline_binding_ia(iap, retlist, optinfo)
 		if ((lvia = find_binding_ia(lv, binding)) == NULL) {
 			dprintf(LOG_DEBUG, FNAME, "no binding found "
 			    "for address %s",
-			    in6addr2str(&lvia->val_prefix6.addr, 0));
+			    in6addr2str(&lv->val_statefuladdr6.addr, 0));
 			continue;
 		}
 
 		dprintf(LOG_DEBUG, FNAME,
 		    "bound address %s has been marked as declined",
-		    in6addr2str(&lvia->val_prefix6.addr, 0));
-		decline_address(&lvia->val_prefix6.addr);
+		    in6addr2str(&lvia->val_statefuladdr6.addr, 0));
+		decline_address(&lvia->val_statefuladdr6.addr);
 
 		TAILQ_REMOVE(&binding->val_list, lvia, link);
 		dhcp6_clear_listval(lvia);

@@ -1,3 +1,38 @@
+	--- 20080615 tar ball released ---
+2008-05-01  SUZUKI, Shinsuke <suz@kame.net>
+	* common.c: fixed a memory leak (Bug-ID: 1847587)
+	* dhcp6s.c: fixed a potential NULL pointer access (Bug-ID: 1848304).
+		    used a val_statefuladdr, instead of val_prefix, to access 
+		    an address in IA in DHCP DECLINE handling.
+	* config.c: fixed a possible memory leak. (Bug-ID 1847588)
+	* dhcp6s.c: fixed a lifetime calculation failure in RENEW/REBIND 
+		    process for stateful-address. (Bug-ID: 1850457)
+	* common.c: fixed a improper handling of a domain-name ending with '.'.
+		    (Bug-ID: 1852869)
+
+2007-12-06  SUZUKI, Shinsuke <suz@kame.net>
+	* common.c: fixed a possible memory leak. (Bug-ID 1844676)
+	* common.c: fixed a possible double free. (Bug-ID 1844683)
+	* dhcp6s.c: fixed a bugthat dhcp6s cannot accept a relayed
+	  request message with authentication option. (Bug-ID 1814287)
+
+2007-07-25  SUZUKI, Shinsuke <suz@kame.net>
+	* config.c, lease.h, common.c: removed compilation warnings
+
+2007-07-24  SUZUKI, Shinsuke <suz@kame.net>
+	* dhcp6s.c, dhcp6c.c, dhcp6relay.c, configure*: use sig_atomic_t for
+	  a signal-handler variable (Bug-ID 1678874)
+	* common.c: fixed a buffer overrun in sprint_uint64()
+	  (Bug-ID 1714648)
+
+2007-07-10  SUZUKI, Shinsuke <suz@kame.net>
+	* common.c: fixed a singular-point detection failure in replay check.
+	  (Bug-ID 1714644)
+
+2007-06-28  SUZUKI, Shinsuke <suz@kame.net>
+	* dhcp6s.8: fixed a typo in a manual (program name "dhcp6sctl" should
+	  be "dhcp6ctl")
+
 	--- 20070507 tar ball released ---
 2007-05-03  SUZUKI, Shinsuke <suz@kame.net>
 	* dhcp6relay.c: changes the destination port of a relayed DHCP packet
