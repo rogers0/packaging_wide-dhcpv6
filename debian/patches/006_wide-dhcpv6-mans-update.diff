@@ -1,3 +1,5 @@
+This patch fixes wide-dhcpv6 manpages (paths, typos, ...).
+
 Index: wide-dhcpv6/dhcp6c.8
 ===================================================================
 --- wide-dhcpv6.orig/dhcp6c.8

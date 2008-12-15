@@ -1,3 +1,5 @@
+This patch allows people to define an interface default statement.
+
 diff --git a/config.c b/config.c
 index 383c12a..7615bbe 100644
 --- a/config.c
