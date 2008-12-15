@@ -5,9 +5,10 @@ wide-dhcpv6 (20080615-2) unstable; urgency=low
     (Closes: #506300).
   * Removed dependency on sharutils in wide-dhcpv6-server: it does not
     generate an authentication key at install time anymore.
+  * Ensure maintainer's scripts execution is aborted when any command fails.
   * debian/patches: added patch descriptions so lintian stops complaining.
 
- -- Jeremie Corbier <jeremie.corbier@resel.enst-bretagne.fr>  Mon, 15 Dec 2008 14:56:13 +0100
+ -- Jeremie Corbier <jeremie.corbier@resel.enst-bretagne.fr>  Mon, 15 Dec 2008 15:27:50 +0100
 
 wide-dhcpv6 (20080615-1) unstable; urgency=low
 
