@@ -25,7 +25,7 @@ msgstr "WIDE DHCPv6 Client-Konfiguration"
 #: ../wide-dhcpv6-client.templates:1001
 msgid "The DHCPv6 client requires manual configuration after installation."
 msgstr ""
-"Der DHCPv6-Client benÃ¶tigt nach der Installation eine manuelle Konfiguration."
+"Der DHCPv6-Client benötigt nach der Installation eine manuelle Konfiguration."
 
 #. Type: note
 #. Description
@@ -36,9 +36,9 @@ msgid ""
 "available at /usr/share/doc/wide-dhcpv6-client/examples."
 msgstr ""
 "Nachdem der DHCPv6-Client installiert wurde muss er manuell durch Bearbeiten "
-"der Datei /etc/wide-dhcpv6/dhcp6c.conf konfiguriert werden. Ein Beispiel fÃ¼r "
+"der Datei /etc/wide-dhcpv6/dhcp6c.conf konfiguriert werden. Ein Beispiel für "
 "die dhcp6c.conf ist unter /usr/share/doc/wide-dhcpv6-client/examples "
-"verfÃ¼gbar."
+"verfügbar."
 
 #. Type: note
 #. Description
@@ -65,7 +65,7 @@ msgid ""
 msgstr ""
 "Netzschnittstellen, auf denen der DHCPv6-Client Anfragen sendet sollten hier "
 "angegeben werden. Mehrere Schnittstellen werden durch Leerzeichen getrennt. "
-"Eine leere Zeile deaktiviert dhcp6c temporÃ¤r."
+"Eine leere Zeile deaktiviert dhcp6c temporär."
 
 #. Type: string
 #. Description
@@ -83,7 +83,7 @@ msgid ""
 msgstr ""
 "Netzschnittstellen, auf denen der DHCPv6-Relay Anfragen bearbeitet sollten "
 "hier angegeben werden. Mehrere Schnittstellen werden durch Leerzeichen "
-"getrennt. Eine leere Zeile deaktiviert dhcp6relay temporÃ¤r."
+"getrennt. Eine leere Zeile deaktiviert dhcp6relay temporär."
 
 #. Type: note
 #. Description
@@ -96,7 +96,7 @@ msgstr "WIDE DHCPv6 Server-Konfiguration"
 #: ../wide-dhcpv6-server.templates:1001
 msgid "The DHCPv6 server requires manual configuration after installation."
 msgstr ""
-"Der DHCPv6-Server benÃ¶tigt nach der Installation eine manuelle Konfiguration."
+"Der DHCPv6-Server benötigt nach der Installation eine manuelle Konfiguration."
 
 #. Type: note
 #. Description
@@ -107,9 +107,9 @@ msgid ""
 "available at /usr/share/doc/wide-dhcpv6-server/examples."
 msgstr ""
 "Nachdem der DHCPv6-Server installiert wurde muss er manuell durch Bearbeiten "
-"der Datei /etc/wide-dhcpv6/dhcp6s.conf konfiguriert werden. Ein Beispiel fÃ¼r "
+"der Datei /etc/wide-dhcpv6/dhcp6s.conf konfiguriert werden. Ein Beispiel für "
 "die dhcp6s.conf ist unter /usr/share/doc/wide-dhcpv6-server/examples "
-"verfÃ¼gbar."
+"verfügbar."
 
 #. Type: note
 #. Description
@@ -136,4 +136,4 @@ msgid ""
 msgstr ""
 "Netzschnittstellen, auf denen der DHCPv6-Server auf Anfragen wartet sollten "
 "hier angegeben werden. Mehrere Schnittstellen werden durch Leerzeichen "
-"getrennt. Eine leere Zeile deaktiviert dhcp6s temporÃ¤r."
+"getrennt. Eine leere Zeile deaktiviert dhcp6s temporär."

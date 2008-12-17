@@ -1,15 +1,15 @@
 # translation of wide-dhcpv6 debconf to Portuguese
-# Copyright (C) 2007 AmÃ©rico Monteiro
+# Copyright (C) 2007 Américo Monteiro
 # This file is distributed under the same license as the wide-dhcpv6 package.
 #
-# AmÃ©rico Monteiro <a_monteiro@netcabo.pt>, 2007.
+# Américo Monteiro <a_monteiro@netcabo.pt>, 2007.
 msgid ""
 msgstr ""
 "Project-Id-Version: wide-dhcpv6 20070507-2\n"
 "Report-Msgid-Bugs-To: jeremie.corbier@resel.enst-bretagne.fr\n"
 "POT-Creation-Date: 2007-06-11 22:11-0700\n"
 "PO-Revision-Date: 2007-08-10 13:45+0100\n"
-"Last-Translator: AmÃ©rico Monteiro <a_monteiro@netcabo.pt>\n"
+"Last-Translator: Américo Monteiro <a_monteiro@netcabo.pt>\n"
 "Language-Team: Portuguese <traduz@debianpt.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,13 +20,13 @@ msgstr ""
 #. Description
 #: ../wide-dhcpv6-client.templates:1001
 msgid "WIDE DHCPv6 client configuration"
-msgstr "ConfiguraÃ§Ã£o do cliente WIDE DHCPv6"
+msgstr "Configuração do cliente WIDE DHCPv6"
 
 #. Type: note
 #. Description
 #: ../wide-dhcpv6-client.templates:1001
 msgid "The DHCPv6 client requires manual configuration after installation."
-msgstr "O cliente de DHCPv6 requer configuraÃ§Ã£o manual apÃ³s a instalaÃ§Ã£o."
+msgstr "O cliente de DHCPv6 requer configuração manual após a instalação."
 
 #. Type: note
 #. Description
@@ -36,15 +36,15 @@ msgid ""
 "editing the file /etc/wide-dhcpv6/dhcp6c.conf. A sample dhcp6c.conf is "
 "available at /usr/share/doc/wide-dhcpv6-client/examples."
 msgstr ""
-"ApÃ³s o cliente de DHCPv6 estar instalado tem que ser configurado manualmente "
+"Após o cliente de DHCPv6 estar instalado tem que ser configurado manualmente "
 "editando o ficheiro /etc/wide-dhcpv6/dhcp6c.conf. Um exemplo de dhcp6c.conf "
-"estÃ¡ disponÃ­vel em /usr/share/doc/wide-dhcpv6-client/examples."
+"está disponível em /usr/share/doc/wide-dhcpv6-client/examples."
 
 #. Type: note
 #. Description
 #: ../wide-dhcpv6-client.templates:1001
 msgid "Please configure the DHCPv6 client as soon as the installation finishes."
-msgstr "Por favor configure o cliente de DHCPv6 assim que a instalaÃ§Ã£o terminar."
+msgstr "Por favor configure o cliente de DHCPv6 assim que a instalação terminar."
 
 #. Type: string
 #. Description
@@ -61,7 +61,7 @@ msgid ""
 "temporarily disables dhcp6c."
 msgstr ""
 "As interfaces de rede nas quais os clientes de DHCPv6 enviam pedidos devem "
-"ser especificadas aqui. MÃºltiplas interfaces devem ser separadas por espaÃ§os. "
+"ser especificadas aqui. Múltiplas interfaces devem ser separadas por espaços. "
 "Uma linha vazia desactiva o dhcp6c temporariamente."
 
 #. Type: string
@@ -79,20 +79,20 @@ msgid ""
 "temporarily disables dhcp6relay."
 msgstr ""
 "As interfaces de rede onde o DHCPv6 relay trata de pedidos devem ser "
-"especificadas aqui. MÃºltiplas interfaces devem ser separadas por espaÃ§os. "
-"Uma linha vazia desactiva o dhcp6relay temporÃ¡riamente."
+"especificadas aqui. Múltiplas interfaces devem ser separadas por espaços. "
+"Uma linha vazia desactiva o dhcp6relay temporáriamente."
 
 #. Type: note
 #. Description
 #: ../wide-dhcpv6-server.templates:1001
 msgid "WIDE DHCPv6 server configuration"
-msgstr "ConfiguraÃ§Ã£o do servidor WIDE DHCPv6"
+msgstr "Configuração do servidor WIDE DHCPv6"
 
 #. Type: note
 #. Description
 #: ../wide-dhcpv6-server.templates:1001
 msgid "The DHCPv6 server requires manual configuration after installation."
-msgstr "O servidor DHCPv6 requer configuraÃ§Ã£o manual apÃ³s instalaÃ§Ã£o."
+msgstr "O servidor DHCPv6 requer configuração manual após instalação."
 
 #. Type: note
 #. Description
@@ -102,15 +102,15 @@ msgid ""
 "editing the file /etc/wide-dhcpv6/dhcp6s.conf. A sample dhcp6s.conf is "
 "available at /usr/share/doc/wide-dhcpv6-server/examples."
 msgstr ""
-"ApÃ³s o servidor de DHCPv6 estar instalado tem que ser configurado manualmente "
+"Após o servidor de DHCPv6 estar instalado tem que ser configurado manualmente "
 "editando o ficheiro /etc/wide-dhcpv6/dhcp6s.conf. Um exemplo de dhcp6s.conf "
-"estÃ¡ disponÃ­vel em /usr/share/doc/wide-dhcpv6-server/examples."
+"está disponível em /usr/share/doc/wide-dhcpv6-server/examples."
 
 #. Type: note
 #. Description
 #: ../wide-dhcpv6-server.templates:1001
 msgid "Please configure the DHCPv6 server as soon as the installation finishes."
-msgstr "Por favor configure o servidor DHCPv6 assim que a instalaÃ§Ã£o terminar."
+msgstr "Por favor configure o servidor DHCPv6 assim que a instalação terminar."
 
 #. Type: string
 #. Description
@@ -127,6 +127,6 @@ msgid ""
 "temporarily disables dhcp6s."
 msgstr ""
 "As interfaces de rede nas quais o servidor de DHCPv6 escuta por pedidos devem "
-"ser especificadas aqui. MÃºltiplas interfaces devem ser separadas por espaÃ§os. "
-"Uma linha vazia desactiva o dhcp6s temporÃ¡riamente."
+"ser especificadas aqui. Múltiplas interfaces devem ser separadas por espaços. "
+"Uma linha vazia desactiva o dhcp6s temporáriamente."
 
