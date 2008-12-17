@@ -53,7 +53,7 @@ case "$1" in
 	start)
 		log_daemon_msg "Starting $DESC" "$NAME"
 		start-stop-daemon --start --quiet --pidfile $DHCP6CPID \
-			--exec $DHCP6CBIN -- $INTERFACES
+			--exec $DHCP6CBIN -- -Pdefault $INTERFACES
 		sleep 2
 		if check_status -q; then
 			log_end_msg 0
