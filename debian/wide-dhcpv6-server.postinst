@@ -18,9 +18,8 @@ esac
 
 INITCONFFILE=/etc/default/wide-dhcpv6-server
 
-[ -r "${INITCONFFILE}" ] || {
-	echo "Generating ${INITCONFFILE}..." >&2
-	cat >$INITCONFFILE <<'EOFINITCONFFILE'
+echo "Generating ${INITCONFFILE}..." >&2
+cat >$INITCONFFILE <<'EOFINITCONFFILE'
 # Defaults for dhcpv6 server initscript
 # Used by /etc/init.d/wide-dhcpv6-server
 
@@ -29,18 +28,17 @@ INITCONFFILE=/etc/default/wide-dhcpv6-server
 INTERFACES=""
 EOFINITCONFFILE
 
-	# Debconf
-	db_get wide-dhcpv6-server/interfaces || true
-	INTERFACES=${RET}
+# Debconf
+db_get wide-dhcpv6-server/interfaces || true
+INTERFACES=${RET}
 
-	TMPFILE=`mktemp -q ${INITCONFFILE}.new.XXXXXX`
-	sed -e "s,^[[:space:]]*INTERFACES[[:space:]]*=.*,INTERFACES=\"${INTERFACES}\"," \
-        	<${INITCONFFILE} >${TMPFILE}
-	cp ${TMPFILE} ${INITCONFFILE}
-	rm ${TMPFILE}
+TMPFILE=`mktemp -q ${INITCONFFILE}.new.XXXXXX`
+sed -e "s,^[[:space:]]*INTERFACES[[:space:]]*=.*,INTERFACES=\"${INTERFACES}\"," \
+       	<${INITCONFFILE} >${TMPFILE}
+cp ${TMPFILE} ${INITCONFFILE}
+rm ${TMPFILE}
 
-	db_stop
-}
+db_stop
 
 #DEBHELPER#
 
