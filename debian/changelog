@@ -1,3 +1,11 @@
+wide-dhcpv6 (20080615-4) unstable; urgency=low
+
+  * debian/wide-dhcpv6-client.config: don't show Debconf note saying that one
+    should configure dhcp6c manually right after its installation.  This should
+    not be needed anymore thanks to profiles/default configuration.
+
+ -- Jeremie Corbier <jeremie.corbier@resel.enst-bretagne.fr>  Mon, 29 Dec 2008 16:15:32 +0100
+
 wide-dhcpv6 (20080615-3) unstable; urgency=low
 
   * debian/patches/200_dhcp6c-profiles.diff: fix a segfault introduced by this
