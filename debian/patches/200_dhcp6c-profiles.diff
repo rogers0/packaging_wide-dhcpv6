@@ -112,14 +112,14 @@ index ece7fbb..d210670 100644
  <S_CNF>host { DECHO; BEGIN S_HOST; return (HOST); }
  <S_HOST>{string} {
 diff --git a/config.c b/config.c
-index 383c12a..c08a599 100644
+index 383c12a..62ad8c8 100644
 --- a/config.c
 +++ b/config.c
 @@ -61,6 +61,7 @@
  #include <lease.h>
  
  extern int errno;
-+char *profile;
++char *profile = NULL;
  
  struct prefix_ifconf *prefix_ifconflist;
  struct dhcp6_list siplist, sipnamelist, dnslist, dnsnamelist, ntplist;
@@ -491,13 +491,15 @@ index 383c12a..c08a599 100644
  	clear_hostconf(host_conflist0);
  	host_conflist0 = NULL;
  	clear_keys(key_list0);
-@@ -1322,8 +1357,15 @@ configure_commit()
+@@ -1322,8 +1357,17 @@ configure_commit()
  			if (strcmp(ifp->ifname, ifc->ifname) == 0)
  				break;
  		}
 -		if (ifc == NULL)
 -			continue;
 +		if (ifc == NULL) {
++			if (profile == NULL)
++				continue;
 +			for (ifc = dhcp6_profileconflist; ifc;
 +				    ifc = ifc->next) {
 +				if (strcmp(profile, ifc->ifname) == 0)
@@ -509,7 +511,7 @@ index 383c12a..c08a599 100644
  
  		/* copy new configuration */
  		ifp->send_flags = ifc->send_flags;
-@@ -1349,6 +1391,8 @@ configure_commit()
+@@ -1349,6 +1393,8 @@ configure_commit()
  
  	clear_ifconf(dhcp6_ifconflist);
  	dhcp6_ifconflist = NULL;

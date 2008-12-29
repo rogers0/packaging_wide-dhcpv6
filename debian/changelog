@@ -1,3 +1,12 @@
+wide-dhcpv6 (20080615-3) unstable; urgency=low
+
+  * debian/patches/200_dhcp6c-profiles.diff: fix a segfault introduced by this
+    patch in the case dhcp6c is not given any profile on the command line and
+    the interface being handled does not have any configuration statement in
+    dhcp6c.conf.
+
+ -- Jeremie Corbier <jeremie.corbier@resel.enst-bretagne.fr>  Mon, 29 Dec 2008 08:50:16 +0100
+
 wide-dhcpv6 (20080615-2) unstable; urgency=low
 
   * Allowed to define profiles for groups of interfaces (Closes: #506300):
