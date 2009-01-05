@@ -3,8 +3,9 @@ wide-dhcpv6 (20080615-4) unstable; urgency=low
   * debian/wide-dhcpv6-client.config: don't show Debconf note saying that one
     should configure dhcp6c manually right after its installation.  This should
     not be needed anymore thanks to profiles/default configuration.
+  * debian/watch: use qa.debian.org SourceForge redirector.
 
- -- Jeremie Corbier <jeremie.corbier@resel.enst-bretagne.fr>  Mon, 29 Dec 2008 16:15:32 +0100
+ -- Jeremie Corbier <jeremie.corbier@resel.enst-bretagne.fr>  Mon, 05 Jan 2009 10:49:49 +0100
 
 wide-dhcpv6 (20080615-3) unstable; urgency=low
 
