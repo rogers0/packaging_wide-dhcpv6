@@ -1,11 +1,14 @@
-wide-dhcpv6 (20080615-4) unstable; urgency=low
+wide-dhcpv6 (20080615-4) unstable; urgency=medium
 
+  * debian/patches: added 200_close-fds.diff so wide-dhcpv6 binaries close
+    inherited file descriptors, from debconf, for instance (Closes: #512397).
+    Thanks to Colin Watson for noticing and providing a fix.
   * debian/wide-dhcpv6-client.config: don't show Debconf note saying that one
     should configure dhcp6c manually right after its installation.  This should
     not be needed anymore thanks to profiles/default configuration.
   * debian/watch: use qa.debian.org SourceForge redirector.
 
- -- Jeremie Corbier <jeremie.corbier@resel.enst-bretagne.fr>  Mon, 05 Jan 2009 10:49:49 +0100
+ -- Jeremie Corbier <jeremie.corbier@resel.enst-bretagne.fr>  Tue, 20 Jan 2009 15:33:37 +0100
 
 wide-dhcpv6 (20080615-3) unstable; urgency=low
 

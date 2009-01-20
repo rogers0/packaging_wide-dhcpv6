@@ -1,3 +1,4 @@
 006_wide-dhcpv6-mans-update.diff
 100_dont-strip-binaries.diff
+101_close-fds.diff
 200_dhcp6c-profiles.diff
