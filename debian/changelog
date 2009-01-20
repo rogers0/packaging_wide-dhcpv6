@@ -1,3 +1,11 @@
+wide-dhcpv6 (20080615-1lenny1) testing-proposed-updates; urgency=medium
+
+  * debian/patches: added 200_close-fds.diff so wide-dhcpv6 binaries close
+    inherited file descriptors, from debconf, for instance (Closes: #512397).
+    Thanks to Colin Watson for noticing and providing a fix.
+
+ -- Jeremie Corbier <jeremie.corbier@resel.enst-bretagne.fr>  Tue, 20 Jan 2009 15:12:45 +0100
+
 wide-dhcpv6 (20080615-1) unstable; urgency=low
 
   * New upstream release.
