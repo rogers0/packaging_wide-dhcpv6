@@ -1,3 +1,10 @@
+wide-dhcpv6 (20080615-5) unstable; urgency=low
+
+  * Added Spanish debconf templates translation, thanks to Francisco Javier
+    Cuadrado (Closes: #511920).
+
+ -- Jeremie Corbier <jeremie.corbier@resel.enst-bretagne.fr>  Wed, 21 Jan 2009 10:14:41 +0100
+
 wide-dhcpv6 (20080615-4) unstable; urgency=medium
 
   * debian/patches: added 200_close-fds.diff so wide-dhcpv6 binaries close
