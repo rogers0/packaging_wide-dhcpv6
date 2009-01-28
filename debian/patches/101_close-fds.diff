@@ -1,23 +1,31 @@
 wide-dhcpv6 binaries should close inherited fds.
 
 diff --git a/dhcp6c.c b/dhcp6c.c
-index 1caaaa5..4c1ecfc 100644
+index 1caaaa5..b5f5ed7 100644
 --- a/dhcp6c.c
 +++ b/dhcp6c.c
-@@ -226,8 +226,13 @@ main(argc, argv)
+@@ -159,6 +159,7 @@ main(argc, argv)
+ 	char *progname;
+ 	FILE *pidfp;
+ 	struct dhcp6_if *ifp;
++	int fd;
+ 
+ #ifndef HAVE_ARC4RANDOM
+ 	srandom(time(NULL) & getpid());
+@@ -205,8 +206,12 @@ main(argc, argv)
+ 		exit(0);
  	}
  
- 	if (foreground == 0 && infreq_mode == 0) {
-+		int fd;
-+
- 		if (daemon(0, 0) < 0)
- 			err(1, "daemon");
-+
+-	if (foreground == 0)
++	if (foreground == 0) {
 +		for (fd = 3; fd < 1024; fd++)
 +			close(fd);
- 	}
++
+ 		openlog(progname, LOG_NDELAY|LOG_PID, LOG_DAEMON);
++	}
  
- 	/* dump current PID */
+ 	setloglevel(debug);
+ 
 diff --git a/dhcp6relay.c b/dhcp6relay.c
 index fb84ce3..eb0bce9 100644
 --- a/dhcp6relay.c
