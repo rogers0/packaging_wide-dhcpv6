@@ -1,0 +1,17 @@
+diff --git a/dhcp6.h b/dhcp6.h
+index 6afb517..6409439 100644
+--- a/dhcp6.h
++++ b/dhcp6.h
+@@ -108,6 +108,12 @@ typedef uint64_t u_int64_t;
+ #define DHCP6_IRT_DEFAULT 86400	/* 1 day */
+ #define DHCP6_IRT_MINIMUM 600
+ 
++/* Add missing definition of in6_pktinfo so we don't have to use _GNU_SOURCE*/
++struct in6_pktinfo {
++	struct in6_addr ipi6_addr;  /* src/dst IPv6 address */
++	unsigned int ipi6_ifindex;  /* send/recv interface index */
++};
++
+ /* DUID: DHCP unique Identifier */
+ struct duid {
+ 	size_t duid_len;	/* length */
