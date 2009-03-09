@@ -1,14 +1,3 @@
-Template: wide-dhcpv6-client/config_warn
-Type: note
-_Description: WIDE DHCPv6 client configuration
- The DHCPv6 client requires manual configuration after installation.
- .
- After the DHCPv6 client is installed it has to be manually configured
- by editing the file /etc/wide-dhcpv6/dhcp6c.conf. A sample dhcp6c.conf is
- available at /usr/share/doc/wide-dhcpv6-client/examples.
- .
- Please configure the DHCPv6 client as soon as the installation finishes.
-
 Template: wide-dhcpv6-client/interfaces
 Type: string
 Default: eth0

@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: wide-dhcpv6 20070507-1\n"
-"Report-Msgid-Bugs-To: jeremie.corbier@resel.enst-bretagne.fr\n"
-"POT-Creation-Date: 2007-06-11 22:11-0700\n"
+"Report-Msgid-Bugs-To: wide-dhcpv6@packages.debian.org\n"
+"POT-Creation-Date: 2009-03-09 11:13+0100\n"
 "PO-Revision-Date: 2007-06-08 15:47+0200\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: German <debian-l10n-german@lists.debian.org>\n"
@@ -14,50 +14,15 @@ msgstr ""
 "Content-Type: text/plain; charset=ISO-8859-15\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#. Type: note
-#. Description
-#: ../wide-dhcpv6-client.templates:1001
-msgid "WIDE DHCPv6 client configuration"
-msgstr "WIDE DHCPv6 Client-Konfiguration"
-
-#. Type: note
-#. Description
-#: ../wide-dhcpv6-client.templates:1001
-msgid "The DHCPv6 client requires manual configuration after installation."
-msgstr ""
-"Der DHCPv6-Client benötigt nach der Installation eine manuelle Konfiguration."
-
-#. Type: note
-#. Description
-#: ../wide-dhcpv6-client.templates:1001
-msgid ""
-"After the DHCPv6 client is installed it has to be manually configured by "
-"editing the file /etc/wide-dhcpv6/dhcp6c.conf. A sample dhcp6c.conf is "
-"available at /usr/share/doc/wide-dhcpv6-client/examples."
-msgstr ""
-"Nachdem der DHCPv6-Client installiert wurde muss er manuell durch Bearbeiten "
-"der Datei /etc/wide-dhcpv6/dhcp6c.conf konfiguriert werden. Ein Beispiel für "
-"die dhcp6c.conf ist unter /usr/share/doc/wide-dhcpv6-client/examples "
-"verfügbar."
-
-#. Type: note
-#. Description
-#: ../wide-dhcpv6-client.templates:1001
-msgid ""
-"Please configure the DHCPv6 client as soon as the installation finishes."
-msgstr ""
-"Bitte konfigurieren Sie den DHCPv6-Client sobald die Installation "
-"abgeschlossen ist."
-
 #. Type: string
 #. Description
-#: ../wide-dhcpv6-client.templates:2001
+#: ../wide-dhcpv6-client.templates:1001
 msgid "Interfaces on which the DHCPv6 client sends requests:"
 msgstr "Schnittstellen, auf denen der DHCPv6-Client Anfragen versendet:"
 
 #. Type: string
 #. Description
-#: ../wide-dhcpv6-client.templates:2001
+#: ../wide-dhcpv6-client.templates:1001
 msgid ""
 "Network interfaces on which the DHCPv6 client sends requests should be "
 "specified here. Multiple interfaces are separated with spaces. An empty line "
@@ -137,3 +102,27 @@ msgstr ""
 "Netzschnittstellen, auf denen der DHCPv6-Server auf Anfragen wartet sollten "
 "hier angegeben werden. Mehrere Schnittstellen werden durch Leerzeichen "
 "getrennt. Eine leere Zeile deaktiviert dhcp6s temporär."
+
+#~ msgid "WIDE DHCPv6 client configuration"
+#~ msgstr "WIDE DHCPv6 Client-Konfiguration"
+
+#~ msgid "The DHCPv6 client requires manual configuration after installation."
+#~ msgstr ""
+#~ "Der DHCPv6-Client benötigt nach der Installation eine manuelle "
+#~ "Konfiguration."
+
+#~ msgid ""
+#~ "After the DHCPv6 client is installed it has to be manually configured by "
+#~ "editing the file /etc/wide-dhcpv6/dhcp6c.conf. A sample dhcp6c.conf is "
+#~ "available at /usr/share/doc/wide-dhcpv6-client/examples."
+#~ msgstr ""
+#~ "Nachdem der DHCPv6-Client installiert wurde muss er manuell durch "
+#~ "Bearbeiten der Datei /etc/wide-dhcpv6/dhcp6c.conf konfiguriert werden. "
+#~ "Ein Beispiel für die dhcp6c.conf ist unter /usr/share/doc/wide-dhcpv6-"
+#~ "client/examples verfügbar."
+
+#~ msgid ""
+#~ "Please configure the DHCPv6 client as soon as the installation finishes."
+#~ msgstr ""
+#~ "Bitte konfigurieren Sie den DHCPv6-Client sobald die Installation "
+#~ "abgeschlossen ist."

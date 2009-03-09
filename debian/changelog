@@ -2,8 +2,10 @@ wide-dhcpv6 (20080615-6) unstable; urgency=low
 
   * debian/patches/102_libc6-2.9-fixes.diff: fix build failures caused by
     headers modifications in the latest libc6 (Closes: #518879).
+  * Removed the warning about configuring the client once the install has
+    finished since it is not displayed anymore.
 
- -- Jeremie Corbier <jeremie.corbier@resel.enst-bretagne.fr>  Mon, 09 Mar 2009 10:48:03 +0100
+ -- Jeremie Corbier <jeremie.corbier@resel.enst-bretagne.fr>  Mon, 09 Mar 2009 11:16:58 +0100
 
 wide-dhcpv6 (20080615-5) unstable; urgency=medium
 

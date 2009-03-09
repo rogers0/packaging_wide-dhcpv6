@@ -14,8 +14,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: wide-dhcpv6 20060114-1\n"
-"Report-Msgid-Bugs-To: jeremie.corbier@resel.enst-bretagne.fr\n"
-"POT-Creation-Date: 2007-06-11 22:11-0700\n"
+"Report-Msgid-Bugs-To: wide-dhcpv6@packages.debian.org\n"
+"POT-Creation-Date: 2009-03-09 11:13+0100\n"
 "PO-Revision-Date: 2006-02-22 19:36+0100\n"
 "Last-Translator: Daniel Nylander <po@danielnylander.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
@@ -23,47 +23,15 @@ msgstr ""
 "Content-Type: text/plain; charset=iso-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#. Type: note
-#. Description
-#: ../wide-dhcpv6-client.templates:1001
-msgid "WIDE DHCPv6 client configuration"
-msgstr "Klientkonfiguration för WIDE DHCPv6"
-
-#. Type: note
-#. Description
-#: ../wide-dhcpv6-client.templates:1001
-msgid "The DHCPv6 client requires manual configuration after installation."
-msgstr "DHCPv6-klienten kräver manuell konfiguration efter installation."
-
-#. Type: note
-#. Description
-#: ../wide-dhcpv6-client.templates:1001
-msgid ""
-"After the DHCPv6 client is installed it has to be manually configured by "
-"editing the file /etc/wide-dhcpv6/dhcp6c.conf. A sample dhcp6c.conf is "
-"available at /usr/share/doc/wide-dhcpv6-client/examples."
-msgstr ""
-"Efter att DHCPv6-klienten har installerats, behöver du manuellt konfigurera "
-"den genom att redigera filen /etc/wide-dhcpv6/dhcp6c.conf. En exempelfil för "
-"dhcp6c.conf finns tillgänglig i /usr/share/doc/wide-dhcpv6-client/examples."
-
-#. Type: note
-#. Description
-#: ../wide-dhcpv6-client.templates:1001
-msgid ""
-"Please configure the DHCPv6 client as soon as the installation finishes."
-msgstr ""
-"Vänligen konfigurera DHCPv6-klienten så snart som installationen är färdig."
-
 #. Type: string
 #. Description
-#: ../wide-dhcpv6-client.templates:2001
+#: ../wide-dhcpv6-client.templates:1001
 msgid "Interfaces on which the DHCPv6 client sends requests:"
 msgstr "Nätgränssnitt(en) som DHCPv6-klienten ska skicka förfrågningar på:"
 
 #. Type: string
 #. Description
-#: ../wide-dhcpv6-client.templates:2001
+#: ../wide-dhcpv6-client.templates:1001
 msgid ""
 "Network interfaces on which the DHCPv6 client sends requests should be "
 "specified here. Multiple interfaces are separated with spaces. An empty line "
@@ -141,3 +109,25 @@ msgstr ""
 "Här ska du ange vilka nätgränssnitt som DHCPv6-servern ska lyssna på efter "
 "förfrågningar. Flera gränssnitt avgränsas med blanksteg. En tom rad "
 "inaktiverar dhcp6s temporärt."
+
+#~ msgid "WIDE DHCPv6 client configuration"
+#~ msgstr "Klientkonfiguration för WIDE DHCPv6"
+
+#~ msgid "The DHCPv6 client requires manual configuration after installation."
+#~ msgstr "DHCPv6-klienten kräver manuell konfiguration efter installation."
+
+#~ msgid ""
+#~ "After the DHCPv6 client is installed it has to be manually configured by "
+#~ "editing the file /etc/wide-dhcpv6/dhcp6c.conf. A sample dhcp6c.conf is "
+#~ "available at /usr/share/doc/wide-dhcpv6-client/examples."
+#~ msgstr ""
+#~ "Efter att DHCPv6-klienten har installerats, behöver du manuellt "
+#~ "konfigurera den genom att redigera filen /etc/wide-dhcpv6/dhcp6c.conf. En "
+#~ "exempelfil för dhcp6c.conf finns tillgänglig i /usr/share/doc/wide-dhcpv6-"
+#~ "client/examples."
+
+#~ msgid ""
+#~ "Please configure the DHCPv6 client as soon as the installation finishes."
+#~ msgstr ""
+#~ "Vänligen konfigurera DHCPv6-klienten så snart som installationen är "
+#~ "färdig."
