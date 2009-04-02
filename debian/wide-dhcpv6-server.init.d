@@ -56,7 +56,7 @@ case "$1" in
                 for INT in $INTERFACES; do
                     log_daemon_msg "Starting $DESC on $INT" "$NAME"
 		    start-stop-daemon --start --quiet --pidfile ${DHCP6SPIDBASE}.${INT}.pid \
-			--exec $DHCP6SBIN -- -k /dev/null -P ${DHCP6SPIDBASE}.${INT}.pid $INT
+			--exec $DHCP6SBIN --oknodo -- -k /dev/null -P ${DHCP6SPIDBASE}.${INT}.pid $INT
 		    sleep 2
 		    if check_status -q; then
                         log_end_msg 0
@@ -69,7 +69,7 @@ case "$1" in
 	stop)
                 for INT in $INTERFACES; do
                     log_daemon_msg "Stopping $DESC on $INT" "$NAME"
-                    start-stop-daemon --stop --quiet --pidfile ${DHCP6SPIDBASE}.${INT}.pid
+                    start-stop-daemon --stop --quiet --pidfile ${DHCP6SPIDBASE}.${INT}.pid --oknodo
                     log_end_msg $?
                     rm -f $DHCP6SPID
                 done

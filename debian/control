@@ -3,7 +3,7 @@ Section: net
 Priority: optional
 Maintainer: Jeremie Corbier <jeremie.corbier@resel.enst-bretagne.fr>
 Build-Depends: cdbs, debhelper (>= 5.0.7), autotools-dev, quilt, bison, flex
-Standards-Version: 3.8.0
+Standards-Version: 3.8.1
 Vcs-Git: git://git.famille-corbier.net/packages/wide-dhcpv6.git/
 Vcs-Browser: http://git.famille-corbier.net/?p=packages/wide-dhcpv6.git;a=summary
 Homepage: http://wide-dhcpv6.sourceforge.net/

@@ -53,7 +53,7 @@ case "$1" in
 	start)
 		log_daemon_msg "Starting $DESC" "$NAME"
 		start-stop-daemon --start --quiet --pidfile $DHCP6CPID \
-			--exec $DHCP6CBIN -- -Pdefault $INTERFACES
+			--oknodo --exec $DHCP6CBIN -- -Pdefault $INTERFACES
 		sleep 2
 		if check_status -q; then
 			log_end_msg 0
@@ -64,7 +64,7 @@ case "$1" in
 		;;
 	stop)
 		log_daemon_msg "Stopping $DESC" "$NAME"
-		start-stop-daemon --stop --quiet --pidfile $DHCP6CPID
+		start-stop-daemon --stop --quiet --pidfile $DHCP6CPID --oknodo
 		log_end_msg $?
 		rm -f $DHCP6CPID
 		;;

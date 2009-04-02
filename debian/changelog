@@ -1,3 +1,11 @@
+wide-dhcpv6 (20080615-7) unstable; urgency=low
+
+  * Bumped up Standards-Version to 3.8.1:
+    -> Made sure init scripts don't fail if the daemon is already started or
+       already stopped.
+
+ -- Jeremie Corbier <jeremie.corbier@resel.enst-bretagne.fr>  Thu, 02 Apr 2009 10:16:31 +0200
+
 wide-dhcpv6 (20080615-6) unstable; urgency=low
 
   * debian/patches/102_libc6-2.9-fixes.diff: fix build failures caused by
