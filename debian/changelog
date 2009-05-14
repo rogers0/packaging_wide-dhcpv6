@@ -1,10 +1,15 @@
 wide-dhcpv6 (20080615-7) unstable; urgency=low
 
+  * Switched to Debhelper compatibility level 7:
+    -> Got rid of cdbs.
+    -> Updated .install files accordingly.
+    -> Added a versionned dependency on quilt so as to be sure it provides a dh
+       plugin.
   * Bumped up Standards-Version to 3.8.1:
     -> Made sure init scripts don't fail if the daemon is already started or
        already stopped.
 
- -- Jeremie Corbier <jeremie.corbier@resel.enst-bretagne.fr>  Thu, 02 Apr 2009 10:16:31 +0200
+ -- Jeremie Corbier <jeremie.corbier@resel.enst-bretagne.fr>  Thu, 14 May 2009 15:47:41 +0200
 
 wide-dhcpv6 (20080615-6) unstable; urgency=low
 

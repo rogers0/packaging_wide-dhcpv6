@@ -1,13 +1,15 @@
 #!/usr/bin/make -f
 
-include /usr/share/cdbs/1/rules/debhelper.mk
-include /usr/share/cdbs/1/class/autotools.mk
-include /usr/share/cdbs/1/rules/patchsys-quilt.mk
+%:
+	dh --with quilt $@
 
-DEB_MAKE_INSTALL_TARGET += prefix=$(DEB_DESTDIR)/usr
-DEB_INSTALL_DOCS_ALL += README CHANGES
-DEB_CONFIGURE_EXTRA_FLAGS += --with-localdbdir=/var/lib/dhcpv6 --sysconfdir=/etc/wide-dhcpv6
-DEB_UPDATE_RCD_PARAMS += "start 40 2 3 4 5 . stop 40 0 1 6 ."
+override_dh_auto_configure:
+	./configure --prefix=/usr --mandir=\$${prefix}/share/man \
+		--with-localdbdir=/var/lib/dhcpv6 --sysconfdir=/etc/wide-dhcpv6
 
-binary-post-install/wide-dhcpv6-client::
+override_dh_auto_install:
+	$(MAKE) prefix=$(CURDIR)/debian/tmp/usr install
+
+override_dh_fixperms:
+	dh_fixperms
 	chmod +x debian/wide-dhcpv6-client/etc/wide-dhcpv6/dhcp6c-*
