@@ -1,5 +1,6 @@
 wide-dhcpv6 (20080615-7) unstable; urgency=low
 
+  * New maintainer email address.
   * Switched to Debhelper compatibility level 7:
     -> Got rid of cdbs.
     -> Updated .install files accordingly.
@@ -9,7 +10,7 @@ wide-dhcpv6 (20080615-7) unstable; urgency=low
     -> Made sure init scripts don't fail if the daemon is already started or
        already stopped.
 
- -- Jeremie Corbier <jeremie.corbier@resel.enst-bretagne.fr>  Thu, 14 May 2009 15:47:41 +0200
+ -- Jérémie Corbier <jeremie+debian@famille-corbier.net>  Thu, 14 May 2009 15:52:21 +0200
 
 wide-dhcpv6 (20080615-6) unstable; urgency=low
 
