@@ -19,9 +19,6 @@ Description: DHCPv6 server for automatic IPv6 hosts configuration
  protocol.
  .
  Multiple network interfaces are supported by this DHCPv6 package.
- .
- Note: This package requires at least a 2.4 kernel with recent USAGI IPv6
- patches.
 
 Package: wide-dhcpv6-client
 Architecture: any
@@ -34,9 +31,6 @@ Description: DHCPv6 client for automatic IPv6 hosts configuration
  protocol.
  .
  Multiple network interfaces are supported by this DHCPv6 package.
- .
- Note: This package requires at least a 2.4 kernel with recent USAGI IPv6
- patches.
 
 Package: wide-dhcpv6-relay
 Architecture: any
@@ -49,6 +43,3 @@ Description: DHCPv6 relay for automatic IPv6 hosts configuration
  protocol.
  .
  Multiple network interfaces are supported by this DHCPv6 package.
- .
- Note: This package requires at least a 2.4 kernel with recent USAGI IPv6
- patches.
