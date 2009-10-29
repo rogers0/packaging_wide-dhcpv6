@@ -151,13 +151,13 @@ index 383c12a..62ad8c8 100644
 -		struct cf_list *cfl;
 -
  		if (if_nametoindex(ifp->name) == 0) {
- 			dprintf(LOG_ERR, FNAME, "invalid interface(%s): %s",
+ 			debug_printf(LOG_ERR, FNAME, "invalid interface(%s): %s",
  			    ifp->name, strerror(errno));
  			goto bad;
  		}
  
 -		if ((ifc = malloc(sizeof(*ifc))) == NULL) {
--			dprintf(LOG_ERR, FNAME,
+-			debug_printf(LOG_ERR, FNAME,
 -			    "memory allocation for %s failed", ifp->name);
 +		if (configure_interface_or_profile(ifp, &dhcp6_ifconflist))
  			goto bad;
@@ -181,7 +181,7 @@ index 383c12a..62ad8c8 100644
 +	struct cf_namelist *profp;
  
 -		if ((ifc->ifname = strdup(ifp->name)) == NULL) {
--			dprintf(LOG_ERR, FNAME, "failed to copy ifname");
+-			debug_printf(LOG_ERR, FNAME, "failed to copy ifname");
 +	for (profp = profilelist; profp; profp = profp->next) {
 +		if (configure_interface_or_profile(profp,
 +			    &dhcp6_profileconflist))
@@ -203,7 +203,7 @@ index 383c12a..62ad8c8 100644
 -			switch(cfl->type) {
 -			case DECL_REQUEST:
 -				if (dhcp6_mode != DHCP6_MODE_CLIENT) {
--					dprintf(LOG_INFO, FNAME, "%s:%d "
+-					debug_printf(LOG_INFO, FNAME, "%s:%d "
 -						"client-only configuration",
 -						configfilename,
 -						cfl->line);
@@ -228,7 +228,7 @@ index 383c12a..62ad8c8 100644
 -				break;
 -			case DECL_INFO_ONLY:
 -				if (dhcp6_mode != DHCP6_MODE_CLIENT) {
--					dprintf(LOG_INFO, FNAME, "%s:%d "
+-					debug_printf(LOG_INFO, FNAME, "%s:%d "
 -						"client-only configuration",
 -						configfilename, cfl->line);
 -					goto bad;
@@ -237,7 +237,7 @@ index 383c12a..62ad8c8 100644
 -				break;
 -			case DECL_PREFERENCE:
 -				if (dhcp6_mode != DHCP6_MODE_SERVER) {
--					dprintf(LOG_INFO, FNAME, "%s:%d "
+-					debug_printf(LOG_INFO, FNAME, "%s:%d "
 -						"server-only configuration",
 -						configfilename, cfl->line);
 -					goto bad;
@@ -245,7 +245,7 @@ index 383c12a..62ad8c8 100644
 -				ifc->server_pref = (int)cfl->num;
 -				if (ifc->server_pref < 0 ||
 -				    ifc->server_pref > 255) {
--					dprintf(LOG_INFO, FNAME, "%s:%d "
+-					debug_printf(LOG_INFO, FNAME, "%s:%d "
 -						"bad value: %d",
 +static int configure_interface_or_profile(ifp, conflist)
 +	struct cf_namelist *ifp;
@@ -256,7 +256,7 @@ index 383c12a..62ad8c8 100644
 +	struct cf_list *cfl;
 +
 +	if ((conf = malloc(sizeof(*conf))) == NULL) {
-+		dprintf(LOG_ERR, FNAME,
++		debug_printf(LOG_ERR, FNAME,
 +		    "memory allocation for %s failed", ifp->name);
 +		return (-1);
 +	}
@@ -265,7 +265,7 @@ index 383c12a..62ad8c8 100644
 +	*conflist = conf;
 +
 +	if ((conf->ifname = strdup(ifp->name)) == NULL) {
-+		dprintf(LOG_ERR, FNAME, "failed to copy interface or "
++		debug_printf(LOG_ERR, FNAME, "failed to copy interface or "
 +		    "profile name");
 +		return (-1);
 +	}
@@ -278,7 +278,7 @@ index 383c12a..62ad8c8 100644
 +		switch(cfl->type) {
 +		case DECL_REQUEST:
 +			if (dhcp6_mode != DHCP6_MODE_CLIENT) {
-+				dprintf(LOG_INFO, FNAME, "%s:%d "
++				debug_printf(LOG_INFO, FNAME, "%s:%d "
 +					"client-only configuration",
 +					configfilename,
 +					cfl->line);
@@ -303,7 +303,7 @@ index 383c12a..62ad8c8 100644
 +			break;
 +		case DECL_INFO_ONLY:
 +			if (dhcp6_mode != DHCP6_MODE_CLIENT) {
-+				dprintf(LOG_INFO, FNAME, "%s:%d "
++				debug_printf(LOG_INFO, FNAME, "%s:%d "
 +					"client-only configuration",
 +					configfilename, cfl->line);
 +				return (-1);
@@ -312,7 +312,7 @@ index 383c12a..62ad8c8 100644
 +			break;
 +		case DECL_PREFERENCE:
 +			if (dhcp6_mode != DHCP6_MODE_SERVER) {
-+				dprintf(LOG_INFO, FNAME, "%s:%d "
++				debug_printf(LOG_INFO, FNAME, "%s:%d "
 +					"server-only configuration",
 +					configfilename, cfl->line);
 +				return (-1);
@@ -320,7 +320,7 @@ index 383c12a..62ad8c8 100644
 +			conf->server_pref = (int)cfl->num;
 +			if (conf->server_pref < 0 ||
 +			    conf->server_pref > 255) {
-+				dprintf(LOG_INFO, FNAME, "%s:%d "
++				debug_printf(LOG_INFO, FNAME, "%s:%d "
 +					"bad value: %d",
 +					configfilename, cfl->line,
 +					conf->server_pref);
@@ -329,13 +329,13 @@ index 383c12a..62ad8c8 100644
 +			break;
 +		case DECL_SCRIPT:
 +			if (dhcp6_mode != DHCP6_MODE_CLIENT) {
-+				dprintf(LOG_INFO, FNAME, "%s:%d "
++				debug_printf(LOG_INFO, FNAME, "%s:%d "
 +					"client-only configuration",
 +					configfilename, cfl->line);
 +				return (-1);
 +			}
 +			if (conf->scriptpath) {
-+				dprintf(LOG_INFO, FNAME,
++				debug_printf(LOG_INFO, FNAME,
 +				    "%s:%d duplicated configuration",
 +				    configfilename, cfl->line);
 +				return (-1);
@@ -343,13 +343,13 @@ index 383c12a..62ad8c8 100644
 +			cp = cfl->ptr;
 +			conf->scriptpath = strdup(cp + 1);
 +			if (conf->scriptpath == NULL) {
-+				dprintf(LOG_NOTICE, FNAME,
++				debug_printf(LOG_NOTICE, FNAME,
 +				    "failed to copy script path");
 +				return (-1);
 +			}
 +			cp = conf->scriptpath;
 +			if (*cp != '/') {
-+				dprintf(LOG_INFO, FNAME,
++				debug_printf(LOG_INFO, FNAME,
 +				    "script must be an absolute path");
 +				return (-1);
 +			}
@@ -367,7 +367,7 @@ index 383c12a..62ad8c8 100644
 +					if (strcmp(spec->name, pool->name) == 0)
 +						break;
 +				if (pool == NULL) {
-+					dprintf(LOG_ERR, FNAME, "%s:%d "
++					debug_printf(LOG_ERR, FNAME, "%s:%d "
 +						"pool '%s' not found",
  						configfilename, cfl->line,
 -						ifc->server_pref);
@@ -376,13 +376,13 @@ index 383c12a..62ad8c8 100644
 -				break;
 -			case DECL_SCRIPT:
 -				if (dhcp6_mode != DHCP6_MODE_CLIENT) {
--					dprintf(LOG_INFO, FNAME, "%s:%d "
+-					debug_printf(LOG_INFO, FNAME, "%s:%d "
 -						"client-only configuration",
 -						configfilename, cfl->line);
 -					goto bad;
 -				}
 -				if (ifc->scriptpath) {
--					dprintf(LOG_INFO, FNAME,
+-					debug_printf(LOG_INFO, FNAME,
 -					    "%s:%d duplicated configuration",
 -					    configfilename, cfl->line);
 -					goto bad;
@@ -390,7 +390,7 @@ index 383c12a..62ad8c8 100644
 -				cp = cfl->ptr;
 -				ifc->scriptpath = strdup(cp + 1);
 -				if (ifc->scriptpath == NULL) {
--					dprintf(LOG_NOTICE, FNAME,
+-					debug_printf(LOG_NOTICE, FNAME,
 -					    "failed to copy script path");
 -					goto bad;
 +				   		spec->name);
@@ -398,13 +398,13 @@ index 383c12a..62ad8c8 100644
  				}
 -				cp = ifc->scriptpath;
 -				if (*cp != '/') {
--					dprintf(LOG_INFO, FNAME,
+-					debug_printf(LOG_INFO, FNAME,
 -					    "script must be an absolute path");
 -					goto bad;
 +				if (spec->vltime != DHCP6_DURATION_INFINITE &&
 +					(spec->pltime == DHCP6_DURATION_INFINITE ||
 +					spec->pltime > spec->vltime)) {
-+					dprintf(LOG_ERR, FNAME, "%s:%d ",
++					debug_printf(LOG_ERR, FNAME, "%s:%d ",
 +						configfilename, cfl->line,
 +						"specified a larger preferred lifetime "
 +						"than valid lifetime");
@@ -424,7 +424,7 @@ index 383c12a..62ad8c8 100644
 -						if (strcmp(spec->name, pool->name) == 0)
 -							break;
 -					if (pool == NULL) {
--						dprintf(LOG_ERR, FNAME, "%s:%d "
+-						debug_printf(LOG_ERR, FNAME, "%s:%d "
 -							"pool '%s' not found",
 -							configfilename, cfl->line,
 -					   		spec->name);
@@ -433,7 +433,7 @@ index 383c12a..62ad8c8 100644
 -					if (spec->vltime != DHCP6_DURATION_INFINITE &&
 -						(spec->pltime == DHCP6_DURATION_INFINITE ||
 -						spec->pltime > spec->vltime)) {
--						dprintf(LOG_ERR, FNAME, "%s:%d ",
+-						debug_printf(LOG_ERR, FNAME, "%s:%d ",
 -							configfilename, cfl->line,
 -							"specified a larger preferred lifetime "
 -							"than valid lifetime");
@@ -441,32 +441,32 @@ index 383c12a..62ad8c8 100644
 -					}
 -					ifc->pool = *spec;
 -					if ((ifc->pool.name = strdup(spec->name)) == NULL) {
--						dprintf(LOG_ERR, FNAME,
+-						debug_printf(LOG_ERR, FNAME,
 -							"memory allocation failed");
 -						goto bad;
 -					}
--					dprintf(LOG_DEBUG, FNAME,
+-					debug_printf(LOG_DEBUG, FNAME,
 -						"pool '%s' is specified to the interface '%s'",
 -						ifc->pool.name, ifc->ifname);
 +				conf->pool = *spec;
 +				if ((conf->pool.name = strdup(spec->name)) == NULL) {
-+					dprintf(LOG_ERR, FNAME,
++					debug_printf(LOG_ERR, FNAME,
 +						"memory allocation failed");
 +					return (-1);
  				}
 -				break;
 -			default:
--				dprintf(LOG_ERR, FNAME, "%s:%d "
+-				debug_printf(LOG_ERR, FNAME, "%s:%d "
 -					"invalid interface configuration",
 -					configfilename, cfl->line);
 -				goto bad;
-+				dprintf(LOG_DEBUG, FNAME,
++				debug_printf(LOG_DEBUG, FNAME,
 +					"pool '%s' is specified to the interface '%s'",
 +					conf->pool.name, conf->ifname);
  			}
 +			break;
 +		default:
-+			dprintf(LOG_ERR, FNAME, "%s:%d "
++			debug_printf(LOG_ERR, FNAME, "%s:%d "
 +				"invalid interface configuration",
 +				configfilename, cfl->line);
 +			return (-1);
