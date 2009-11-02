@@ -1,6 +1,6 @@
 #!/bin/sh
 ### BEGIN INIT INFO
-# Provides:          dhcp6relay
+# Provides:          wide-dhcpv6-relay
 # Required-Start:    $syslog $network
 # Required-Stop:     $syslog
 # Should-Start:      $local_fs
@@ -27,9 +27,10 @@ if [ ! -f /etc/default/wide-dhcpv6-relay ]; then
 	log_failure_msg \
             "Run 'dpkg-reconfigure wide-dhcpv6-relay' to solve the problem."
 	exit 1
+else
+	. /etc/default/wide-dhcpv6-relay
 fi
 
-. /etc/default/wide-dhcpv6-relay
 
 [ "X$INTERFACES" != "X" ] || exit 0
 

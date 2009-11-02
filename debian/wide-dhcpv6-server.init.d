@@ -1,6 +1,6 @@
 #!/bin/sh
 ### BEGIN INIT INFO
-# Provides:          dhcp6s
+# Provides:          wide-dhcpv6-server
 # Required-Start:    $syslog $network
 # Required-Stop:     $syslog
 # Should-Start:      $local_fs
@@ -27,9 +27,10 @@ if [ ! -f /etc/default/wide-dhcpv6-server ]; then
 	log_failure_msg \
             "Run 'dpkg-reconfigure wide-dhcpv6-server' to solve the problem."
 	exit 3
+else
+	. /etc/default/wide-dhcpv6-server
 fi
 
-. /etc/default/wide-dhcpv6-server
 
 [ "X$INTERFACES" != "X" ] || exit 0
 

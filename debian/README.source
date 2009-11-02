@@ -1,0 +1,5 @@
+This package uses quilt as its patch management system. Please check
+
+    /usr/share/doc/quilt/README.source
+
+for more information.
