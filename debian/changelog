@@ -14,9 +14,11 @@ wide-dhcpv6 (20080615-7) unstable; urgency=low
        already stopped.
   * Added Russian debconf templates translation, thanks to Yuri Kozlov
     (Closes: #551574).
+  * Added Japanese debconf templates translation, thanks to Hideki Yamane
+    (Closes: #553689).
   * Removed note about 2.4 kernels in packages' description.
 
- -- Jérémie Corbier <jeremie+debian@famille-corbier.net>  Thu, 29 Oct 2009 10:15:25 +0100
+ -- Jérémie Corbier <jeremie+debian@famille-corbier.net>  Mon, 02 Nov 2009 11:47:07 +0100
 
 wide-dhcpv6 (20080615-6) unstable; urgency=low
 
