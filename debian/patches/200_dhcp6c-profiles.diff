@@ -2,11 +2,11 @@ This patch enables users to define interface profiles so one can configure a
 group of interfaces the same way without having to provide an interface
 statement for each.
 
-diff --git a/cfparse.y b/cfparse.y
-index dcac3d7..c79d131 100644
---- a/cfparse.y
-+++ b/cfparse.y
-@@ -83,6 +83,7 @@ extern void yyerror __P((char *, ...))
+Index: wide-dhcpv6/cfparse.y
+===================================================================
+--- wide-dhcpv6.orig/cfparse.y
++++ wide-dhcpv6/cfparse.y
+@@ -83,6 +83,7 @@
  	} while (0)
  
  static struct cf_namelist *iflist_head, *hostlist_head, *iapdlist_head;
@@ -14,7 +14,7 @@ index dcac3d7..c79d131 100644
  static struct cf_namelist *addrpoollist_head;
  static struct cf_namelist *authinfolist_head, *keylist_head;
  static struct cf_namelist *ianalist_head;
-@@ -102,6 +103,7 @@ static void cleanup_cflist __P((struct cf_list *));
+@@ -102,6 +103,7 @@
  %}
  
  %token INTERFACE IFNAME
@@ -22,7 +22,7 @@ index dcac3d7..c79d131 100644
  %token PREFIX_INTERFACE SLA_ID SLA_LEN DUID_ID
  %token ID_ASSOC IA_PD IAID IA_NA
  %token ADDRESS
-@@ -133,7 +135,7 @@ static void cleanup_cflist __P((struct cf_list *));
+@@ -133,7 +135,7 @@
  }
  
  %type <str> IFNAME HOSTNAME AUTHNAME KEYNAME DUID_ID STRING QSTRING IAID
@@ -31,7 +31,7 @@ index dcac3d7..c79d131 100644
  %type <num> NUMBER duration authproto authalg authrdm
  %type <list> declaration declarations dhcpoption ifparam ifparams
  %type <list> address_list address_list_ent dhcpoption_list
-@@ -153,6 +155,7 @@ statements:
+@@ -153,6 +155,7 @@
  
  statement:
  		interface_statement
@@ -39,7 +39,7 @@ index dcac3d7..c79d131 100644
  	|	host_statement
  	|	option_statement
  	|	ia_statement
-@@ -174,6 +177,18 @@ interface_statement:
+@@ -174,6 +177,18 @@
  	}
  	;
  
@@ -58,7 +58,7 @@ index dcac3d7..c79d131 100644
  host_statement:
  	HOST HOSTNAME BCL declarations ECL EOS
  	{
-@@ -1224,6 +1239,8 @@ cleanup()
+@@ -1224,6 +1239,8 @@
  {
  	cleanup_namelist(iflist_head);
  	iflist_head = NULL;
@@ -67,7 +67,7 @@ index dcac3d7..c79d131 100644
  	cleanup_namelist(hostlist_head);
  	hostlist_head = NULL;
  	cleanup_namelist(iapdlist_head);
-@@ -1318,6 +1335,9 @@ cf_post_config()
+@@ -1318,6 +1335,9 @@
  	if (configure_pool(addrpoollist_head))
  		config_fail();
  
@@ -77,17 +77,17 @@ index dcac3d7..c79d131 100644
  	if (configure_interface(iflist_head))
  		config_fail();
  
-@@ -1337,4 +1357,5 @@ void
+@@ -1337,4 +1357,5 @@
  cf_init()
  {
  	iflist_head = NULL;
 +	profilelist_head = NULL;
  }
-diff --git a/cftoken.l b/cftoken.l
-index ece7fbb..d210670 100644
---- a/cftoken.l
-+++ b/cftoken.l
-@@ -111,6 +111,7 @@ ecl		\}
+Index: wide-dhcpv6/cftoken.l
+===================================================================
+--- wide-dhcpv6.orig/cftoken.l
++++ wide-dhcpv6/cftoken.l
+@@ -111,6 +111,7 @@
  
  %s S_CNF
  %s S_IFACE
@@ -95,7 +95,7 @@ index ece7fbb..d210670 100644
  %s S_PREF
  %s S_HOST
  %s S_DUID
-@@ -137,6 +138,15 @@ ecl		\}
+@@ -137,6 +138,15 @@
  	return (IFNAME);
  }
  
@@ -111,10 +111,10 @@ index ece7fbb..d210670 100644
  	/* host configuration */
  <S_CNF>host { DECHO; BEGIN S_HOST; return (HOST); }
  <S_HOST>{string} {
-diff --git a/config.c b/config.c
-index 383c12a..62ad8c8 100644
---- a/config.c
-+++ b/config.c
+Index: wide-dhcpv6/config.c
+===================================================================
+--- wide-dhcpv6.orig/config.c
++++ wide-dhcpv6/config.c
 @@ -61,6 +61,7 @@
  #include <lease.h>
  
@@ -123,7 +123,7 @@ index 383c12a..62ad8c8 100644
  
  struct prefix_ifconf *prefix_ifconflist;
  struct dhcp6_list siplist, sipnamelist, dnslist, dnsnamelist, ntplist;
-@@ -70,6 +71,7 @@ struct dhcp6_list bcmcslist, bcmcsnamelist;
+@@ -70,6 +71,7 @@
  long long optrefreshtime;
  
  static struct dhcp6_ifconf *dhcp6_ifconflist;
@@ -131,7 +131,7 @@ index 383c12a..62ad8c8 100644
  struct ia_conflist ia_conflist0;
  static struct host_conf *host_conflist0, *host_conflist;
  static struct keyinfo *key_list, *key_list0;
-@@ -134,6 +136,8 @@ static void clear_iaconf __P((struct ia_conflist *));
+@@ -134,6 +136,8 @@
  static void clear_hostconf __P((struct host_conf *));
  static void clear_keys __P((struct keyinfo *));
  static void clear_authinfo __P((struct authinfo *));
@@ -140,7 +140,7 @@ index 383c12a..62ad8c8 100644
  static int configure_duid __P((char *, struct duid *));
  static int configure_addr __P((struct cf_list *, struct dhcp6_list *, char *));
  static int configure_domain __P((struct cf_list *, struct dhcp6_list *, char *));
-@@ -149,170 +153,199 @@ configure_interface(iflist)
+@@ -149,170 +153,199 @@
  	struct cf_namelist *iflist;
  {
  	struct cf_namelist *ifp;
@@ -482,7 +482,7 @@ index 383c12a..62ad8c8 100644
  }
  
  int
-@@ -1275,6 +1308,8 @@ configure_cleanup()
+@@ -1275,6 +1308,8 @@
  	clear_iaconf(&ia_conflist0);
  	clear_ifconf(dhcp6_ifconflist);
  	dhcp6_ifconflist = NULL;
@@ -491,7 +491,7 @@ index 383c12a..62ad8c8 100644
  	clear_hostconf(host_conflist0);
  	host_conflist0 = NULL;
  	clear_keys(key_list0);
-@@ -1322,8 +1357,17 @@ configure_commit()
+@@ -1322,8 +1357,17 @@
  			if (strcmp(ifp->ifname, ifc->ifname) == 0)
  				break;
  		}
@@ -511,7 +511,7 @@ index 383c12a..62ad8c8 100644
  
  		/* copy new configuration */
  		ifp->send_flags = ifc->send_flags;
-@@ -1349,6 +1393,8 @@ configure_commit()
+@@ -1349,6 +1393,8 @@
  
  	clear_ifconf(dhcp6_ifconflist);
  	dhcp6_ifconflist = NULL;
@@ -520,11 +520,11 @@ index 383c12a..62ad8c8 100644
  
  	/* clear unused IA configuration */
  	if (!TAILQ_EMPTY(&ia_conflist0)) {
-diff --git a/config.h b/config.h
-index bf6dae6..ea8d17c 100644
---- a/config.h
-+++ b/config.h
-@@ -285,6 +285,8 @@ dhcp6_mode_t;
+Index: wide-dhcpv6/config.h
+===================================================================
+--- wide-dhcpv6.orig/config.h
++++ wide-dhcpv6/config.h
+@@ -285,6 +285,8 @@
  
  extern const dhcp6_mode_t dhcp6_mode;
  
@@ -533,7 +533,7 @@ index bf6dae6..ea8d17c 100644
  extern struct dhcp6_if *dhcp6_if;
  extern struct dhcp6_ifconf *dhcp6_iflist;
  extern struct prefix_ifconf *prefix_ifconflist;
-@@ -304,6 +306,7 @@ extern long long optrefreshtime;
+@@ -304,6 +306,7 @@
  extern struct dhcp6_if *ifinit __P((char *));
  extern int ifreset __P((struct dhcp6_if *));
  extern int configure_interface __P((struct cf_namelist *));
@@ -541,10 +541,10 @@ index bf6dae6..ea8d17c 100644
  extern int configure_host __P((struct cf_namelist *));
  extern int configure_keys __P((struct cf_namelist *));
  extern int configure_authinfo __P((struct cf_namelist *));
-diff --git a/dhcp6c.8 b/dhcp6c.8
-index 6824ae0..c58a7c0 100644
---- a/dhcp6c.8
-+++ b/dhcp6c.8
+Index: wide-dhcpv6/dhcp6c.8
+===================================================================
+--- wide-dhcpv6.orig/dhcp6c.8
++++ wide-dhcpv6/dhcp6c.8
 @@ -39,6 +39,7 @@
  .Op Fl c Ar configfile
  .Op Fl Ddfi
@@ -553,7 +553,7 @@ index 6824ae0..c58a7c0 100644
  .Ar interface
  .Op Ar interfaces...
  .\"
-@@ -92,6 +93,14 @@ Use
+@@ -92,6 +93,14 @@
  .Ar pid-file
  to dump the process ID of
  .Nm .
@@ -568,11 +568,11 @@ index 6824ae0..c58a7c0 100644
  .El
  .Pp
  The program will daemonize itself on invocation unless the
-diff --git a/dhcp6c.c b/dhcp6c.c
-index 1caaaa5..8781ac4 100644
---- a/dhcp6c.c
-+++ b/dhcp6c.c
-@@ -169,7 +169,7 @@ main(argc, argv)
+Index: wide-dhcpv6/dhcp6c.c
+===================================================================
+--- wide-dhcpv6.orig/dhcp6c.c
++++ wide-dhcpv6/dhcp6c.c
+@@ -170,7 +170,7 @@
  	else
  		progname++;
  
@@ -581,7 +581,7 @@ index 1caaaa5..8781ac4 100644
  		switch (ch) {
  		case 'c':
  			conffile = optarg;
-@@ -192,6 +192,9 @@ main(argc, argv)
+@@ -193,6 +193,9 @@
  		case 'p':
  			pid_file = optarg;
  			break;
@@ -591,11 +591,11 @@ index 1caaaa5..8781ac4 100644
  		default:
  			usage();
  			exit(0);
-diff --git a/dhcp6c.conf.5 b/dhcp6c.conf.5
-index 611ab4f..08f2549 100644
---- a/dhcp6c.conf.5
-+++ b/dhcp6c.conf.5
-@@ -288,6 +288,13 @@ file, and be created by the same owner who runs the daemon.
+Index: wide-dhcpv6/dhcp6c.conf.5
+===================================================================
+--- wide-dhcpv6.orig/dhcp6c.conf.5
++++ wide-dhcpv6/dhcp6c.conf.5
+@@ -288,6 +288,13 @@
  .El
  .El
  .\"

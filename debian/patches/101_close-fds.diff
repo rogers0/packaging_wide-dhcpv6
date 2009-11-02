@@ -1,10 +1,10 @@
 wide-dhcpv6 binaries should close inherited fds.
 
-diff --git a/dhcp6c.c b/dhcp6c.c
-index 1caaaa5..b5f5ed7 100644
---- a/dhcp6c.c
-+++ b/dhcp6c.c
-@@ -159,6 +159,7 @@ main(argc, argv)
+Index: wide-dhcpv6/dhcp6c.c
+===================================================================
+--- wide-dhcpv6.orig/dhcp6c.c
++++ wide-dhcpv6/dhcp6c.c
+@@ -159,6 +159,7 @@
  	char *progname;
  	FILE *pidfp;
  	struct dhcp6_if *ifp;
@@ -12,7 +12,7 @@ index 1caaaa5..b5f5ed7 100644
  
  #ifndef HAVE_ARC4RANDOM
  	srandom(time(NULL) & getpid());
-@@ -205,8 +206,12 @@ main(argc, argv)
+@@ -205,8 +206,12 @@
  		exit(0);
  	}
  
@@ -26,11 +26,11 @@ index 1caaaa5..b5f5ed7 100644
  
  	setloglevel(debug);
  
-diff --git a/dhcp6relay.c b/dhcp6relay.c
-index fb84ce3..eb0bce9 100644
---- a/dhcp6relay.c
-+++ b/dhcp6relay.c
-@@ -207,8 +207,14 @@ main(argc, argv)
+Index: wide-dhcpv6/dhcp6relay.c
+===================================================================
+--- wide-dhcpv6.orig/dhcp6relay.c
++++ wide-dhcpv6/dhcp6relay.c
+@@ -207,8 +207,14 @@
  	}
  
  	if (foreground == 0) {
@@ -45,11 +45,11 @@ index fb84ce3..eb0bce9 100644
  		openlog(progname, LOG_NDELAY|LOG_PID, LOG_DAEMON);
  	}
  	setloglevel(debug);
-diff --git a/dhcp6s.c b/dhcp6s.c
-index 544afff..494e571 100644
---- a/dhcp6s.c
-+++ b/dhcp6s.c
-@@ -316,8 +316,13 @@ main(argc, argv)
+Index: wide-dhcpv6/dhcp6s.c
+===================================================================
+--- wide-dhcpv6.orig/dhcp6s.c
++++ wide-dhcpv6/dhcp6s.c
+@@ -316,8 +316,13 @@
  	}
  
  	if (foreground == 0) {

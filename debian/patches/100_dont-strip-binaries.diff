@@ -2,8 +2,8 @@ This patch prevents wide-dhcpv6 build system from stripping built binaries.
 
 Index: wide-dhcpv6/Makefile.in
 ===================================================================
---- wide-dhcpv6.orig/Makefile.in	2007-08-16 08:12:42.000000000 -0700
-+++ wide-dhcpv6/Makefile.in	2007-08-16 08:13:13.000000000 -0700
+--- wide-dhcpv6.orig/Makefile.in
++++ wide-dhcpv6/Makefile.in
 @@ -103,7 +103,7 @@
  
  install::

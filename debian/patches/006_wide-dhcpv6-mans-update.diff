@@ -111,12 +111,12 @@ Index: wide-dhcpv6/dhcp6s.8
 +++ wide-dhcpv6/dhcp6s.8
 @@ -102,7 +102,7 @@
  to store the shared secret to authenticate the communication with
- .Nm dhcp6sctl .
+ .Nm dhcp6ctl .
  The default file name used when unspecified is
 -.Pa /usr/local/etc/dhcp6sctlkey .
 +.Pa /etc/wide-dhcpv6/dhcp6sctlkey .
  The default name is intentionally same as that for
- .Nm dhcp6sctl
+ .Nm dhcp6ctl
  so that the server and the control command can share the file when
 @@ -122,12 +122,12 @@
  .El
@@ -134,7 +134,7 @@ Index: wide-dhcpv6/dhcp6s.8
 +.It Pa /etc/wide-dhcpv6/dhcp6sctlkey
  is the default key file to communicate with the control command.
  See
- .Xr dhcp6sctl 8
+ .Xr dhcp6ctl 8
 Index: wide-dhcpv6/dhcp6s.conf.5
 ===================================================================
 --- wide-dhcpv6.orig/dhcp6s.conf.5

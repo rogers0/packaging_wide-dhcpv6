@@ -1,9 +1,11 @@
 wide-dhcpv6 (20080615-7) unstable; urgency=low
 
   * New maintainer email address.
-  * debian/patches/102_libc6-2.9-fixes.diff: renamed dprintf to debug_printf
-    since the libc already exports a dprintf symbol (Closes: #552845). Refreshed
-    interface profiles patch accordingly.
+  * debian/patches:
+    -> Added debian/patches/102_libc6-2.9-fixes.diff: renamed dprintf to
+       debug_printf since the libc already exports a dprintf symbol
+       (Closes: #552845).
+    -> Refreshed all patches.
   * Switched to Debhelper compatibility level 7:
     -> Got rid of cdbs.
     -> Updated .install files accordingly.
@@ -23,7 +25,7 @@ wide-dhcpv6 (20080615-7) unstable; urgency=low
   * Removed note about 2.4 kernels in packages' description.
   * Added the debian/README.source file.
 
- -- Jérémie Corbier <jeremie+debian@famille-corbier.net>  Mon, 02 Nov 2009 13:58:26 +0100
+ -- Jérémie Corbier <jeremie+debian@famille-corbier.net>  Mon, 02 Nov 2009 15:02:53 +0100
 
 wide-dhcpv6 (20080615-6) unstable; urgency=low
 
