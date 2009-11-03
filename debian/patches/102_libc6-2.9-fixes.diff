@@ -1,3 +1,5 @@
+Fixes for recent libc releases.
+
 Index: wide-dhcpv6/addrconf.c
 ===================================================================
 --- wide-dhcpv6.orig/addrconf.c
