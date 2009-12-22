@@ -5,8 +5,10 @@ wide-dhcpv6 (20080615-8) unstable; urgency=low
        change between a stop and a start command sent to the client, reset it on
        start. Thanks to Bjørn Mork <bjorn@mork.no> for the patch
        (Closes: #561949).
+    -> Updated debian/patches/102_libc6-2.9-fixes.diff: now checks whether
+       in6_pktinfo is defined by the libc or not.
 
- -- Jeremie Corbier <jeremie+debian@famille-corbier.net>  Tue, 22 Dec 2009 10:49:18 +0100
+ -- Jérémie Corbier <jeremie+debian@famille-corbier.net>  Tue, 22 Dec 2009 11:37:19 +0100
 
 wide-dhcpv6 (20080615-7) unstable; urgency=low
 
