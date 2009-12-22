@@ -1,3 +1,13 @@
+wide-dhcpv6 (20080615-8) unstable; urgency=low
+
+  * debian/patches:
+    -> Added debian/patches/103_update-ifid-on-restart.diff: interface id may
+       change between a stop and a start command sent to the client, reset it on
+       start. Thanks to Bjørn Mork <bjorn@mork.no> for the patch
+       (Closes: #561949).
+
+ -- Jeremie Corbier <jeremie.corbier@resel.enst-bretagne.fr>  Tue, 22 Dec 2009 10:49:18 +0100
+
 wide-dhcpv6 (20080615-7) unstable; urgency=low
 
   * New maintainer email address.
