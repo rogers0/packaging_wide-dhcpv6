@@ -6,7 +6,7 @@ wide-dhcpv6 (20080615-8) unstable; urgency=low
        start. Thanks to Bjørn Mork <bjorn@mork.no> for the patch
        (Closes: #561949).
 
- -- Jeremie Corbier <jeremie.corbier@resel.enst-bretagne.fr>  Tue, 22 Dec 2009 10:49:18 +0100
+ -- Jeremie Corbier <jeremie+debian@famille-corbier.net>  Tue, 22 Dec 2009 10:49:18 +0100
 
 wide-dhcpv6 (20080615-7) unstable; urgency=low
 
