@@ -14,7 +14,11 @@ if [ -n "$new_domain_name" -o -n "$new_domain_name_servers" ]; then
     fi
     if [ -n "$new_domain_name_servers" ]; then
         for nameserver in $new_domain_name_servers; do
-            echo nameserver $nameserver >> $new_resolv_conf
+            # No need to add an already existing nameserver
+            res=$(grep "nameserver $nameserver" resolv.conf)
+            if [ -z "$res" ]; then
+                echo nameserver $nameserver >> $new_resolv_conf
+            fi
         done
     fi
 

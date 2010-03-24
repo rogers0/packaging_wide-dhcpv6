@@ -7,8 +7,11 @@ wide-dhcpv6 (20080615-8) unstable; urgency=low
        (Closes: #561949).
     -> Updated debian/patches/102_libc6-2.9-fixes.diff: now checks whether
        in6_pktinfo is defined by the libc or not.
+  * debian/scripts/dhcp6c-script:
+    -> Only add nameservers if they are not already declared in /etc/resolv.conf
+      (Closes: #561945).
 
- -- Jérémie Corbier <jeremie+debian@famille-corbier.net>  Tue, 22 Dec 2009 11:37:19 +0100
+ -- Jérémie Corbier <jeremie+debian@famille-corbier.net>  Wed, 24 Mar 2010 18:15:41 +0100
 
 wide-dhcpv6 (20080615-7) unstable; urgency=low
 
