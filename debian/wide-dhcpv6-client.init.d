@@ -1,8 +1,8 @@
 #!/bin/sh
 ### BEGIN INIT INFO
 # Provides:          wide-dhcpv6-client
-# Required-Start:    $syslog $network
-# Required-Stop:     $syslog
+# Required-Start:    $syslog $network $remote_fs
+# Required-Stop:     $syslog $remote_fs
 # Should-Start:      $local_fs
 # Should-Stop:       $local_fs
 # Default-Start:     2 3 4 5
