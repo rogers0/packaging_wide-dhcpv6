@@ -18,3 +18,4 @@ wide-dhcpv6 (20080615-2) unstable; urgency=low
     -> otherwise, the given profile is used
 
  -- Jeremie Corbier <jeremie.corbier@resel.enst-bretagne.fr>  Thu, 18 Dec 2008 09:27:02 +0100
+
