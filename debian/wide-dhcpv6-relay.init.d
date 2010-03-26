@@ -22,11 +22,7 @@ DESC="WIDE DHCPv6 relay"
 test -x $DHCP6RBIN || exit 0
 
 if [ ! -f /etc/default/wide-dhcpv6-relay ]; then
-	log_failure_msg \
-            "/etc/default/wide-dhcpv6-relay does not exist! - Aborting..."
-	log_failure_msg \
-            "Run 'dpkg-reconfigure wide-dhcpv6-relay' to solve the problem."
-	exit 1
+	exit 0
 else
 	. /etc/default/wide-dhcpv6-relay
 fi

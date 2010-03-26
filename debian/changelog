@@ -1,3 +1,10 @@
+wide-dhcpv6 (20080615-9) unstable; urgency=low
+
+  * Init scripts gracefully exit if /etc/default/wide-dhcpv6-* files are not
+    available.
+
+ -- Jérémie Corbier <jeremie+debian@famille-corbier.net>  Fri, 26 Mar 2010 09:27:17 +0100
+
 wide-dhcpv6 (20080615-8) unstable; urgency=low
 
   * debian/patches:

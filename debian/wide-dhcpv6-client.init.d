@@ -22,11 +22,7 @@ DESC="WIDE DHCPv6 client"
 test -x $DHCP6CBIN || exit 0
 
 if [ ! -f /etc/default/wide-dhcpv6-client ]; then
-    log_failure_msg \
-        "/etc/default/wide-dhcpv6-client does not exist! - Aborting..."
-    log_failure_msg \
-        "Run 'dpkg-reconfigure wide-dhcpv6-client' to fix the problem."
-    exit 3
+    exit 0
 else
     . /etc/default/wide-dhcpv6-client
 fi

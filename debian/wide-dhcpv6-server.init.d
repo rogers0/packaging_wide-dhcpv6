@@ -22,11 +22,7 @@ DESC="WIDE DHCPv6 server"
 test -x $DHCP6SBIN || exit 0
 
 if [ ! -f /etc/default/wide-dhcpv6-server ]; then
-	log_failure_msg \
-            "/etc/default/wide-dhcpv6-server does not exist! - Aborting..."
-	log_failure_msg \
-            "Run 'dpkg-reconfigure wide-dhcpv6-server' to solve the problem."
-	exit 3
+	exit 0
 else
 	. /etc/default/wide-dhcpv6-server
 fi
