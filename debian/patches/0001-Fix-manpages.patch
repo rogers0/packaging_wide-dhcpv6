@@ -1,10 +1,24 @@
+From: Jeremie Corbier <jeremie+debian@famille-corbier.net>
+Date: Tue, 6 Apr 2010 15:51:03 +0200
+Subject: [PATCH] Fix manpages
+
 This patch fixes wide-dhcpv6 manpages (paths, typos, ...).
 
-Index: wide-dhcpv6/dhcp6c.8
-===================================================================
---- wide-dhcpv6.orig/dhcp6c.8
-+++ wide-dhcpv6/dhcp6c.8
-@@ -114,13 +114,13 @@
+Signed-off-by: Jeremie Corbier <jeremie@famille-corbier.net>
+---
+ dhcp6c.8      |    8 ++++----
+ dhcp6c.conf.5 |    4 ++--
+ dhcp6ctl.8    |   13 ++++++-------
+ dhcp6relay.8  |    1 -
+ dhcp6s.8      |   10 +++++-----
+ dhcp6s.conf.5 |    2 +-
+ 6 files changed, 18 insertions(+), 20 deletions(-)
+
+diff --git a/dhcp6c.8 b/dhcp6c.8
+index 6824ae0..1d69c9d 100644
+--- a/dhcp6c.8
++++ b/dhcp6c.8
+@@ -114,13 +114,13 @@ In either case,
  will send DHCPv6 Release messages to release resources assigned from servers.
  .\"
  .Sh FILES
@@ -21,7 +35,7 @@ Index: wide-dhcpv6/dhcp6c.8
  is the file to store the client's DUID.
  .El
  .Sh Configuration Script
-@@ -203,6 +203,6 @@
+@@ -203,6 +203,6 @@ command first appeared in WIDE/KAME IPv6 protocol stack kit.
  is incomplete and violates DHCPv6 protocol spec, in several aspects.
  In particular, temporary address assignment is intentionally omitted.
  .Pp
@@ -29,10 +43,10 @@ Index: wide-dhcpv6/dhcp6c.8
 +Information Refresh Time Option is not recognized in Info-req mode, since
  .Nm
  terminates after it receives a REPLY message.
-Index: wide-dhcpv6/dhcp6c.conf.5
-===================================================================
---- wide-dhcpv6.orig/dhcp6c.conf.5
-+++ wide-dhcpv6/dhcp6c.conf.5
+diff --git a/dhcp6c.conf.5 b/dhcp6c.conf.5
+index 611ab4f..5fc03d3 100644
+--- a/dhcp6c.conf.5
++++ b/dhcp6c.conf.5
 @@ -36,7 +36,7 @@
  .Nd DHCPv6 client configuration file
  .\"
@@ -42,7 +56,7 @@ Index: wide-dhcpv6/dhcp6c.conf.5
  .\"
  .Sh DESCRIPTION
  The
-@@ -630,7 +630,7 @@
+@@ -630,7 +630,7 @@ execute the
  .Xr openssl 1
  command (when available) as follows,
  .Bd -literal -offset
@@ -51,11 +65,11 @@ Index: wide-dhcpv6/dhcp6c.conf.5
  .Ed
  .Pp
  and copy the output to the
-Index: wide-dhcpv6/dhcp6ctl.8
-===================================================================
---- wide-dhcpv6.orig/dhcp6ctl.8
-+++ wide-dhcpv6/dhcp6ctl.8
-@@ -85,12 +85,11 @@
+diff --git a/dhcp6ctl.8 b/dhcp6ctl.8
+index 86ea0e1..e11889b 100644
+--- a/dhcp6ctl.8
++++ b/dhcp6ctl.8
+@@ -85,12 +85,11 @@ Use
  .Ar keyfile
  to provide the shared secret to communicate with the process.
  The default file name used when unspecified is
@@ -70,7 +84,7 @@ Index: wide-dhcpv6/dhcp6ctl.8
  .It Fl p Ar port
  Specify
  .Ar port
-@@ -99,7 +98,7 @@
+@@ -99,7 +98,7 @@ The default port number used when unspecified is 5546 for a client,
  and 5547 for a server.
  .It Fl s Ar address
  Specify
@@ -79,7 +93,7 @@ Index: wide-dhcpv6/dhcp6ctl.8
  as the listening address of the process.
  The default address used when unspecified is ::1.
  .El
-@@ -183,10 +182,10 @@
+@@ -183,10 +182,10 @@ information (if any) and exits.
  .El
  .\"
  .Sh FILES
@@ -93,11 +107,11 @@ Index: wide-dhcpv6/dhcp6ctl.8
  is the default key file to communicate with a server.
  .El
  .\"
-Index: wide-dhcpv6/dhcp6relay.8
-===================================================================
---- wide-dhcpv6.orig/dhcp6relay.8
-+++ wide-dhcpv6/dhcp6relay.8
-@@ -107,7 +107,6 @@
+diff --git a/dhcp6relay.8 b/dhcp6relay.8
+index 4f761b0..7ad8ada 100644
+--- a/dhcp6relay.8
++++ b/dhcp6relay.8
+@@ -107,7 +107,6 @@ to dump the process ID of
  is the default file that contains pid of the currently running
  .Nm .
  .El
@@ -105,11 +119,11 @@ Index: wide-dhcpv6/dhcp6relay.8
  .Sh SEE ALSO
  .Xr dhcp6c 8 ,
  .Xr dhcp6s 8
-Index: wide-dhcpv6/dhcp6s.8
-===================================================================
---- wide-dhcpv6.orig/dhcp6s.8
-+++ wide-dhcpv6/dhcp6s.8
-@@ -102,7 +102,7 @@
+diff --git a/dhcp6s.8 b/dhcp6s.8
+index 888117a..29dcc7b 100644
+--- a/dhcp6s.8
++++ b/dhcp6s.8
+@@ -102,7 +102,7 @@ Use
  to store the shared secret to authenticate the communication with
  .Nm dhcp6ctl .
  The default file name used when unspecified is
@@ -118,7 +132,7 @@ Index: wide-dhcpv6/dhcp6s.8
  The default name is intentionally same as that for
  .Nm dhcp6ctl
  so that the server and the control command can share the file when
-@@ -122,12 +122,12 @@
+@@ -122,12 +122,12 @@ to dump the process ID of
  .El
  .\"
  .Sh FILES
@@ -135,10 +149,10 @@ Index: wide-dhcpv6/dhcp6s.8
  is the default key file to communicate with the control command.
  See
  .Xr dhcp6ctl 8
-Index: wide-dhcpv6/dhcp6s.conf.5
-===================================================================
---- wide-dhcpv6.orig/dhcp6s.conf.5
-+++ wide-dhcpv6/dhcp6s.conf.5
+diff --git a/dhcp6s.conf.5 b/dhcp6s.conf.5
+index 1206764..2cb08ce 100644
+--- a/dhcp6s.conf.5
++++ b/dhcp6s.conf.5
 @@ -36,7 +36,7 @@
  .Nd DHCPv6 server configuration file
  .\"
@@ -148,3 +162,4 @@ Index: wide-dhcpv6/dhcp6s.conf.5
  .\"
  .Sh DESCRIPTION
  The
+-- 

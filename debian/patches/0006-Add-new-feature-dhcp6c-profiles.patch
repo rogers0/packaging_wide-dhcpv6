@@ -1,12 +1,27 @@
+From: Jeremie Corbier <jeremie+debian@famille-corbier.net>
+Date: Tue, 6 Apr 2010 15:51:14 +0200
+Subject: [PATCH] Add new feature: dhcp6c profiles
+
 This patch enables users to define interface profiles so one can configure a
 group of interfaces the same way without having to provide an interface
 statement for each.
 
-Index: wide-dhcpv6/cfparse.y
-===================================================================
---- wide-dhcpv6.orig/cfparse.y
-+++ wide-dhcpv6/cfparse.y
-@@ -83,6 +83,7 @@
+Signed-off-by: Jeremie Corbier <jeremie@famille-corbier.net>
+---
+ cfparse.y     |   23 ++++-
+ cftoken.l     |   10 ++
+ config.c      |  334 ++++++++++++++++++++++++++++++++-------------------------
+ config.h      |    3 +
+ dhcp6c.8      |    9 ++
+ dhcp6c.c      |    5 +-
+ dhcp6c.conf.5 |    7 ++
+ 7 files changed, 245 insertions(+), 146 deletions(-)
+
+diff --git a/cfparse.y b/cfparse.y
+index dcac3d7..c79d131 100644
+--- a/cfparse.y
++++ b/cfparse.y
+@@ -83,6 +83,7 @@ extern void yyerror __P((char *, ...))
  	} while (0)
  
  static struct cf_namelist *iflist_head, *hostlist_head, *iapdlist_head;
@@ -14,7 +29,7 @@ Index: wide-dhcpv6/cfparse.y
  static struct cf_namelist *addrpoollist_head;
  static struct cf_namelist *authinfolist_head, *keylist_head;
  static struct cf_namelist *ianalist_head;
-@@ -102,6 +103,7 @@
+@@ -102,6 +103,7 @@ static void cleanup_cflist __P((struct cf_list *));
  %}
  
  %token INTERFACE IFNAME
@@ -22,7 +37,7 @@ Index: wide-dhcpv6/cfparse.y
  %token PREFIX_INTERFACE SLA_ID SLA_LEN DUID_ID
  %token ID_ASSOC IA_PD IAID IA_NA
  %token ADDRESS
-@@ -133,7 +135,7 @@
+@@ -133,7 +135,7 @@ static void cleanup_cflist __P((struct cf_list *));
  }
  
  %type <str> IFNAME HOSTNAME AUTHNAME KEYNAME DUID_ID STRING QSTRING IAID
@@ -31,7 +46,7 @@ Index: wide-dhcpv6/cfparse.y
  %type <num> NUMBER duration authproto authalg authrdm
  %type <list> declaration declarations dhcpoption ifparam ifparams
  %type <list> address_list address_list_ent dhcpoption_list
-@@ -153,6 +155,7 @@
+@@ -153,6 +155,7 @@ statements:
  
  statement:
  		interface_statement
@@ -39,7 +54,7 @@ Index: wide-dhcpv6/cfparse.y
  	|	host_statement
  	|	option_statement
  	|	ia_statement
-@@ -174,6 +177,18 @@
+@@ -174,6 +177,18 @@ interface_statement:
  	}
  	;
  
@@ -58,7 +73,7 @@ Index: wide-dhcpv6/cfparse.y
  host_statement:
  	HOST HOSTNAME BCL declarations ECL EOS
  	{
-@@ -1224,6 +1239,8 @@
+@@ -1224,6 +1239,8 @@ cleanup()
  {
  	cleanup_namelist(iflist_head);
  	iflist_head = NULL;
@@ -67,7 +82,7 @@ Index: wide-dhcpv6/cfparse.y
  	cleanup_namelist(hostlist_head);
  	hostlist_head = NULL;
  	cleanup_namelist(iapdlist_head);
-@@ -1318,6 +1335,9 @@
+@@ -1318,6 +1335,9 @@ cf_post_config()
  	if (configure_pool(addrpoollist_head))
  		config_fail();
  
@@ -77,17 +92,17 @@ Index: wide-dhcpv6/cfparse.y
  	if (configure_interface(iflist_head))
  		config_fail();
  
-@@ -1337,4 +1357,5 @@
+@@ -1337,4 +1357,5 @@ void
  cf_init()
  {
  	iflist_head = NULL;
 +	profilelist_head = NULL;
  }
-Index: wide-dhcpv6/cftoken.l
-===================================================================
---- wide-dhcpv6.orig/cftoken.l
-+++ wide-dhcpv6/cftoken.l
-@@ -111,6 +111,7 @@
+diff --git a/cftoken.l b/cftoken.l
+index ad4128d..4c9ed10 100644
+--- a/cftoken.l
++++ b/cftoken.l
+@@ -111,6 +111,7 @@ ecl		\}
  
  %s S_CNF
  %s S_IFACE
@@ -95,7 +110,7 @@ Index: wide-dhcpv6/cftoken.l
  %s S_PREF
  %s S_HOST
  %s S_DUID
-@@ -137,6 +138,15 @@
+@@ -137,6 +138,15 @@ ecl		\}
  	return (IFNAME);
  }
  
@@ -111,10 +126,10 @@ Index: wide-dhcpv6/cftoken.l
  	/* host configuration */
  <S_CNF>host { DECHO; BEGIN S_HOST; return (HOST); }
  <S_HOST>{string} {
-Index: wide-dhcpv6/config.c
-===================================================================
---- wide-dhcpv6.orig/config.c
-+++ wide-dhcpv6/config.c
+diff --git a/config.c b/config.c
+index 3721545..23598fc 100644
+--- a/config.c
++++ b/config.c
 @@ -61,6 +61,7 @@
  #include <lease.h>
  
@@ -123,7 +138,7 @@ Index: wide-dhcpv6/config.c
  
  struct prefix_ifconf *prefix_ifconflist;
  struct dhcp6_list siplist, sipnamelist, dnslist, dnsnamelist, ntplist;
-@@ -70,6 +71,7 @@
+@@ -70,6 +71,7 @@ struct dhcp6_list bcmcslist, bcmcsnamelist;
  long long optrefreshtime;
  
  static struct dhcp6_ifconf *dhcp6_ifconflist;
@@ -131,7 +146,7 @@ Index: wide-dhcpv6/config.c
  struct ia_conflist ia_conflist0;
  static struct host_conf *host_conflist0, *host_conflist;
  static struct keyinfo *key_list, *key_list0;
-@@ -134,6 +136,8 @@
+@@ -134,6 +136,8 @@ static void clear_iaconf __P((struct ia_conflist *));
  static void clear_hostconf __P((struct host_conf *));
  static void clear_keys __P((struct keyinfo *));
  static void clear_authinfo __P((struct authinfo *));
@@ -140,7 +155,7 @@ Index: wide-dhcpv6/config.c
  static int configure_duid __P((char *, struct duid *));
  static int configure_addr __P((struct cf_list *, struct dhcp6_list *, char *));
  static int configure_domain __P((struct cf_list *, struct dhcp6_list *, char *));
-@@ -149,170 +153,199 @@
+@@ -149,170 +153,199 @@ configure_interface(iflist)
  	struct cf_namelist *iflist;
  {
  	struct cf_namelist *ifp;
@@ -482,7 +497,7 @@ Index: wide-dhcpv6/config.c
  }
  
  int
-@@ -1275,6 +1308,8 @@
+@@ -1275,6 +1308,8 @@ configure_cleanup()
  	clear_iaconf(&ia_conflist0);
  	clear_ifconf(dhcp6_ifconflist);
  	dhcp6_ifconflist = NULL;
@@ -491,7 +506,7 @@ Index: wide-dhcpv6/config.c
  	clear_hostconf(host_conflist0);
  	host_conflist0 = NULL;
  	clear_keys(key_list0);
-@@ -1322,8 +1357,17 @@
+@@ -1322,8 +1357,17 @@ configure_commit()
  			if (strcmp(ifp->ifname, ifc->ifname) == 0)
  				break;
  		}
@@ -511,7 +526,7 @@ Index: wide-dhcpv6/config.c
  
  		/* copy new configuration */
  		ifp->send_flags = ifc->send_flags;
-@@ -1349,6 +1393,8 @@
+@@ -1349,6 +1393,8 @@ configure_commit()
  
  	clear_ifconf(dhcp6_ifconflist);
  	dhcp6_ifconflist = NULL;
@@ -520,11 +535,11 @@ Index: wide-dhcpv6/config.c
  
  	/* clear unused IA configuration */
  	if (!TAILQ_EMPTY(&ia_conflist0)) {
-Index: wide-dhcpv6/config.h
-===================================================================
---- wide-dhcpv6.orig/config.h
-+++ wide-dhcpv6/config.h
-@@ -285,6 +285,8 @@
+diff --git a/config.h b/config.h
+index bf6dae6..ea8d17c 100644
+--- a/config.h
++++ b/config.h
+@@ -285,6 +285,8 @@ dhcp6_mode_t;
  
  extern const dhcp6_mode_t dhcp6_mode;
  
@@ -533,7 +548,7 @@ Index: wide-dhcpv6/config.h
  extern struct dhcp6_if *dhcp6_if;
  extern struct dhcp6_ifconf *dhcp6_iflist;
  extern struct prefix_ifconf *prefix_ifconflist;
-@@ -304,6 +306,7 @@
+@@ -304,6 +306,7 @@ extern long long optrefreshtime;
  extern struct dhcp6_if *ifinit __P((char *));
  extern int ifreset __P((struct dhcp6_if *));
  extern int configure_interface __P((struct cf_namelist *));
@@ -541,10 +556,10 @@ Index: wide-dhcpv6/config.h
  extern int configure_host __P((struct cf_namelist *));
  extern int configure_keys __P((struct cf_namelist *));
  extern int configure_authinfo __P((struct cf_namelist *));
-Index: wide-dhcpv6/dhcp6c.8
-===================================================================
---- wide-dhcpv6.orig/dhcp6c.8
-+++ wide-dhcpv6/dhcp6c.8
+diff --git a/dhcp6c.8 b/dhcp6c.8
+index 1d69c9d..acc8f46 100644
+--- a/dhcp6c.8
++++ b/dhcp6c.8
 @@ -39,6 +39,7 @@
  .Op Fl c Ar configfile
  .Op Fl Ddfi
@@ -553,7 +568,7 @@ Index: wide-dhcpv6/dhcp6c.8
  .Ar interface
  .Op Ar interfaces...
  .\"
-@@ -92,6 +93,14 @@
+@@ -92,6 +93,14 @@ Use
  .Ar pid-file
  to dump the process ID of
  .Nm .
@@ -568,11 +583,11 @@ Index: wide-dhcpv6/dhcp6c.8
  .El
  .Pp
  The program will daemonize itself on invocation unless the
-Index: wide-dhcpv6/dhcp6c.c
-===================================================================
---- wide-dhcpv6.orig/dhcp6c.c
-+++ wide-dhcpv6/dhcp6c.c
-@@ -170,7 +170,7 @@
+diff --git a/dhcp6c.c b/dhcp6c.c
+index edeca80..35080e9 100644
+--- a/dhcp6c.c
++++ b/dhcp6c.c
+@@ -170,7 +170,7 @@ main(argc, argv)
  	else
  		progname++;
  
@@ -581,7 +596,7 @@ Index: wide-dhcpv6/dhcp6c.c
  		switch (ch) {
  		case 'c':
  			conffile = optarg;
-@@ -193,6 +193,9 @@
+@@ -193,6 +193,9 @@ main(argc, argv)
  		case 'p':
  			pid_file = optarg;
  			break;
@@ -591,11 +606,11 @@ Index: wide-dhcpv6/dhcp6c.c
  		default:
  			usage();
  			exit(0);
-Index: wide-dhcpv6/dhcp6c.conf.5
-===================================================================
---- wide-dhcpv6.orig/dhcp6c.conf.5
-+++ wide-dhcpv6/dhcp6c.conf.5
-@@ -288,6 +288,13 @@
+diff --git a/dhcp6c.conf.5 b/dhcp6c.conf.5
+index 5fc03d3..3d5d25a 100644
+--- a/dhcp6c.conf.5
++++ b/dhcp6c.conf.5
+@@ -288,6 +288,13 @@ file, and be created by the same owner who runs the daemon.
  .El
  .El
  .\"
@@ -609,3 +624,4 @@ Index: wide-dhcpv6/dhcp6c.conf.5
  .Sh Identity association statement
  Identity association
  .Pq IA
+-- 

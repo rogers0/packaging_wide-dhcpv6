@@ -1,6 +1,6 @@
-006_wide-dhcpv6-mans-update.diff
-100_dont-strip-binaries.diff
-101_close-fds.diff
-102_libc6-2.9-fixes.diff
-103_update-ifid-on-restart.diff
-200_dhcp6c-profiles.diff
+0001-Fix-manpages.patch
+0002-Don-t-strip-binaries.patch
+0003-Close-inherited-file-descriptors.patch
+0004-GNU-libc6-fixes.patch
+0005-Update-ifid-on-interface-restart.patch
+0006-Add-new-feature-dhcp6c-profiles.patch
