@@ -1,7 +1,7 @@
 Source: wide-dhcpv6
 Section: net
 Priority: optional
-Maintainer: Jérémie Corbier <jeremie+debian@famille-corbier.net>
+Maintainer: Jérémie Corbier <jcorbier@debian.org>
 Build-Depends: debhelper (>= 7.0.50~), autotools-dev, bison, flex
 Standards-Version: 3.8.4
 Vcs-Git: git://git.famille-corbier.net/packages/wide-dhcpv6.git/
