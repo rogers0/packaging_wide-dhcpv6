@@ -1,3 +1,4 @@
+From 0eb4cdb7bbf496b83923a05e4993b0e9757d0064 Mon Sep 17 00:00:00 2001
 From: Jeremie Corbier <jeremie+debian@famille-corbier.net>
 Date: Tue, 6 Apr 2010 15:51:12 +0200
 Subject: [PATCH] Update ifid on interface restart
@@ -30,3 +31,5 @@ index c959b7c..edeca80 100644
  		if (client6_start(ifp)) {
  			debug_printf(LOG_NOTICE, FNAME, "failed to restart %s",
 -- 
+1.5.6.5
+

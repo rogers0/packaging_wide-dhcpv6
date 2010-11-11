@@ -1,3 +1,4 @@
+From 2bb6f1769a5c3ea4f669382801c9bb2b74881d48 Mon Sep 17 00:00:00 2001
 From: Jeremie Corbier <jeremie+debian@famille-corbier.net>
 Date: Tue, 6 Apr 2010 15:51:08 +0200
 Subject: [PATCH] Close inherited file descriptors
@@ -75,3 +76,5 @@ index 544afff..494e571 100644
  
  	/* dump current PID */
 -- 
+1.5.6.5
+

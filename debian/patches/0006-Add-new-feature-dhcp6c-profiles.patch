@@ -1,3 +1,4 @@
+From 0c23a622a7e59af0484da59aeb064095e3c0b1e0 Mon Sep 17 00:00:00 2001
 From: Jeremie Corbier <jeremie+debian@famille-corbier.net>
 Date: Tue, 6 Apr 2010 15:51:14 +0200
 Subject: [PATCH] Add new feature: dhcp6c profiles
@@ -625,3 +626,5 @@ index 5fc03d3..3d5d25a 100644
  Identity association
  .Pq IA
 -- 
+1.5.6.5
+

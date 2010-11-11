@@ -1,3 +1,4 @@
+From e9fd60840eb125dcd55aab859dd838a47c02931f Mon Sep 17 00:00:00 2001
 From: Jeremie Corbier <jeremie+debian@famille-corbier.net>
 Date: Tue, 6 Apr 2010 15:51:03 +0200
 Subject: [PATCH] Fix manpages
@@ -163,3 +164,5 @@ index 1206764..2cb08ce 100644
  .Sh DESCRIPTION
  The
 -- 
+1.5.6.5
+
