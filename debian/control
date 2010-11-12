@@ -3,7 +3,7 @@ Section: net
 Priority: optional
 Maintainer: Jérémie Corbier <jcorbier@debian.org>
 Build-Depends: debhelper (>= 7.0.50~), autotools-dev, bison, flex
-Standards-Version: 3.8.4
+Standards-Version: 3.9.1
 Vcs-Git: git://git.famille-corbier.net/packages/wide-dhcpv6.git/
 Vcs-Browser: http://git.famille-corbier.net/?p=packages/wide-dhcpv6.git;a=summary
 Homepage: http://wide-dhcpv6.sourceforge.net/
