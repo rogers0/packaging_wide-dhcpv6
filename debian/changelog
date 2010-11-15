@@ -1,8 +1,9 @@
 wide-dhcpv6 (20080615-10) unstable; urgency=low
 
+  * Fix wide-dhcpv6-{server,relay}.config.
   * Bumped up Standards-Version to 3.9.1: no changes needed.
 
- -- Jérémie Corbier <jcorbier@debian.org>  Fri, 12 Nov 2010 09:41:43 +0100
+ -- Jérémie Corbier <jcorbier@debian.org>  Mon, 15 Nov 2010 21:50:12 +0100
 
 wide-dhcpv6 (20080615-9) unstable; urgency=low
 
