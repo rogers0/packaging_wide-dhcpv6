@@ -32,6 +32,22 @@ Description: DHCPv6 client for automatic IPv6 hosts configuration
  .
  Multiple network interfaces are supported by this DHCPv6 package.
 
+Package: wide-dhcpv6-client-udeb
+Architecture: any
+Section: debian-installer
+XC-Package-Type: udeb
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: DHCPv6 client for automatic IPv6 hosts configuration
+ This is the DHCPv6 client from WIDE project. For more information visit the
+ project web site at http://wide-dhcpv6.sourceforge.net/
+ .
+ DHCPv6 allows prefix delagation and host configuration for the IPv6 network
+ protocol.
+ .
+ Multiple network interfaces are supported by this DHCPv6 package.
+ .
+ This is a udeb, designed to be used by Debian installer.
+
 Package: wide-dhcpv6-relay
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}, lsb-base

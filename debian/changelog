@@ -1,3 +1,10 @@
+wide-dhcpv6 (20080615-11) unstable; urgency=low
+
+  * Add wide-dhcpv6-client-udeb for d-i integration, thanks to
+    Matthew Palmer <mpalmer@debian.org> for the patch (Closes: #611870).
+
+ -- Jérémie Corbier <jcorbier@debian.org>  Thu, 03 Feb 2011 14:06:05 +0100
+
 wide-dhcpv6 (20080615-10) unstable; urgency=low
 
   * Fix wide-dhcpv6-{server,relay}.config.
