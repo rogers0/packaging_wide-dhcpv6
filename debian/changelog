@@ -1,3 +1,10 @@
+wide-dhcpv6 (20080615-12) unstable; urgency=low
+
+  * Added Dutch debconf templates translation, thanks to Jeroen Schot
+    (Closes: #632629).
+
+ -- Jérémie Corbier <jcorbier@debian.org>  Tue, 05 Jul 2011 13:29:44 +0200
+
 wide-dhcpv6 (20080615-11) unstable; urgency=low
 
   * Add wide-dhcpv6-client-udeb for d-i integration, thanks to

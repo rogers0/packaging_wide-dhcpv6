@@ -1,0 +1,104 @@
+# Dutch translation of wide-dhcpv6 debconf templates.
+# Copyright (C) 2011 THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# Jeroen Schot <schot@a-eskwadraat.nl>, 2011.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: wide-dhcpv6 20080615-11\n"
+"Report-Msgid-Bugs-To: wide-dhcpv6@packages.debian.org\n"
+"POT-Creation-Date: 2009-03-09 11:13+0100\n"
+"PO-Revision-Date: 2011-06-16 11:43+0200\n"
+"Last-Translator: Jeroen Schot <schot@a-eskwadraat.nl>\n"
+"Language-Team: Debian l10n Dutch <debian-l10n-dutch@lists.debian.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: nl\n"
+
+#. Type: string
+#. Description
+#: ../wide-dhcpv6-client.templates:1001
+msgid "Interfaces on which the DHCPv6 client sends requests:"
+msgstr "Interfaces waarop de DHCPv6-client verzoeken stuurt:"
+
+#. Type: string
+#. Description
+#: ../wide-dhcpv6-client.templates:1001
+msgid ""
+"Network interfaces on which the DHCPv6 client sends requests should be "
+"specified here. Multiple interfaces are separated with spaces. An empty line "
+"temporarily disables dhcp6c."
+msgstr ""
+"Geef hier de netwerkinterfaces op waarop de DHCPv6-client verzoeken stuurt. "
+"Meerdere interfaces worden gescheiden door spaties. Met een lege regel kunt "
+"u dhcpv6c tijdelijk uitschakelen."
+
+#. Type: string
+#. Description
+#: ../wide-dhcpv6-relay.templates:1001
+msgid "Interfaces on which the DHCPv6 relay operates:"
+msgstr "Interfaces waarop het DHCPv6-relais actief is:"
+
+#. Type: string
+#. Description
+#: ../wide-dhcpv6-relay.templates:1001
+msgid ""
+"Network interfaces on which the DHCPv6 relay handles requests should be "
+"specified here. Multiple interfaces are separated with spaces. An empty line "
+"temporarily disables dhcp6relay."
+msgstr ""
+"Geef hier de netwerkinterfaces op waarop het DHCPv6-relais verzoeken "
+"afhandelt. Meerdere interfaces worden gescheiden door spaties. Met een lege "
+"regel kunt u dhcpv6relay tijdelijk uitschakelen."
+
+#. Type: note
+#. Description
+#: ../wide-dhcpv6-server.templates:1001
+msgid "WIDE DHCPv6 server configuration"
+msgstr "WIDE DHCPv6-serverconfiguratie"
+
+#. Type: note
+#. Description
+#: ../wide-dhcpv6-server.templates:1001
+msgid "The DHCPv6 server requires manual configuration after installation."
+msgstr "De DHCPv6-server vereist handmatige configuratie na de installatie."
+
+#. Type: note
+#. Description
+#: ../wide-dhcpv6-server.templates:1001
+msgid ""
+"After the DHCPv6 server is installed it has to be manually configured by "
+"editing the file /etc/wide-dhcpv6/dhcp6s.conf. A sample dhcp6s.conf is "
+"available at /usr/share/doc/wide-dhcpv6-server/examples."
+msgstr ""
+"Nadat de DHCPv6-server is geïnstalleerd moet het handmatig worden "
+"geconfigureerd door het bestand /etc/wide-dhcpv6/dhcp6s.conf aan te passen. "
+"Een voorbeeld van dhcp6.conf is beschikbaar in /usr/share/doc/wide-dhcpv6-"
+"server/examples."
+
+#. Type: note
+#. Description
+#: ../wide-dhcpv6-server.templates:1001
+msgid ""
+"Please configure the DHCPv6 server as soon as the installation finishes."
+msgstr ""
+"Configureer alstublieft de DHCPv6-server zodra de installatie klaar is."
+
+#. Type: string
+#. Description
+#: ../wide-dhcpv6-server.templates:2001
+msgid "Interfaces on which the DHCPv6 server listens to requests:"
+msgstr "Interfaces waarop de DHCPv6-server naar verzoeken luistert:"
+
+#. Type: string
+#. Description
+#: ../wide-dhcpv6-server.templates:2001
+msgid ""
+"Network interfaces on which the DHCPv6 server listens to requests should be "
+"specified here. Multiple interfaces are separated with spaces. An empty line "
+"temporarily disables dhcp6s."
+msgstr ""
+"Geef hier de netwerkinterfaces op waarop het DHCPv6-server naar verzoeken "
+"luistert. Meerdere interfaces worden gescheiden door spaties. Met een lege "
+"regel kunt u dhcpv6s tijdelijk uitschakelen."
