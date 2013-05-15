@@ -1,7 +1,8 @@
 wide-dhcpv6 (20080615-12) unstable; urgency=low
 
   * Acknowledge l10n NMU by Christian Perrier
-  * Bumped up Standards-Version to 3.9.2: no changes needed.
+  * Switched to Debhelper compatibility level 9.
+  * Bumped up Standards-Version to 3.9.4: no changes needed.
 
  -- Jérémie Corbier <jcorbier@debian.org>  Wed, 15 May 2013 10:51:25 +0200
 
