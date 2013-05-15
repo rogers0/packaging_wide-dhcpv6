@@ -11,11 +11,13 @@ msgstr ""
 "PO-Revision-Date: 2009-10-06 10:35+0400\n"
 "Last-Translator: Yuri Kozlov <yuray@komyakino.ru>\n"
 "Language-Team: Russian <debian-l10n-russian@lists.debian.org>\n"
+"Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: KBabel 1.11.4\n"
-"Plural-Forms:  nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Plural-Forms:  nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
 #. Type: string
 #. Description
@@ -32,8 +34,8 @@ msgid ""
 "temporarily disables dhcp6c."
 msgstr ""
 "Здесь нужно указать сетевые интерфейсы, на которые клиент DHCPv6 должен "
-"отправлять запросы. Несколько интерфейсов указываются через пробел. "
-"Если ничего не вводить, то dhcp6c будет временно выключен."
+"отправлять запросы. Несколько интерфейсов указываются через пробел. Если "
+"ничего не вводить, то dhcp6c будет временно выключен."
 
 #. Type: string
 #. Description
@@ -73,14 +75,15 @@ msgid ""
 "editing the file /etc/wide-dhcpv6/dhcp6s.conf. A sample dhcp6s.conf is "
 "available at /usr/share/doc/wide-dhcpv6-server/examples."
 msgstr ""
-"После установки сервер DHCPv6 требует ручной правки файла "
-"/etc/wide-dhcpv6/dhcp6s.conf. Пример файла dhcp6s.conf можно найти "
-"в каталоге /usr/share/doc/wide-dhcpv6-server/examples."
+"После установки сервер DHCPv6 требует ручной правки файла /etc/wide-dhcpv6/"
+"dhcp6s.conf. Пример файла dhcp6s.conf можно найти в каталоге /usr/share/doc/"
+"wide-dhcpv6-server/examples."
 
 #. Type: note
 #. Description
 #: ../wide-dhcpv6-server.templates:1001
-msgid "Please configure the DHCPv6 server as soon as the installation finishes."
+msgid ""
+"Please configure the DHCPv6 server as soon as the installation finishes."
 msgstr "Донастройте сервер DHCPv6 сразу после завершения установки."
 
 #. Type: string
@@ -98,6 +101,5 @@ msgid ""
 "temporarily disables dhcp6s."
 msgstr ""
 "Здесь нужно указать сетевые интерфейсы, с которых сервер DHCPv6 должен "
-"принимать запросы. Несколько интерфейсов указываются через пробел. "
-"Если ничего не вводить, то dhcp6s будет временно выключен."
-
+"принимать запросы. Несколько интерфейсов указываются через пробел. Если "
+"ничего не вводить, то dhcp6s будет временно выключен."

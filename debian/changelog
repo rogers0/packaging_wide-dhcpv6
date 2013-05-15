@@ -1,10 +1,20 @@
 wide-dhcpv6 (20080615-12) unstable; urgency=low
 
-  * Added Dutch debconf templates translation, thanks to Jeroen Schot
-    (Closes: #632629).
+  * Acknowledge l10n NMU by Christian Perrier
   * Bumped up Standards-Version to 3.9.2: no changes needed.
 
- -- Jérémie Corbier <jcorbier@debian.org>  Tue, 05 Jul 2011 13:39:31 +0200
+ -- Jérémie Corbier <jcorbier@debian.org>  Wed, 15 May 2013 10:51:25 +0200
+
+wide-dhcpv6 (20080615-11.1) unstable; urgency=low
+
+  * Non-maintainer upload.
+  * Fix pending l10n issues. Debconf translations:
+    - Danish (Joe Hansen).  Closes: #645824
+    - Dutch; (Jeroen Schot).  Closes: #632629
+    - Polish (Michał Kułach).  Closes: #659242
+    - Italian (Beatrice Torracca).  Closes: #660000
+
+ -- Christian Perrier <bubulle@debian.org>  Sat, 18 Feb 2012 19:07:44 +0100
 
 wide-dhcpv6 (20080615-11) unstable; urgency=low
 
