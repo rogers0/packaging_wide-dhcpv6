@@ -1,3 +1,10 @@
+wide-dhcpv6 (20080615-13) unstable; urgency=low
+
+  * Try and generate a default IFID only if an IFID is not configured
+    (Closes: #751168).
+
+ -- Jérémie Corbier <jcorbier@debian.org>  Thu, 24 Jul 2014 10:50:06 +0200
+
 wide-dhcpv6 (20080615-12) unstable; urgency=low
 
   * Acknowledge l10n NMU by Christian Perrier

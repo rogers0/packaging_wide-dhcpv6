@@ -15,10 +15,10 @@ Signed-off-by: Jeremie Corbier <jeremie@famille-corbier.net>
 ---
  cfparse.y     |   10 +++++++++-
  cftoken.l     |    1 +
- config.c      |    5 +++++
+ config.c      |   19 ++++++++++++++-----
  config.h      |    2 +-
  dhcp6c.conf.5 |   10 ++++++++++
- 5 files changed, 26 insertions(+), 2 deletions(-)
+ 5 files changed, 35 insertions(+), 7 deletions(-)
 
 diff --git a/cfparse.y b/cfparse.y
 index c79d131..e83ecf7 100644
@@ -61,28 +61,56 @@ index 4c9ed10..6afda5f 100644
  	/* duration */
  <S_CNF>infinity { DECHO; return (INFINITY); }
 diff --git a/config.c b/config.c
-index 23598fc..bb16c21 100644
+index 23598fc..e04d6a5 100644
 --- a/config.c
 +++ b/config.c
 @@ -471,6 +471,7 @@ add_pd_pif(iapdc, cfl0)
  {
  	struct cf_list *cfl;
  	struct prefix_ifconf *pif;
-+	int i;
++	int i, use_default_ifid = 1;
  
  	/* duplication check */
  	for (pif = TAILQ_FIRST(&iapdc->iapd_pif_list); pif;
-@@ -524,6 +525,10 @@ add_pd_pif(iapdc, cfl0)
+@@ -504,11 +505,6 @@ add_pd_pif(iapdc, cfl0)
+ 
+ 	pif->ifid_len = IFID_LEN_DEFAULT;
+ 	pif->sla_len = SLA_LEN_DEFAULT;
+-	if (get_default_ifid(pif)) {
+-		debug_printf(LOG_NOTICE, FNAME,
+-		    "failed to get default IF ID for %s", pif->ifname);
+-		goto bad;
+-	}
+ 
+ 	for (cfl = cfl0->list; cfl; cfl = cfl->next) {
+ 		switch(cfl->type) {
+@@ -524,6 +520,11 @@ add_pd_pif(iapdc, cfl0)
  				goto bad;
  			}
  			break;
 +		case IFPARAM_IFID:
 +			for (i = sizeof(pif->ifid) -1; i >= 0; i--)
 +				pif->ifid[i] = (cfl->num >> 8*(sizeof(pif->ifid) - 1 - i)) & 0xff;
++			use_default_ifid = 0;
 +			break;
  		default:
  			debug_printf(LOG_ERR, FNAME, "%s:%d internal error: "
  			    "invalid configuration",
+@@ -532,6 +533,14 @@ add_pd_pif(iapdc, cfl0)
+ 		}
+ 	}
+ 
++	if (use_default_ifid) {
++		if (get_default_ifid(pif)) {
++			debug_printf(LOG_NOTICE, FNAME,
++			    "failed to get default IF ID for %s", pif->ifname);
++			goto bad;
++		}
++	}
++
+ 	TAILQ_INSERT_TAIL(&iapdc->iapd_pif_list, pif, link);
+ 	return (0);
+ 
 diff --git a/config.h b/config.h
 index ea8d17c..64ce9e8 100644
 --- a/config.h
