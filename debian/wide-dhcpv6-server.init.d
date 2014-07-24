@@ -17,6 +17,8 @@ DHCP6SPIDBASE=/var/run/dhcp6s
 NAME="dhcp6s"
 DESC="WIDE DHCPv6 server"
 
+STOP_RETRY_SCHEDULE='TERM/20/forever/KILL/1'
+
 . /lib/lsb/init-functions
 
 test -x $DHCP6SBIN || exit 0
@@ -66,7 +68,8 @@ case "$1" in
 	stop)
                 for INT in $INTERFACES; do
                     log_daemon_msg "Stopping $DESC on $INT" "$NAME"
-                    start-stop-daemon --stop --quiet --pidfile ${DHCP6SPIDBASE}.${INT}.pid --oknodo
+                    start-stop-daemon --stop --quiet --retry $STOP_RETRY_SCHEDULE \
+                        --pidfile ${DHCP6SPIDBASE}.${INT}.pid --oknodo
                     log_end_msg $?
                     rm -f $DHCP6SPID
                 done

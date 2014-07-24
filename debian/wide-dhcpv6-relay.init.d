@@ -17,6 +17,8 @@ DHCP6RPID=/var/run/dhcp6relay.pid
 NAME="dhcp6relay"
 DESC="WIDE DHCPv6 relay"
 
+STOP_RETRY_SCHEDULE='TERM/20/forever/KILL/1'
+
 . /lib/lsb/init-functions
 
 test -x $DHCP6RBIN || exit 0
@@ -61,7 +63,8 @@ case "$1" in
 		;;
 	stop)
 		log_daemon_msg "Stopping $DESC" "$NAME"
-		start-stop-daemon --stop --quiet --pidfile $DHCP6RPID --oknodo
+		start-stop-daemon --stop --quiet --retry $STOP_RETRY_SCHEDULE \
+                    --pidfile $DHCP6RPID --oknodo
                 log_end_msg $?
 		rm -f $DHCP6RPID
 		;;
