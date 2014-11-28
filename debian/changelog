@@ -4,6 +4,7 @@ wide-dhcpv6 (20080615-13) unstable; urgency=low
     (Closes: #751168).
   * Make sure daemons are properly stopped in init scripts, thanks to
     Tim Small <tim@buttersideup.com> for the initial patch (Closes: #745560).
+  * Bumped up Standards-Version to 3.9.6: no changes needed.
 
  -- Jérémie Corbier <jcorbier@debian.org>  Thu, 24 Jul 2014 10:50:06 +0200
 
