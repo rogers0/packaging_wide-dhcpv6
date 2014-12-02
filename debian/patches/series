@@ -7,3 +7,4 @@
 0007-Adding-ifid-option-to-the-dhcp6c.conf-prefix-interfa.patch
 0008-Close-file-descriptors-on-exec.patch
 0009-Fix-renewal-of-IA-NA.patch
+0010-Call-client-script-after-interfaces-have-been-update.patch
