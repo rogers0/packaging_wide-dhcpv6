@@ -6,3 +6,4 @@
 0006-Add-new-feature-dhcp6c-profiles.patch
 0007-Adding-ifid-option-to-the-dhcp6c.conf-prefix-interfa.patch
 0008-Close-file-descriptors-on-exec.patch
+0009-Fix-renewal-of-IA-NA.patch

@@ -5,9 +5,10 @@ wide-dhcpv6 (20080615-13) unstable; urgency=low
   * Make sure daemons are properly stopped in init scripts, thanks to
     Tim Small <tim@buttersideup.com> for the initial patch (Closes: #745560).
   * Close file descriptors when executing client script (Closes: #757848).
+  * Fix renewal of IA NA, patch by Vegard Engen <vegard@engen.priv.no>.
   * Bumped up Standards-Version to 3.9.6: no changes needed.
 
- -- Jérémie Corbier <jcorbier@debian.org>  Tue, 02 Dec 2014 11:44:55 +0100
+ -- Jérémie Corbier <jcorbier@debian.org>  Tue, 02 Dec 2014 11:46:28 +0100
 
 wide-dhcpv6 (20080615-12) unstable; urgency=low
 
