@@ -5,3 +5,4 @@
 0005-Update-ifid-on-interface-restart.patch
 0006-Add-new-feature-dhcp6c-profiles.patch
 0007-Adding-ifid-option-to-the-dhcp6c.conf-prefix-interfa.patch
+0008-Close-file-descriptors-on-exec.patch
