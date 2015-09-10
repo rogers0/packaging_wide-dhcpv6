@@ -1,11 +1,11 @@
 Source: wide-dhcpv6
 Section: net
 Priority: optional
-Maintainer: Jérémie Corbier <jcorbier@debian.org>
+Maintainer: Roger Shimizu <rogershimizu@gmail.com>
 Build-Depends: debhelper (>= 9.20120909), autotools-dev, bison, flex
 Standards-Version: 3.9.6
-Vcs-Git: git://git.famille-corbier.net/packages/wide-dhcpv6.git/
-Vcs-Browser: http://git.famille-corbier.net/?p=packages/wide-dhcpv6.git;a=summary
+Vcs-Git: git://github.com/rogers0/packaging_wide-dhcpv6.git
+Vcs-Browser: https://github.com/rogers0/packaging_wide-dhcpv6
 Homepage: http://wide-dhcpv6.sourceforge.net/
 
 Package: wide-dhcpv6-server

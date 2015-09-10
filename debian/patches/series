@@ -8,3 +8,6 @@
 0008-Close-file-descriptors-on-exec.patch
 0009-Fix-renewal-of-IA-NA.patch
 0010-Call-client-script-after-interfaces-have-been-update.patch
+0011-replace-dprintf-with-debug_printf-to-the-code-append.patch
+0012-resolv-warnings-so-as-to-make-blhc-and-gcc-both-happ.patch
+0013-fix-a-redefined-YYDEBUG-warning-of-gcc-for-the-code-.patch

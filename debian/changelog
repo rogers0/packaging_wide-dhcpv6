@@ -1,3 +1,10 @@
+wide-dhcpv6 (20080615-14) unstable; urgency=low
+
+  * New maintainer (Closes: #743176).
+  * Fix a few gcc warnings.
+
+ -- Roger Shimizu <rogershimizu@gmail.com>  Thu, 10 Sep 2015 00:20:40 +0900
+
 wide-dhcpv6 (20080615-13) unstable; urgency=low
 
   * Try and generate a default IFID only if an IFID is not configured
