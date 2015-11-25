@@ -35,7 +35,7 @@ Description: DHCPv6 client for automatic IPv6 hosts configuration
 Package: wide-dhcpv6-client-udeb
 Architecture: any
 Section: debian-installer
-XC-Package-Type: udeb
+Package-Type: udeb
 Depends: ${shlibs:Depends}, ${misc:Depends}
 Description: DHCPv6 client for automatic IPv6 hosts configuration
  This is the DHCPv6 client from WIDE project. For more information visit the

@@ -5,7 +5,9 @@ Subject: [PATCH] Update ifid on interface restart
 
 Interface ID may have changed between a stop and start.
 
+[rogershimizu@gmail.com: slightly modified according to 0004-GNU-libc6-fixes.patch]
 Signed-off-by: Jeremie Corbier <jeremie@famille-corbier.net>
+Signed-off-by: Roger Shimizu <rogershimizu@gmail.com>
 ---
  dhcp6c.c |    9 +++++++++
  1 files changed, 9 insertions(+), 0 deletions(-)
@@ -23,7 +25,7 @@ index c959b7c..edeca80 100644
 +		 * lease.
 +		 */
 +		if (ifreset(ifp)) {
-+			dprintf(LOG_NOTICE, FNAME, "failed to reset %s",
++			debug_printf(LOG_NOTICE, FNAME, "failed to reset %s",
 +			    ifname);
 +			return (-1);
 +		}

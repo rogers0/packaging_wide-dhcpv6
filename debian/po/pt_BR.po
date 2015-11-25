@@ -1,0 +1,106 @@
+# wide-dhcpv6 Brazilian Portuguese translation
+# Copyright (C) 2011 wide-dhcpv6's PACKAGE COPYRIGHT HOLDER
+# This file is distributed under the same license as the wide-dhcpv6 package.
+# Felipe Duarte <mr.fd1979@rocketmail.com>, 2011.
+# Eder L. Marques <eder@edermarques.net>, 2015.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: wide-dhcpv6\n"
+"Report-Msgid-Bugs-To: wide-dhcpv6@packages.debian.org\n"
+"POT-Creation-Date: 2009-03-09 11:13+0100\n"
+"PO-Revision-Date: 2015-08-13 06:43-0300\n"
+"Last-Translator: Eder L. Marques <eder@edermarques.net>\n"
+"Language-Team: Brazilian Portuguese <debian-l10n-portuguese@lists.debian.org>"
+"\n"
+"org>\n"
+"Language: pt_BR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#. Type: string
+#. Description
+#: ../wide-dhcpv6-client.templates:1001
+msgid "Interfaces on which the DHCPv6 client sends requests:"
+msgstr "Interfaces em que o cliente DHCPv6 envia requisições:"
+
+#. Type: string
+#. Description
+#: ../wide-dhcpv6-client.templates:1001
+msgid ""
+"Network interfaces on which the DHCPv6 client sends requests should be "
+"specified here. Multiple interfaces are separated with spaces. An empty line "
+"temporarily disables dhcp6c."
+msgstr ""
+"As interfaces de rede em que o cliente DHCPv6 envia requisições devem ser "
+"especificadas aqui. Múltiplas interfaces são separadas com espaços. Uma "
+"linha em branco desabilita temporariamente o dhcp6c."
+
+#. Type: string
+#. Description
+#: ../wide-dhcpv6-relay.templates:1001
+msgid "Interfaces on which the DHCPv6 relay operates:"
+msgstr "Interfaces em que o DHCPv6 relay opera:"
+
+#. Type: string
+#. Description
+#: ../wide-dhcpv6-relay.templates:1001
+msgid ""
+"Network interfaces on which the DHCPv6 relay handles requests should be "
+"specified here. Multiple interfaces are separated with spaces. An empty line "
+"temporarily disables dhcp6relay."
+msgstr ""
+"As interfaces de rede em que o DHCPv6 relay manipula requisições devem ser "
+"especificadas aqui. Múltiplas interfaces são separadas com espaços. Uma "
+"linha em branco desabilita temporariamente o dhcp6relay."
+
+#. Type: note
+#. Description
+#: ../wide-dhcpv6-server.templates:1001
+msgid "WIDE DHCPv6 server configuration"
+msgstr "Configuração do servidor WIDE DHCPv6"
+
+#. Type: note
+#. Description
+#: ../wide-dhcpv6-server.templates:1001
+msgid "The DHCPv6 server requires manual configuration after installation."
+msgstr "O servidor DHCPv6 requer configuração manual após a instalação."
+
+#. Type: note
+#. Description
+#: ../wide-dhcpv6-server.templates:1001
+msgid ""
+"After the DHCPv6 server is installed it has to be manually configured by "
+"editing the file /etc/wide-dhcpv6/dhcp6s.conf. A sample dhcp6s.conf is "
+"available at /usr/share/doc/wide-dhcpv6-server/examples."
+msgstr ""
+"Depois que o servidor DHCPv6 estiver instalado ele deverá ser configurado "
+"manualmente editando o arquivo /etc/wide-dhcpv6/dhcp6s.conf. Um exemplo "
+"de dhcp6s.conf está disponível em /usr/share/doc/wide-dhcpv6-server/examples."
+
+#. Type: note
+#. Description
+#: ../wide-dhcpv6-server.templates:1001
+msgid ""
+"Please configure the DHCPv6 server as soon as the installation finishes."
+msgstr "Por favor, configure o servidor DHCPv6 tão logo a instalação acabe."
+
+#. Type: string
+#. Description
+#: ../wide-dhcpv6-server.templates:2001
+msgid "Interfaces on which the DHCPv6 server listens to requests:"
+msgstr "Interfaces em que o servidor DHCPv6 escuta requisições:"
+
+#. Type: string
+#. Description
+#: ../wide-dhcpv6-server.templates:2001
+msgid ""
+"Network interfaces on which the DHCPv6 server listens to requests should be "
+"specified here. Multiple interfaces are separated with spaces. An empty line "
+"temporarily disables dhcp6s."
+msgstr ""
+"As interfaces de rede em que o servidor DHCPv6 escuta as requisições devem "
+"ser especificadas aqui. Múltiplas interfaces são separadas com espaços. Uma "
+"linha em branco desabilita temporariamente o dhcp6s."

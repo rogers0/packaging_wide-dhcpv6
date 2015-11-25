@@ -1,3 +1,24 @@
+wide-dhcpv6 (20080615-15) UNRELEASED; urgency=medium
+
+  * debian/copyright:
+      Change to v1.0 machine-readable format (DEP-5).
+  * debian/control:
+      Make lintian happy on "xc-package-type-in-debian-control" check.
+  * debian/po:
+      Added Brazilian Portuguese debconf templates translation, thanks to
+      Eder L. Marques (Closes: #795355).
+  * debian/*.{config,postinst,postrm}:
+      Make lintian happy on "maintainer-script-without-set-e" check.
+  * debian/*.lintian-overrides:
+      This project is mainly BSD-3-clause license, only uses Bison which is
+      GPL license with exception. So override here to make lintian ignore
+      "copyright-should-refer-to-common-license-file-for-gpl" check.
+  * debian/patches:
+      - Merge patch 0011 with 0005 to make it more clear.
+      - Add patch 0013 from upstream git repo to update sample configs.
+
+ -- Roger Shimizu <rogershimizu@gmail.com>  Tue, 24 Nov 2015 22:51:38 +0900
+
 wide-dhcpv6 (20080615-14) unstable; urgency=low
 
   * New maintainer (Closes: #743176).
