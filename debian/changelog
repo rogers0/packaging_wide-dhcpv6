@@ -16,6 +16,7 @@ wide-dhcpv6 (20080615-15) UNRELEASED; urgency=medium
   * debian/patches:
       - Merge patch 0011 with 0005 to make it more clear.
       - Add patch 0013 from upstream git repo to update sample configs.
+      - Add kFreeBSD build support.
 
  -- Roger Shimizu <rogershimizu@gmail.com>  Tue, 24 Nov 2015 22:51:38 +0900
 
