@@ -19,6 +19,8 @@ esac
 . /usr/share/debconf/confmodule
 
 INITCONFFILE=/etc/default/wide-dhcpv6-server
+[ -f ${INITCONFFILE} ] &&
+    VERBOSE=$(grep ^VERBOSE ${INITCONFFILE}|sed -e 's:^VERBOSE=\(.*\):\1:')
 
 echo "Generating ${INITCONFFILE}..." >&2
 cat >$INITCONFFILE <<'EOFINITCONFFILE'
@@ -28,7 +30,11 @@ cat >$INITCONFFILE <<'EOFINITCONFFILE'
 # Interfaces on which the server should serve DHCPv6 requests. If empty, the 
 # server is deactivated.
 INTERFACES=""
+
+# Verbose level for syslog. Default is 0 (0: minimal; 1: info; 2: debug)
+#VERBOSE=0
 EOFINITCONFFILE
+[ -n "$VERBOSE" ] && echo VERBOSE=${VERBOSE} >> ${INITCONFFILE}
 
 # Debconf
 db_get wide-dhcpv6-server/interfaces || true
@@ -36,7 +42,7 @@ INTERFACES=${RET}
 
 TMPFILE=`mktemp -q ${INITCONFFILE}.new.XXXXXX`
 sed -e "s,^[[:space:]]*INTERFACES[[:space:]]*=.*,INTERFACES=\"${INTERFACES}\"," \
-       	<${INITCONFFILE} >${TMPFILE}
+        <${INITCONFFILE} >${TMPFILE}
 cp ${TMPFILE} ${INITCONFFILE}
 rm ${TMPFILE}
 

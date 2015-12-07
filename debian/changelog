@@ -17,6 +17,13 @@ wide-dhcpv6 (20080615-15) UNRELEASED; urgency=medium
       - Merge patch 0011 with 0005 to make it more clear.
       - Add patch 0013 from upstream git repo to update sample configs.
       - Add kFreeBSD build support.
+  * debian/rules:
+      Restart service after (re)-install, and don't fail install when service
+      start fails (Closes: #773878).
+  * debian/*.init.d:
+    debian/*.postinst:
+      Add verbose log option to config files, and keep settings during
+      upgrading.
 
  -- Roger Shimizu <rogershimizu@gmail.com>  Tue, 24 Nov 2015 22:51:38 +0900
 

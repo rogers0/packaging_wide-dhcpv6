@@ -32,6 +32,14 @@ fi
 
 [ "X$INTERFACES" != "X" ] || exit 0
 
+case "$VERBOSE" in
+    1)  DEBUG="-d"
+        ;;
+    2)  DEBUG="-D"
+        ;;
+    *)  DEBUG=""
+esac
+
 # single arg is -v for messages, -q for none
 check_status()
 {
@@ -55,7 +63,7 @@ case "$1" in
                 for INT in $INTERFACES; do
                     log_daemon_msg "Starting $DESC on $INT" "$NAME"
 		    start-stop-daemon --start --quiet --pidfile ${DHCP6SPIDBASE}.${INT}.pid \
-			--exec $DHCP6SBIN --oknodo -- -k /dev/null -P ${DHCP6SPIDBASE}.${INT}.pid $INT
+			--exec $DHCP6SBIN --oknodo -- $DEBUG -k /dev/null -P ${DHCP6SPIDBASE}.${INT}.pid $INT
 		    sleep 2
 		    if check_status -q; then
                         log_end_msg 0

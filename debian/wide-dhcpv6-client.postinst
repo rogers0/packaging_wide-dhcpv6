@@ -20,6 +20,8 @@ esac
 
 DHCP6CCTLKEY=/etc/wide-dhcpv6/dhcp6cctlkey
 INITCONFFILE=/etc/default/wide-dhcpv6-client
+[ -f ${INITCONFFILE} ] &&
+    VERBOSE=$(grep ^VERBOSE ${INITCONFFILE}|sed -e 's:^VERBOSE=\(.*\):\1:')
 
 # The key mustn't be world readable
 umask 066
@@ -41,7 +43,11 @@ cat >$INITCONFFILE <<'EOFINITCONFFILE'
 # Interfaces on which the client should send DHCPv6 requests and listen to
 # answers. If empty, the client is deactivated.
 INTERFACES=""
+
+# Verbose level for syslog. Default is 0 (0: minimal; 1: info; 2: debug)
+#VERBOSE=0
 EOFINITCONFFILE
+[ -n "$VERBOSE" ] && echo VERBOSE=${VERBOSE} >> ${INITCONFFILE}
 
 # Debconf
 db_get wide-dhcpv6-client/interfaces || true
@@ -49,7 +55,7 @@ INTERFACES=${RET}
 
 TMPFILE=`mktemp -q ${INITCONFFILE}.new.XXXXXX`
 sed -e "s,^[[:space:]]*INTERFACES[[:space:]]*=.*,INTERFACES=\"${INTERFACES}\"," \
-       	<${INITCONFFILE} >${TMPFILE}
+        <${INITCONFFILE} >${TMPFILE}
 cp ${TMPFILE} ${INITCONFFILE}
 rm ${TMPFILE}
 

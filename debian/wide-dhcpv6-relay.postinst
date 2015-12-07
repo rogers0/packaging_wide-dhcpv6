@@ -19,6 +19,8 @@ esac
 . /usr/share/debconf/confmodule
 
 INITCONFFILE=/etc/default/wide-dhcpv6-relay
+[ -f ${INITCONFFILE} ] &&
+    VERBOSE=$(grep ^VERBOSE ${INITCONFFILE}|sed -e 's:^VERBOSE=\(.*\):\1:')
 
 umask 022
 
@@ -30,7 +32,11 @@ cat >$INITCONFFILE <<'EOFINITCONFFILE'
 # Interfaces on which the relay should send DHCPv6 requests and listen to
 # answers. If empty, the relay is deactivated.
 INTERFACES=""
+
+# Verbose level for syslog. Default is 0 (0: minimal; 1: info; 2: debug)
+#VERBOSE=0
 EOFINITCONFFILE
+[ -n "$VERBOSE" ] && echo VERBOSE=${VERBOSE} >> ${INITCONFFILE}
 
 # Debconf
 db_get wide-dhcpv6-relay/interfaces || true
