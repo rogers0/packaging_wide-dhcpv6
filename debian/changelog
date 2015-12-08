@@ -1,4 +1,4 @@
-wide-dhcpv6 (20080615-15) UNRELEASED; urgency=medium
+wide-dhcpv6 (20080615-15) unstable; urgency=medium
 
   * debian/copyright:
       Change to v1.0 machine-readable format (DEP-5).
@@ -25,7 +25,7 @@ wide-dhcpv6 (20080615-15) UNRELEASED; urgency=medium
       Add verbose log option to config files, and keep settings during
       upgrading.
 
- -- Roger Shimizu <rogershimizu@gmail.com>  Tue, 24 Nov 2015 22:51:38 +0900
+ -- Roger Shimizu <rogershimizu@gmail.com>  Wed, 09 Dec 2015 01:15:09 +0900
 
 wide-dhcpv6 (20080615-14) unstable; urgency=low
 
