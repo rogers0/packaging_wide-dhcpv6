@@ -1,1 +1,2 @@
 dhcp6c.conf.sample
+debian/extra/ppp_ipv6-updown.sample

@@ -1,0 +1,20 @@
+#!/bin/sh
+# sample file for /etc/ppp/ipv6-{up,down}.d/ script
+# 2015, Roger Shimizu
+
+if [ -z "$CONNECT_TIME" ]; then
+	if [ "$PPP_IPPARAM" = "ipv6defaultroute" ]; then
+		ip -6 r flush default
+		ip -6 r add default dev $PPP_IFACE
+	fi
+	if [ -r /var/run/dhcp6c.pid ]; then
+		service wide-dhcpv6-client restart
+	else
+		service wide-dhcpv6-client start
+	fi
+else
+	[ -r /var/run/dhcp6c.pid ] &&
+		service wide-dhcpv6-client stop
+fi
+
+exit 0
