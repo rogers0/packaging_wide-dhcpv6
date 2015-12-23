@@ -4,6 +4,8 @@ wide-dhcpv6 (20080615-16) UNRELEASED; urgency=medium
       - Move example files to this folder
       - Add sample script of ppp/ipv6-ip/down for wide-dhcpv6-client
         (Closes: #561951)
+  * debian/patches:
+      - Add build support for GNU/Hurd platform
 
  -- Roger Shimizu <rogershimizu@gmail.com>  Tue, 22 Dec 2015 03:43:08 +0900
 
