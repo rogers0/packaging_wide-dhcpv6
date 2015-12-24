@@ -1,7 +1,7 @@
-wide-dhcpv6 (20080615-16) UNRELEASED; urgency=medium
+wide-dhcpv6 (20080615-16) unstable; urgency=low
 
   * debian/extra:
-      - Move example files to this folder
+      - Move example files to "extra" folder
       - Add sample script of ppp/ipv6-ip/down for wide-dhcpv6-client
         (Closes: #561951)
   * debian/patches:
@@ -9,7 +9,7 @@ wide-dhcpv6 (20080615-16) UNRELEASED; urgency=medium
       - Add a bit info to logger when get dhcpv6 option:
         OPTION_RECONF_ACCEPT (Closes: #562079)
 
- -- Roger Shimizu <rogershimizu@gmail.com>  Tue, 22 Dec 2015 03:43:08 +0900
+ -- Roger Shimizu <rogershimizu@gmail.com>  Sat, 26 Dec 2015 08:18:15 +0900
 
 wide-dhcpv6 (20080615-15) unstable; urgency=medium
 
