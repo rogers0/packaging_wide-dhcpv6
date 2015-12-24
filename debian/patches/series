@@ -11,4 +11,4 @@
 0011-resolv-warnings-so-as-to-make-blhc-and-gcc-both-happ.patch
 0012-fix-a-redefined-YYDEBUG-warning-of-gcc-for-the-code-.patch
 0013-added-several-comments-examples-by-Stefan-Sperling.patch
-0014-Support-to-build-on-kFreeBSD-platform.patch
+0014-Support-to-build-on-kFreeBSD-n-GNU-Hurd-platform.patch
