@@ -6,6 +6,8 @@ wide-dhcpv6 (20080615-16) UNRELEASED; urgency=medium
         (Closes: #561951)
   * debian/patches:
       - Add build support for GNU/Hurd platform
+      - Add a bit info to logger when get dhcpv6 option:
+        OPTION_RECONF_ACCEPT (Closes: #562079)
 
  -- Roger Shimizu <rogershimizu@gmail.com>  Tue, 22 Dec 2015 03:43:08 +0900
 

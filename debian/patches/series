@@ -12,3 +12,4 @@
 0012-fix-a-redefined-YYDEBUG-warning-of-gcc-for-the-code-.patch
 0013-added-several-comments-examples-by-Stefan-Sperling.patch
 0014-Support-to-build-on-kFreeBSD-n-GNU-Hurd-platform.patch
+0015-a-bit-info-to-logger-when-get-OPTION_RECONF_ACCEPT.patch
