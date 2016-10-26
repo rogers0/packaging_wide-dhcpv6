@@ -6,7 +6,7 @@ Build-Depends:
  bison,
  debhelper (>= 10),
  flex
-Standards-Version: 3.9.6
+Standards-Version: 3.9.8
 Vcs-Git: https://github.com/rogers0/packaging_wide-dhcpv6.git
 Vcs-Browser: https://github.com/rogers0/packaging_wide-dhcpv6
 Homepage: http://wide-dhcpv6.sourceforge.net/

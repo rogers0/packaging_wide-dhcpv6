@@ -6,6 +6,7 @@ wide-dhcpv6 (20080615-17) UNRELEASED; urgency=medium
         functions
       - Bump debhelper version to 10
       - Upgrade VCS URL to secure one (https)
+      - Bump policy version to 3.9.8 (no actual change required)
   * debian/rules:
       - Add a few comments
       - Add hardening support
