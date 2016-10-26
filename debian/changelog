@@ -11,6 +11,9 @@ wide-dhcpv6 (20080615-17) UNRELEASED; urgency=medium
       - Add hardening support
   * debian/patches:
       - Add 0016 patch to fix typo in dhcp6c.8 manpage
+  * debian/copyright:
+      - Upgrade URL to secure one (https)
+      - Update my copyright year
 
  -- Roger Shimizu <rogershimizu@gmail.com>  Wed, 26 Oct 2016 23:37:17 +0900
 

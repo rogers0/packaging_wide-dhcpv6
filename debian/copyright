@@ -1,4 +1,4 @@
-Format: http://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
 Upstream-Name: wide-dhcpv6
 Upstream-Contact: SUZUKI Shinsuke <suz@kame.net>
 Source: http://wide-dhcpv6.sourceforge.net/
@@ -41,7 +41,7 @@ Copyright: 2006-2015, Jeremie Corbier <jeremie@famille-corbier.net>
            2011, Felipe Duarte <mr.fd1979@rocketmail.com>
            2015, Eder L. Marques <eder@edermarques.net>
            2009, Yuri Kozlov <yuray@komyakino.ru>
-           2015, Roger Shimizu <rogershimizu@gmail.com>
+           2015-2016, Roger Shimizu <rogershimizu@gmail.com>
 License: BSD-3-clause
 
 License: BSD-3-clause
