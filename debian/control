@@ -2,15 +2,21 @@ Source: wide-dhcpv6
 Section: net
 Priority: optional
 Maintainer: Roger Shimizu <rogershimizu@gmail.com>
-Build-Depends: debhelper (>= 9.20120909), autotools-dev, bison, flex
+Build-Depends:
+ bison,
+ debhelper (>= 10),
+ flex
 Standards-Version: 3.9.6
-Vcs-Git: git://github.com/rogers0/packaging_wide-dhcpv6.git
+Vcs-Git: https://github.com/rogers0/packaging_wide-dhcpv6.git
 Vcs-Browser: https://github.com/rogers0/packaging_wide-dhcpv6
 Homepage: http://wide-dhcpv6.sourceforge.net/
 
 Package: wide-dhcpv6-server
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}, lsb-base
+Depends:
+ lsb-base (>= 3.0-6),
+ ${misc:Depends},
+ ${shlibs:Depends}
 Description: DHCPv6 server for automatic IPv6 hosts configuration
  This is the DHCPv6 server from WIDE project. For more information visit the
  project web site at http://wide-dhcpv6.sourceforge.net/
@@ -22,7 +28,11 @@ Description: DHCPv6 server for automatic IPv6 hosts configuration
 
 Package: wide-dhcpv6-client
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}, lsb-base, sharutils
+Depends:
+ lsb-base (>= 3.0-6),
+ sharutils,
+ ${misc:Depends},
+ ${shlibs:Depends}
 Description: DHCPv6 client for automatic IPv6 hosts configuration
  This is the DHCPv6 client from WIDE project. For more information visit the
  project web site at http://wide-dhcpv6.sourceforge.net/
@@ -50,7 +60,10 @@ Description: DHCPv6 client for automatic IPv6 hosts configuration
 
 Package: wide-dhcpv6-relay
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}, lsb-base
+Depends:
+ lsb-base (>= 3.0-6),
+ ${misc:Depends},
+ ${shlibs:Depends}
 Description: DHCPv6 relay for automatic IPv6 hosts configuration
  This is the DHCPv6 relay from WIDE project. For more information visit the
  project web site at http://wide-dhcpv6.sourceforge.net/

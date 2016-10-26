@@ -1,3 +1,14 @@
+wide-dhcpv6 (20080615-17) UNRELEASED; urgency=medium
+
+  * debian/control:
+      - Add lsb-base as dependency to all binary packages (except udeb),
+        since the init script sources /lib/lsb/init-functions utility
+        functions
+      - Bump debhelper version to 10
+      - Upgrade VCS URL to secure one (https)
+
+ -- Roger Shimizu <rogershimizu@gmail.com>  Wed, 26 Oct 2016 23:37:17 +0900
+
 wide-dhcpv6 (20080615-16) unstable; urgency=low
 
   * debian/extra:
