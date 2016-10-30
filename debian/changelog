@@ -1,4 +1,4 @@
-wide-dhcpv6 (20080615-17) UNRELEASED; urgency=medium
+wide-dhcpv6 (20080615-17) unstable; urgency=medium
 
   * debian/control:
       - Add lsb-base as dependency to all binary packages (except udeb),
@@ -16,7 +16,7 @@ wide-dhcpv6 (20080615-17) UNRELEASED; urgency=medium
       - Upgrade URL to secure one (https)
       - Update my copyright year
 
- -- Roger Shimizu <rogershimizu@gmail.com>  Wed, 26 Oct 2016 23:37:17 +0900
+ -- Roger Shimizu <rogershimizu@gmail.com>  Sun, 30 Oct 2016 13:32:25 +0900
 
 wide-dhcpv6 (20080615-16) unstable; urgency=low
 
