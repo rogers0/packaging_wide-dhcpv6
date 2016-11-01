@@ -1,7 +1,6 @@
-From 0c23a622a7e59af0484da59aeb064095e3c0b1e0 Mon Sep 17 00:00:00 2001
 From: Jeremie Corbier <jeremie+debian@famille-corbier.net>
 Date: Tue, 6 Apr 2010 15:51:14 +0200
-Subject: [PATCH] Add new feature: dhcp6c profiles
+Subject: Add new feature: dhcp6c profiles
 
 This patch enables users to define interface profiles so one can configure a
 group of interfaces the same way without having to provide an interface
@@ -9,13 +8,13 @@ statement for each.
 
 Signed-off-by: Jeremie Corbier <jeremie@famille-corbier.net>
 ---
- cfparse.y     |   23 ++++-
- cftoken.l     |   10 ++
- config.c      |  334 ++++++++++++++++++++++++++++++++-------------------------
- config.h      |    3 +
- dhcp6c.8      |    9 ++
- dhcp6c.c      |    5 +-
- dhcp6c.conf.5 |    7 ++
+ cfparse.y     |  23 +++-
+ cftoken.l     |  10 ++
+ config.c      | 334 +++++++++++++++++++++++++++++++++-------------------------
+ config.h      |   3 +
+ dhcp6c.8      |   9 ++
+ dhcp6c.c      |   5 +-
+ dhcp6c.conf.5 |   7 ++
  7 files changed, 245 insertions(+), 146 deletions(-)
 
 diff --git a/cfparse.y b/cfparse.y
@@ -585,7 +584,7 @@ index 1d69c9d..acc8f46 100644
  .Pp
  The program will daemonize itself on invocation unless the
 diff --git a/dhcp6c.c b/dhcp6c.c
-index edeca80..35080e9 100644
+index 1e897d2..1953f76 100644
 --- a/dhcp6c.c
 +++ b/dhcp6c.c
 @@ -170,7 +170,7 @@ main(argc, argv)
@@ -625,6 +624,3 @@ index 5fc03d3..3d5d25a 100644
  .Sh Identity association statement
  Identity association
  .Pq IA
--- 
-1.5.6.5
-

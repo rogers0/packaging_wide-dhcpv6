@@ -218,7 +218,7 @@ index b5c09c3..10d905f 100644
  	memcpy(req.ifra_name, ifname, sizeof(req.ifra_name));
  	(void)sa6_plen2mask(&req.ifra_prefixmask, plen);
 diff --git a/config.c b/config.c
-index e04d6a5..46f0f5f 100644
+index e04d6a5..2c5ad5d 100644
 --- a/config.c
 +++ b/config.c
 @@ -35,7 +35,7 @@

@@ -1,9 +1,8 @@
-From beb920d6755e2cbdf1de0a75ddfff102ca5678e6 Mon Sep 17 00:00:00 2001
-From: =?utf-8?q?Bj=C3=B8rn=20Mork?= <bjorn@mork.no>
+From: =?utf-8?q?Bj=C3=B8rn_Mork?= <bjorn@mork.no>
 Date: Wed, 10 Nov 2010 07:41:55 +0100
-Subject: [PATCH] Adding ifid option to the dhcp6c.conf prefix-interface statement
+Subject: Adding ifid option to the dhcp6c.conf prefix-interface statement
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 
 This adds the ability to override the default EUI-64 address selection.
@@ -13,11 +12,11 @@ more userfriendly addresses in general.
 Signed-off-by: Bjørn Mork <bjorn@mork.no>
 Signed-off-by: Jeremie Corbier <jeremie@famille-corbier.net>
 ---
- cfparse.y     |   10 +++++++++-
- cftoken.l     |    1 +
- config.c      |   19 ++++++++++++++-----
- config.h      |    2 +-
- dhcp6c.conf.5 |   10 ++++++++++
+ cfparse.y     | 10 +++++++++-
+ cftoken.l     |  1 +
+ config.c      | 19 ++++++++++++++-----
+ config.h      |  2 +-
+ dhcp6c.conf.5 | 10 ++++++++++
  5 files changed, 35 insertions(+), 7 deletions(-)
 
 diff --git a/cfparse.y b/cfparse.y
@@ -145,6 +144,3 @@ index 3d5d25a..1c91d72 100644
  .El
  .El
  .\"
--- 
-1.5.6.5
-

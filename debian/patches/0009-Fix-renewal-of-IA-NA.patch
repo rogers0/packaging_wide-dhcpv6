@@ -1,12 +1,11 @@
-From badd9cc2bceb4d9f01f4a662eec64205f0dac127 Mon Sep 17 00:00:00 2001
 From: Jeremie Corbier <jeremie@famille-corbier.net>
 Date: Tue, 2 Dec 2014 11:04:59 +0100
-Subject: [PATCH 09/10] Fix renewal of IA NA
+Subject: Fix renewal of IA NA
 
 Submitted-by: Vegard Engen <vegard@engen.priv.no>
 Signed-off-by: Jeremie Corbier <jeremie@famille-corbier.net>
 ---
- addrconf.c |    2 +-
+ addrconf.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/addrconf.c b/addrconf.c
@@ -22,6 +21,3 @@ index 98d03e5..47f1738 100644
  		if (na_ifaddrconf(IFADDRCONF_ADD, sa) < 0)
  			return (-1);
  
--- 
-1.7.10.4
-

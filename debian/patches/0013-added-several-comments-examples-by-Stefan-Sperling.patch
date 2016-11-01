@@ -1,8 +1,6 @@
-From 24ee2a4f0009bc6ac9bd0b7b737aef93a4aa9905 Mon Sep 17 00:00:00 2001
 From: SUZUKI Shinsuke <suz@kame.net>
 Date: Wed, 30 Jul 2008 15:29:42 +0000
-Subject: [PATCH] added several comments/examples. (contributed by Stefan
- Sperling)
+Subject: added several comments/examples. (contributed by Stefan Sperling)
 
 ---
  CHANGES            |  4 ++++
@@ -155,6 +153,3 @@ index a3f5f27..cd903cc 100644
 +        duid  00:01:00:01:0f:36:5f:31:00:0a:e4:3e:f2:4e;
 +        address 2001:db8:111::181 infinity;
 +};
--- 
-2.6.2
-

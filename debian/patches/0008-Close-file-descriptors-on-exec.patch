@@ -1,21 +1,20 @@
-From 1aca5d13ded2f2a67f28e68724adbcc8a4316e09 Mon Sep 17 00:00:00 2001
 From: Jeremie Corbier <jeremie@famille-corbier.net>
 Date: Tue, 2 Dec 2014 10:52:42 +0100
-Subject: [PATCH 08/10] Close file descriptors on exec
+Subject: Close file descriptors on exec
 
 Avoid FD leakage to children
 Closes: #757848
 
 Signed-off-by: Jeremie Corbier <jeremie@famille-corbier.net>
 ---
- cftoken.c            |    8 ++++++++
- cftoken.l            |    8 ++++++++
- common.c             |   15 ++++++++++++++-
- dhcp6_ctl.c          |    3 +++
- dhcp6_ctlclient.c    |    3 +++
- dhcp6c.c             |   11 ++++++++++-
- dhcp6relay.c         |    6 ++++++
- missing/getifaddrs.c |    9 +++++++--
+ cftoken.c            |  8 ++++++++
+ cftoken.l            |  8 ++++++++
+ common.c             | 15 ++++++++++++++-
+ dhcp6_ctl.c          |  3 +++
+ dhcp6_ctlclient.c    |  3 +++
+ dhcp6c.c             | 11 ++++++++++-
+ dhcp6relay.c         |  6 ++++++
+ missing/getifaddrs.c |  9 +++++++--
  8 files changed, 59 insertions(+), 4 deletions(-)
 
 diff --git a/cftoken.c b/cftoken.c
@@ -145,7 +144,7 @@ index 5597c9e..2bec3e7 100644
  		    res->ai_protocol);
  		if (s < 0) {
 diff --git a/dhcp6c.c b/dhcp6c.c
-index 35080e9..0628203 100644
+index 1953f76..ccb601c 100644
 --- a/dhcp6c.c
 +++ b/dhcp6c.c
 @@ -290,6 +290,10 @@ client6_init()
@@ -218,6 +217,3 @@ index 4320c43..23b3e43 100644
  	    errno != EAFNOSUPPORT) {
  		(void) close(fd4);
  		return (-1);
--- 
-1.7.10.4
-

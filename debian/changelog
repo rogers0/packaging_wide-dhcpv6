@@ -4,6 +4,7 @@ wide-dhcpv6 (20080615-18) UNRELEASED; urgency=medium
       - Change patch 0011
         + Adjust objects dependency and make parallel build working
         + Apply CPPFLAGS building flag to all C files
+      - Refresh other patches by git-buildpackage patch-queue (gbp pq)
 
  -- Roger Shimizu <rogershimizu@gmail.com>  Wed, 02 Nov 2016 00:38:46 +0900
 

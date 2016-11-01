@@ -1,18 +1,17 @@
-From e9fd60840eb125dcd55aab859dd838a47c02931f Mon Sep 17 00:00:00 2001
 From: Jeremie Corbier <jeremie+debian@famille-corbier.net>
 Date: Tue, 6 Apr 2010 15:51:03 +0200
-Subject: [PATCH] Fix manpages
+Subject: Fix manpages
 
 This patch fixes wide-dhcpv6 manpages (paths, typos, ...).
 
 Signed-off-by: Jeremie Corbier <jeremie@famille-corbier.net>
 ---
- dhcp6c.8      |    8 ++++----
- dhcp6c.conf.5 |    4 ++--
- dhcp6ctl.8    |   13 ++++++-------
- dhcp6relay.8  |    1 -
- dhcp6s.8      |   10 +++++-----
- dhcp6s.conf.5 |    2 +-
+ dhcp6c.8      |  8 ++++----
+ dhcp6c.conf.5 |  4 ++--
+ dhcp6ctl.8    | 13 ++++++-------
+ dhcp6relay.8  |  1 -
+ dhcp6s.8      | 10 +++++-----
+ dhcp6s.conf.5 |  2 +-
  6 files changed, 18 insertions(+), 20 deletions(-)
 
 diff --git a/dhcp6c.8 b/dhcp6c.8
@@ -163,6 +162,3 @@ index 1206764..2cb08ce 100644
  .\"
  .Sh DESCRIPTION
  The
--- 
-1.5.6.5
-

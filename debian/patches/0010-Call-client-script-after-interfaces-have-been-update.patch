@@ -1,17 +1,16 @@
-From 20d1af2ad3c494590f8917470b43288515bf6f3c Mon Sep 17 00:00:00 2001
 From: Jeremie Corbier <jeremie@famille-corbier.net>
 Date: Tue, 2 Dec 2014 11:18:52 +0100
-Subject: [PATCH 10/10] Call client script after interfaces have been updated
+Subject: Call client script after interfaces have been updated
 
 Closes: #734644
 
 Signed-off-by: Jeremie Corbier <jeremie@famille-corbier.net>
 ---
- dhcp6c.c |   18 +++++++++---------
+ dhcp6c.c | 18 +++++++++---------
  1 file changed, 9 insertions(+), 9 deletions(-)
 
 diff --git a/dhcp6c.c b/dhcp6c.c
-index 0628203..bf7ece2 100644
+index ccb601c..1d10a78 100644
 --- a/dhcp6c.c
 +++ b/dhcp6c.c
 @@ -1854,15 +1854,6 @@ client6_recvreply(ifp, dh6, len, optinfo)
@@ -46,6 +45,3 @@ index 0628203..bf7ece2 100644
  	debug_printf(LOG_DEBUG, FNAME, "got an expected reply, sleeping.");
  
  	if (infreq_mode) {
--- 
-1.7.10.4
-

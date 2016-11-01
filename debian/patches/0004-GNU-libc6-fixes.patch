@@ -1,32 +1,31 @@
-From 78c2ba34951f378f847aaeb0b82fa6be9014ad46 Mon Sep 17 00:00:00 2001
 From: Jeremie Corbier <jeremie+debian@famille-corbier.net>
 Date: Tue, 6 Apr 2010 15:51:10 +0200
-Subject: [PATCH] GNU libc6 fixes
+Subject: GNU libc6 fixes
 
 Fixes for recent libc releases.
 
 Signed-off-by: Jeremie Corbier <jeremie@famille-corbier.net>
 ---
- addrconf.c          |   16 +-
- cftoken.c           |   12 +-
- cftoken.l           |   12 +-
- common.c            |  226 +++++++++++++-------------
- common.h            |    2 +-
- config.c            |  268 +++++++++++++++---------------
- configure           |   50 ++++++-
- configure.in        |    7 +
- dhcp6.h             |    7 +
- dhcp6_ctl.c         |   40 +++---
- dhcp6c.c            |  246 ++++++++++++++--------------
- dhcp6c_ia.c         |   86 +++++-----
- dhcp6c_script.c     |   36 ++--
- dhcp6relay.c        |  118 +++++++-------
- dhcp6relay_script.c |   28 ++--
- dhcp6s.c            |  446 +++++++++++++++++++++++++-------------------------
- if.c                |   12 +-
- lease.c             |   14 +-
- prefixconf.c        |   24 ++--
- timer.c             |    6 +-
+ addrconf.c          |  16 +-
+ cftoken.c           |  12 +-
+ cftoken.l           |  12 +-
+ common.c            | 226 +++++++++++++-------------
+ common.h            |   2 +-
+ config.c            | 268 +++++++++++++++----------------
+ configure           |  50 +++++-
+ configure.in        |   7 +
+ dhcp6.h             |   7 +
+ dhcp6_ctl.c         |  40 ++---
+ dhcp6c.c            | 246 ++++++++++++++---------------
+ dhcp6c_ia.c         |  86 +++++-----
+ dhcp6c_script.c     |  36 ++---
+ dhcp6relay.c        | 118 +++++++-------
+ dhcp6relay_script.c |  28 ++--
+ dhcp6s.c            | 446 ++++++++++++++++++++++++++--------------------------
+ if.c                |  12 +-
+ lease.c             |  14 +-
+ prefixconf.c        |  24 +--
+ timer.c             |   6 +-
  20 files changed, 859 insertions(+), 797 deletions(-)
 
 diff --git a/addrconf.c b/addrconf.c
@@ -6705,6 +6704,3 @@ index c74aa1f..c1666b4 100644
  		    "a timer must be expired, but not yet");
  		returnval.tv_sec = returnval.tv_usec = 0;
  	} else
--- 
-1.5.6.5
-
