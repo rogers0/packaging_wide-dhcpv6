@@ -1,4 +1,4 @@
-wide-dhcpv6 (20080615-18) UNRELEASED; urgency=medium
+wide-dhcpv6 (20080615-18) unstable; urgency=medium
 
   * debian/patches:
       - Change patch 0011
@@ -6,7 +6,7 @@ wide-dhcpv6 (20080615-18) UNRELEASED; urgency=medium
         + Apply CPPFLAGS building flag to all C files
       - Refresh other patches by git-buildpackage patch-queue (gbp pq)
 
- -- Roger Shimizu <rogershimizu@gmail.com>  Wed, 02 Nov 2016 00:38:46 +0900
+ -- Roger Shimizu <rogershimizu@gmail.com>  Wed, 02 Nov 2016 01:03:36 +0900
 
 wide-dhcpv6 (20080615-17) unstable; urgency=medium
 
