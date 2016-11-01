@@ -1,3 +1,12 @@
+wide-dhcpv6 (20080615-18) UNRELEASED; urgency=medium
+
+  * debian/patches:
+      - Change patch 0011
+        + Adjust objects dependency and make parallel build working
+        + Apply CPPFLAGS building flag to all C files
+
+ -- Roger Shimizu <rogershimizu@gmail.com>  Wed, 02 Nov 2016 00:38:46 +0900
+
 wide-dhcpv6 (20080615-17) unstable; urgency=medium
 
   * debian/control:

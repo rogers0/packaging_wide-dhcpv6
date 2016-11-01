@@ -1,39 +1,73 @@
-From c648bd5c29e3ad4c53c7f584688e4ff5be5e85be Mon Sep 17 00:00:00 2001
 From: Roger Shimizu <rogershimizu@gmail.com>
-Date: Wed, 9 Sep 2015 21:00:22 +0900
-Subject: [PATCH 2/3] resolv warnings so as to make "blhc" and "gcc" both happy
+Date: Wed, 2 Nov 2016 00:32:22 +0900
+Subject: resolv warnings so as to make "blhc" and "gcc" both happy
 
-- blhc complained: lacking of CFLAGS/CPPFLAGS for certain C files in Makefile
+- blhc complained: lacking of CFLAGS/CPPFLAGS for C files in Makefile
 - gcc complained implicit declaration of function 'time'
 - gcc complained ignoring return value of 'read'
+- adjust objects dependency and make parallel build working
 
 Signed-off-by: Roger Shimizu <rogershimizu@gmail.com>
 ---
- Makefile.in          |  6 +++---
+ Makefile.in          | 21 +++++++++++----------
  addrconf.c           | 11 ++++++++++-
  missing/arc4random.c |  3 ++-
  prefixconf.c         | 11 ++++++++++-
- 4 files changed, 25 insertions(+), 6 deletions(-)
+ 4 files changed, 33 insertions(+), 13 deletions(-)
 
 diff --git a/Makefile.in b/Makefile.in
-index efc878d..f52d4e1 100644
+index de25f48..1ad6c25 100644
 --- a/Makefile.in
 +++ b/Makefile.in
-@@ -86,11 +86,11 @@ getaddrinfo.o:	$(srcdir)/missing/getaddrinfo.c
+@@ -36,7 +36,7 @@ localdbdir= @localdbdir@
+ user= @user@
+ group= @group@
+ 
+-CFLAGS=	@CFLAGS@ @DEFS@ -DSYSCONFDIR=\"${sysconfdir}\" \
++CFLAGS=	@CFLAGS@ @CPPFLAGS@ @DEFS@ -DSYSCONFDIR=\"${sysconfdir}\" \
+ 	-DLOCALDBDIR=\"${localdbdir}\"
+ LDFLAGS=@LDFLAGS@
+ LIBOBJS=@LIBOBJS@
+@@ -73,7 +73,8 @@ dhcp6relay: $(RELAYOBJS) $(LIBOBJS)
+ dhcp6ctl: $(CTLOBJS)
+ 	$(CC) $(LDFLAGS) -o $@ $(CTLOBJS) $(LIBOBJS) $(LIBS)
+ 
+-cfparse.c y.tab.h: cfparse.y
++cfparse.c: y.tab.h
++y.tab.h: cfparse.y
+ 	@YACC@ -d cfparse.y
+ 	mv y.tab.c cfparse.c
+ 
+@@ -82,21 +83,21 @@ cftoken.c: cftoken.l y.tab.h
+ 	mv lex.yy.c $@	
+ 
+ getaddrinfo.o:	$(srcdir)/missing/getaddrinfo.c
+-	$(CC) -c $(srcdir)/missing/$*.c
++	$(CC) -c $(CFLAGS) $(srcdir)/missing/$*.c
  getnameinfo.o:	$(srcdir)/missing/getnameinfo.c
- 	$(CC) -c $(srcdir)/missing/$*.c
+-	$(CC) -c $(srcdir)/missing/$*.c
++	$(CC) -c $(CFLAGS) $(srcdir)/missing/$*.c
  strlcat.o:	$(srcdir)/missing/strlcat.c
 -	$(CC) -c $(srcdir)/missing/$*.c
-+	$(CC) $(CFLAGS) $(CPPFLAGS) -c $(srcdir)/missing/$*.c
++	$(CC) -c $(CFLAGS) $(srcdir)/missing/$*.c
  strlcpy.o:	$(srcdir)/missing/strlcpy.c
 -	$(CC) -c $(srcdir)/missing/$*.c
-+	$(CC) $(CFLAGS) $(CPPFLAGS) -c $(srcdir)/missing/$*.c
++	$(CC) -c $(CFLAGS) $(srcdir)/missing/$*.c
  arc4random.o:	$(srcdir)/missing/arc4random.c
 -	$(CC) $(CFLAGS) -c $(srcdir)/missing/$*.c
-+	$(CC) $(CFLAGS) $(CPPFLAGS) -c $(srcdir)/missing/$*.c
++	$(CC) -c $(CFLAGS) $(srcdir)/missing/$*.c
  getifaddrs.o:	$(srcdir)/missing/getifaddrs.c
- 	$(CC) -c $(srcdir)/missing/$*.c
+-	$(CC) -c $(srcdir)/missing/$*.c
++	$(CC) -c $(CFLAGS) $(srcdir)/missing/$*.c
  daemon.o:	$(srcdir)/missing/daemon.c
+-	$(CC) -c $(srcdir)/missing/$*.c
++	$(CC) -c $(CFLAGS) $(srcdir)/missing/$*.c
+ warnx.o:	$(srcdir)/missing/warnx.c
+-	$(CC) -c $(srcdir)/missing/$*.c
++	$(CC) -c $(CFLAGS) $(srcdir)/missing/$*.c
+ 
+ $(srcdir)/ianaopts.h: gentab.pl bootp-dhcp-parameters
+ 	expand bootp-dhcp-parameters | perl gentab.pl > ianaopts.h
 diff --git a/addrconf.c b/addrconf.c
 index 47f1738..a8c52bc 100644
 --- a/addrconf.c
@@ -102,6 +136,3 @@ index 9450a3f..15b5417 100644
  #include <net/if.h>
  #ifdef __FreeBSD__
  #include <net/if_var.h>
--- 
-2.5.1
-
