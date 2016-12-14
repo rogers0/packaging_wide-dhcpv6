@@ -1,9 +1,9 @@
-wide-dhcpv6 (20080615-19) UNRELEASED; urgency=medium
+wide-dhcpv6 (20080615-19) unstable; urgency=medium
 
   * debian/control:
       - Add libfl-dev as Build-Depends (Closes: #846457).
 
- -- Roger Shimizu <rogershimizu@gmail.com>  Fri, 02 Dec 2016 20:04:08 +0900
+ -- Roger Shimizu <rogershimizu@gmail.com>  Wed, 14 Dec 2016 19:46:19 +0900
 
 wide-dhcpv6 (20080615-18) unstable; urgency=medium
 
