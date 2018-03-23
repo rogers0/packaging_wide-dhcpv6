@@ -1,3 +1,11 @@
+wide-dhcpv6 (20080615-20) UNRELEASED; urgency=medium
+
+  * debian/patches:
+    - Add patch 0017 to fix FTBFS with flex 2.6.4-6 in buster.
+      Thanks to Adrian Bunk for the report and patch (Closes: #893008).
+
+ -- Roger Shimizu <rogershimizu@gmail.com>  Sat, 24 Mar 2018 00:54:45 +0900
+
 wide-dhcpv6 (20080615-19) unstable; urgency=medium
 
   * debian/control:
