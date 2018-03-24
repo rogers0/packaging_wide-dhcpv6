@@ -1,4 +1,4 @@
-wide-dhcpv6 (20080615-20) UNRELEASED; urgency=medium
+wide-dhcpv6 (20080615-20) unstable; urgency=medium
 
   * debian/patches:
     - Add patch 0017 to fix FTBFS with flex 2.6.4-6 in buster.
@@ -14,7 +14,7 @@ wide-dhcpv6 (20080615-20) UNRELEASED; urgency=medium
     - Remove homepage from description, since there's already in
       Homepage field. This can also avoid one lintian complaint.
 
- -- Roger Shimizu <rogershimizu@gmail.com>  Sat, 24 Mar 2018 00:54:45 +0900
+ -- Roger Shimizu <rogershimizu@gmail.com>  Sat, 24 Mar 2018 23:05:29 +0900
 
 wide-dhcpv6 (20080615-19) unstable; urgency=medium
 
