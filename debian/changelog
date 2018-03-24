@@ -7,6 +7,9 @@ wide-dhcpv6 (20080615-20) UNRELEASED; urgency=medium
       requested data and missed status codes.
       Thanks to Roman Mamedov for the report and Evgeniy Manachkin
       for the patch (Closes: #765453).
+    - Add patch 0019 not to bind control port if there is no shared
+      secret. Thanks to Robert Wolf for the report and patch.
+      (Closes: #799080)
 
  -- Roger Shimizu <rogershimizu@gmail.com>  Sat, 24 Mar 2018 00:54:45 +0900
 

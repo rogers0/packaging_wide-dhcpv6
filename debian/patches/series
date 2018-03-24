@@ -16,3 +16,4 @@
 0016-fix-typo-in-dhcp6c.8-manpage.patch
 0017-Remove-unused-linking-with-libfl.patch
 0018-dhcpv6-ignore-advertise-messages-with-none-of-reques.patch
+0019-Server-should-not-bind-control-port-if-there-is-no-s.patch
