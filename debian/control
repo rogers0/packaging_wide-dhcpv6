@@ -19,8 +19,7 @@ Depends:
  ${misc:Depends},
  ${shlibs:Depends}
 Description: DHCPv6 server for automatic IPv6 hosts configuration
- This is the DHCPv6 server from WIDE project. For more information visit the
- project web site at http://wide-dhcpv6.sourceforge.net/
+ This is the DHCPv6 server from WIDE project.
  .
  DHCPv6 allows prefix delagation and host configuration for the IPv6 network
  protocol.
@@ -35,8 +34,7 @@ Depends:
  ${misc:Depends},
  ${shlibs:Depends}
 Description: DHCPv6 client for automatic IPv6 hosts configuration
- This is the DHCPv6 client from WIDE project. For more information visit the
- project web site at http://wide-dhcpv6.sourceforge.net/
+ This is the DHCPv6 client from WIDE project.
  .
  DHCPv6 allows prefix delagation and host configuration for the IPv6 network
  protocol.
@@ -49,8 +47,7 @@ Section: debian-installer
 Package-Type: udeb
 Depends: ${shlibs:Depends}, ${misc:Depends}
 Description: DHCPv6 client for automatic IPv6 hosts configuration
- This is the DHCPv6 client from WIDE project. For more information visit the
- project web site at http://wide-dhcpv6.sourceforge.net/
+ This is the DHCPv6 client from WIDE project.
  .
  DHCPv6 allows prefix delagation and host configuration for the IPv6 network
  protocol.
@@ -66,8 +63,7 @@ Depends:
  ${misc:Depends},
  ${shlibs:Depends}
 Description: DHCPv6 relay for automatic IPv6 hosts configuration
- This is the DHCPv6 relay from WIDE project. For more information visit the
- project web site at http://wide-dhcpv6.sourceforge.net/
+ This is the DHCPv6 relay from WIDE project.
  .
  DHCPv6 allows prefix delagation and host configuration for the IPv6 network
  protocol.
