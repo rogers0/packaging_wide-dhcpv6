@@ -13,6 +13,8 @@ wide-dhcpv6 (20080615-21) UNRELEASED; urgency=medium
       installed under the debian/tmp-udeb directory.
   * debian/patches/0017-Remove-unused-linking-with-libfl.patch:
     - Add a comment mentioning the tweak for the udeb build.
+  * debian/control:
+    - Add a build-dep on rsync for the build tree handling.
 
  -- Cyril Brulebois <kibi@debian.org>  Sun, 25 Mar 2018 07:51:10 +0000
 

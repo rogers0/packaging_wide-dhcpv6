@@ -6,7 +6,8 @@ Build-Depends:
  bison,
  debhelper (>= 10),
  flex,
- libfl-dev
+ libfl-dev,
+ rsync
 Standards-Version: 3.9.8
 Vcs-Git: https://github.com/rogers0/packaging_wide-dhcpv6.git
 Vcs-Browser: https://github.com/rogers0/packaging_wide-dhcpv6
