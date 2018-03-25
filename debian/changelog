@@ -1,3 +1,21 @@
+wide-dhcpv6 (20080615-21) UNRELEASED; urgency=medium
+
+  * debian/rules:
+    - Introduce separate deb/udeb builds, copying source files under
+      build-{deb,udeb} since support for out-of-tree build seems broken.
+    - Don't try to build only the dhcp6c binary in the udeb tree, as the
+      install target tries to install everything anyway.
+    - Patch Makefile.in to build the dhcp6c binary against static flex
+      library in the udeb tree, to avoid a runtime dependency on libfl2
+      (Closes: #893988).
+  * debian/wide-dhcpv6-client-udeb.install:
+    - Update to pick the dhcp6c binary built in the udeb tree and
+      installed under the debian/tmp-udeb directory.
+  * debian/patches/0017-Remove-unused-linking-with-libfl.patch:
+    - Add a comment mentioning the tweak for the udeb build.
+
+ -- Cyril Brulebois <kibi@debian.org>  Sun, 25 Mar 2018 07:51:10 +0000
+
 wide-dhcpv6 (20080615-20) unstable; urgency=medium
 
   * debian/patches:
