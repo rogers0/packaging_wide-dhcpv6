@@ -9,28 +9,26 @@ export DEB_BUILD_MAINT_OPTIONS = hardening=+all
 %:
 	dh $@
 
-build-deb/.stamp:
-	rsync --exclude debian/ --exclude .pc/ -a * build-deb && touch $@
-
-build-udeb/.stamp:
-	rsync --exclude debian/ --exclude .pc/ -a * build-udeb && touch $@
-	# Build against the static flex library to avoid picking an extra dependency on libfl2 (#893988):
-	sed "s,^CLIENTLIBS=.*,CLIENTLIBS=$$(find /usr/lib/$$(dpkg-architecture -qDEB_BUILD_MULTIARCH) -name libfl.a)," -i build-udeb/Makefile.in
-
-override_dh_auto_configure: build-deb/.stamp build-udeb/.stamp
-	cd build-deb && \
-	./configure --prefix=/usr --mandir=\$${prefix}/share/man \
-		--with-localdbdir=/var/lib/dhcpv6 --sysconfdir=/etc/wide-dhcpv6
-	cd build-udeb && \
-	./configure --prefix=/usr --mandir=\$${prefix}/share/man \
-		--with-localdbdir=/var/lib/dhcpv6 --sysconfdir=/etc/wide-dhcpv6
+override_dh_auto_configure:
+	# sed command below is to build against the static flex library
+	# to avoid picking an extra dependency on libfl2 (#893988)
+	for dir in build build-udeb; do \
+		rsync -a --exclude debian/ --exclude .pc/ --exclude .git/ . $$dir; \
+		[ $$dir = "build-udeb" ] && \
+		sed "s,^CLIENTLIBS=.*,CLIENTLIBS=$$(find /usr/lib/$$(dpkg-architecture -qDEB_BUILD_MULTIARCH) -name libfl.a)," \
+			-i $$dir/Makefile.in; \
+		cd $$dir && \
+		./configure --prefix=/usr --mandir=\$${prefix}/share/man \
+			--with-localdbdir=/var/lib/dhcpv6 --sysconfdir=/etc/wide-dhcpv6 && \
+		cd -; \
+	done
 
 override_dh_auto_build:
-	$(MAKE) -C build-deb
+	$(MAKE) -C build
 	$(MAKE) -C build-udeb
 
 override_dh_auto_install:
-	$(MAKE) -C build-deb prefix=$(CURDIR)/debian/tmp/usr install
+	$(MAKE) -C build prefix=$(CURDIR)/debian/tmp/usr install
 	$(MAKE) -C build-udeb prefix=$(CURDIR)/debian/tmp-udeb/usr install
 
 override_dh_installinit:
@@ -42,6 +40,4 @@ override_dh_fixperms:
 
 override_dh_auto_clean:
 	dh_auto_clean
-	rm -rf build-deb
-	rm -rf build-udeb
-	rm -rf debian/tmp-udeb
+	rm -rf build build-udeb debian/tmp-udeb

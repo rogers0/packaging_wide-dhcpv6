@@ -2,7 +2,8 @@ wide-dhcpv6 (20080615-21) UNRELEASED; urgency=medium
 
   * debian/rules:
     - Introduce separate deb/udeb builds, copying source files under
-      build-{deb,udeb} since support for out-of-tree build seems broken.
+      {build,build-udeb} since support for out-of-tree build seems
+      broken.
     - Don't try to build only the dhcp6c binary in the udeb tree, as the
       install target tries to install everything anyway.
     - Patch Makefile.in to build the dhcp6c binary against static flex
