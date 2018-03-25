@@ -1,5 +1,6 @@
-wide-dhcpv6 (20080615-21) UNRELEASED; urgency=medium
+wide-dhcpv6 (20080615-21) unstable; urgency=medium
 
+  [ Cyril Brulebois ]
   * debian/rules:
     - Introduce separate deb/udeb builds, copying source files under
       {build,build-udeb} since support for out-of-tree build seems
@@ -17,7 +18,7 @@ wide-dhcpv6 (20080615-21) UNRELEASED; urgency=medium
   * debian/control:
     - Add a build-dep on rsync for the build tree handling.
 
- -- Cyril Brulebois <kibi@debian.org>  Sun, 25 Mar 2018 07:51:10 +0000
+ -- Roger Shimizu <rogershimizu@gmail.com>  Sun, 25 Mar 2018 22:44:40 +0900
 
 wide-dhcpv6 (20080615-20) unstable; urgency=medium
 
