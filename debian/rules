@@ -14,6 +14,8 @@ build-deb/.stamp:
 
 build-udeb/.stamp:
 	rsync --exclude debian/ --exclude .pc/ -a * build-udeb && touch $@
+	# Build against the static flex library to avoid picking an extra dependency on libfl2 (#893988):
+	sed "s,^CLIENTLIBS=.*,CLIENTLIBS=$$(find /usr/lib/$$(dpkg-architecture -qDEB_BUILD_MULTIARCH) -name libfl.a)," -i build-udeb/Makefile.in
 
 override_dh_auto_configure: build-deb/.stamp build-udeb/.stamp
 	cd build-deb && \
