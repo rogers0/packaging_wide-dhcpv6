@@ -44,3 +44,4 @@ override_dh_auto_clean:
 	dh_auto_clean
 	rm -rf build-deb
 	rm -rf build-udeb
+	rm -rf debian/tmp-udeb
