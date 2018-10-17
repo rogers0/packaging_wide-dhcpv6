@@ -544,4 +544,3 @@ wide-dhcpv6 (20060114-1) unstable; urgency=low
     client and the server compile with flex instead of lex.
 
  -- Jeremie Corbier <jeremie.corbier@resel.enst-bretagne.fr>  Sun, 29 Jan 2006 10:24:22 +0100
-
