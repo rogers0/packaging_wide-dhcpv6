@@ -3,6 +3,8 @@
 # output every command that modifies files on the build system.
 #export DH_VERBOSE = 1
 
+include /usr/share/dpkg/architecture.mk
+
 # Security Hardening
 export DEB_BUILD_MAINT_OPTIONS = hardening=+all
 
@@ -15,12 +17,10 @@ override_dh_auto_configure:
 	for dir in build build-udeb; do \
 		rsync -a --exclude debian/ --exclude .pc/ --exclude .git/ . $$dir; \
 		[ $$dir = "build-udeb" ] && \
-		sed "s,^CLIENTLIBS=.*,CLIENTLIBS=$$(find /usr/lib/$$(dpkg-architecture -qDEB_BUILD_MULTIARCH) -name libfl.a)," \
+		sed "s,^CLIENTLIBS=.*,CLIENTLIBS=$$(find /usr/lib/$(DEB_HOST_MULTIARCH) -name libfl.a)," \
 			-i $$dir/Makefile.in; \
-		cd $$dir && \
-		./configure --prefix=/usr --mandir=\$${prefix}/share/man \
-			--with-localdbdir=/var/lib/dhcpv6 --sysconfdir=/etc/wide-dhcpv6 && \
-		cd -; \
+		dh_auto_configure --sourcedirectory $$dir -- \
+			--with-localdbdir=/var/lib/dhcpv6 --sysconfdir=/etc/wide-dhcpv6; \
 	done
 
 override_dh_auto_build:
