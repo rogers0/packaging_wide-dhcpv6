@@ -5,6 +5,10 @@ wide-dhcpv6 (20080615-22) UNRELEASED; urgency=medium
     - Fix build/host confusion introduced in #893988.
     - Let dh_auto_configure pass --host to ./configure.
 
+  [ Roger Shimizu ]
+  * debian/patches:
+    - Refresh 0017 patch.
+
  -- Helmut Grohne <helmut@subdivi.de>  Wed, 08 Aug 2018 21:56:01 +0200
 
 wide-dhcpv6 (20080615-21) unstable; urgency=medium
