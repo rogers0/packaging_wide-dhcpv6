@@ -8,6 +8,8 @@ wide-dhcpv6 (20080615-22) UNRELEASED; urgency=medium
   [ Roger Shimizu ]
   * debian/patches:
     - Refresh 0017 patch.
+    - Add patch to support for a random interface id.
+      Thanks to Christopher Martin (Closes: #911191).
 
  -- Helmut Grohne <helmut@subdivi.de>  Wed, 08 Aug 2018 21:56:01 +0200
 
