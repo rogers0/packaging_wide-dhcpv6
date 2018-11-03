@@ -1,4 +1,4 @@
-wide-dhcpv6 (20080615-22) UNRELEASED; urgency=medium
+wide-dhcpv6 (20080615-22) unstable; urgency=medium
 
   [ Helmut Grohne ]
   * Fix FTCBFS: (Closes: #905740)
@@ -11,7 +11,7 @@ wide-dhcpv6 (20080615-22) UNRELEASED; urgency=medium
     - Add patch to support for a random interface id.
       Thanks to Christopher Martin (Closes: #911191).
 
- -- Helmut Grohne <helmut@subdivi.de>  Wed, 08 Aug 2018 21:56:01 +0200
+ -- Roger Shimizu <rogershimizu@gmail.com>  Sat, 03 Nov 2018 17:26:10 +0900
 
 wide-dhcpv6 (20080615-21) unstable; urgency=medium
 
