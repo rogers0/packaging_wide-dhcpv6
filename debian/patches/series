@@ -18,3 +18,5 @@
 0018-dhcpv6-ignore-advertise-messages-with-none-of-reques.patch
 0019-Server-should-not-bind-control-port-if-there-is-no-s.patch
 0020-Adding-option-to-randomize-interface-id.patch
+0021-Make-sla-len-config-optional.patch
+0022-Make-sla-id-config-optional.patch

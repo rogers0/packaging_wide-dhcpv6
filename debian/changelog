@@ -5,6 +5,7 @@ wide-dhcpv6 (20080615-23) UNRELEASED; urgency=medium
       Thanks to Yuxiang Zhu for the patch (Closes: #969384).
   * debian/patches:
     - Refresh 0010 patch.
+    - Import 2 patches from Fedora.
   * debian/control and debian/copyright:
     - Update to use my debian email.
   * debian/*.lintian-overrides:
