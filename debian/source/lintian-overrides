@@ -1,0 +1,2 @@
+# Since upstream has been inactive for more than 5 years
+patch-not-forwarded-upstream debian/patches/*

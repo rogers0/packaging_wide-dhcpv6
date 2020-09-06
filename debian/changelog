@@ -1,4 +1,4 @@
-wide-dhcpv6 (20080615-23) UNRELEASED; urgency=medium
+wide-dhcpv6 (20080615-23) unstable; urgency=medium
 
   * debian/wide-dhcpv6-client.links:
     - Make ifupdown script compatible with NetworkManager.
@@ -19,7 +19,7 @@ wide-dhcpv6 (20080615-23) UNRELEASED; urgency=medium
   * debian/po:
     - Use iconv to make all po translation to UTF-8 encoding.
 
- -- Roger Shimizu <rosh@debian.org>  Sat, 05 Sep 2020 22:33:01 +0900
+ -- Roger Shimizu <rosh@debian.org>  Sun, 06 Sep 2020 20:07:31 +0900
 
 wide-dhcpv6 (20080615-22) unstable; urgency=medium
 
