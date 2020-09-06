@@ -13,10 +13,11 @@ diff --git a/dhcp6c.c b/dhcp6c.c
 index ccb601c..1d10a78 100644
 --- a/dhcp6c.c
 +++ b/dhcp6c.c
-@@ -1854,15 +1854,6 @@ client6_recvreply(ifp, dh6, len, optinfo)
+@@ -1853,15 +1853,6 @@ client6_recvreply(ifp, dh6, len, optinfo)
+ 		}
  	}
  
- 	/*
+-	/*
 -	 * Call the configuration script, if specified, to handle various
 -	 * configuration parameters.
 -	 */
@@ -25,10 +26,9 @@ index ccb601c..1d10a78 100644
 -		client6_script(ifp->scriptpath, state, optinfo);
 -	}
 -
--	/*
+ 	/*
  	 * Set refresh timer for configuration information specified in
  	 * information-request.  If the timer value is specified by the server
- 	 * in an information refresh time option, use it; use the protocol
 @@ -1927,6 +1918,15 @@ client6_recvreply(ifp, dh6, len, optinfo)
  		check_exit();
  	}

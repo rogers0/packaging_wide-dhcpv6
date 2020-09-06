@@ -1,3 +1,22 @@
+wide-dhcpv6 (20080615-23) UNRELEASED; urgency=medium
+
+  * debian/wide-dhcpv6-client.links:
+    - Make ifupdown script compatible with NetworkManager.
+      Thanks to Yuxiang Zhu for the patch (Closes: #969384).
+  * debian/patches:
+    - Refresh 0010 patch.
+  * debian/control and debian/copyright:
+    - Update to use my debian email.
+  * debian/*.lintian-overrides:
+    - renamed-tag suggested by lintian:
+      copyright-should-refer-to-common-license-file-for-gpl
+        => copyright-not-using-common-license-for-gpl
+  * debian/control:
+    - Move Vcs-* to salsa.
+  * Add debian/upstream/metadata
+
+ -- Roger Shimizu <rosh@debian.org>  Sat, 05 Sep 2020 22:33:01 +0900
+
 wide-dhcpv6 (20080615-22) unstable; urgency=medium
 
   [ Helmut Grohne ]

@@ -11,7 +11,7 @@ Closes: #893008
  1 file changed, 7 insertions(+), 3 deletions(-)
 
 diff --git a/Makefile.in b/Makefile.in
-index 1ad6c25..277909c 100644
+index 2c8d6f3..2f7e528 100644
 --- a/Makefile.in
 +++ b/Makefile.in
 @@ -40,7 +40,7 @@ CFLAGS=	@CFLAGS@ @CPPFLAGS@ @DEFS@ -DSYSCONFDIR=\"${sysconfdir}\" \

@@ -1,7 +1,7 @@
 Source: wide-dhcpv6
 Section: net
 Priority: optional
-Maintainer: Roger Shimizu <rogershimizu@gmail.com>
+Maintainer: Roger Shimizu <rosh@debian.org>
 Build-Depends:
  bison,
  debhelper (>= 10),
@@ -9,8 +9,8 @@ Build-Depends:
  libfl-dev,
  rsync
 Standards-Version: 3.9.8
-Vcs-Git: https://github.com/rogers0/packaging_wide-dhcpv6.git
-Vcs-Browser: https://github.com/rogers0/packaging_wide-dhcpv6
+Vcs-Git: https://salsa.debian.org/debian/wide-dhcpv6.git
+Vcs-Browser: https://salsa.debian.org/debian/wide-dhcpv6
 Homepage: http://wide-dhcpv6.sourceforge.net/
 
 Package: wide-dhcpv6-server

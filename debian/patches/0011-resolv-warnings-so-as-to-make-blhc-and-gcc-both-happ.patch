@@ -9,14 +9,14 @@ Subject: resolv warnings so as to make "blhc" and "gcc" both happy
 
 Signed-off-by: Roger Shimizu <rogershimizu@gmail.com>
 ---
- Makefile.in          | 21 +++++++++++----------
+ Makefile.in          | 19 ++++++++++---------
  addrconf.c           | 11 ++++++++++-
  missing/arc4random.c |  3 ++-
  prefixconf.c         | 11 ++++++++++-
- 4 files changed, 33 insertions(+), 13 deletions(-)
+ 4 files changed, 32 insertions(+), 12 deletions(-)
 
 diff --git a/Makefile.in b/Makefile.in
-index de25f48..1ad6c25 100644
+index de25f48..2c8d6f3 100644
 --- a/Makefile.in
 +++ b/Makefile.in
 @@ -36,7 +36,7 @@ localdbdir= @localdbdir@
@@ -43,28 +43,27 @@ index de25f48..1ad6c25 100644
  
  getaddrinfo.o:	$(srcdir)/missing/getaddrinfo.c
 -	$(CC) -c $(srcdir)/missing/$*.c
-+	$(CC) -c $(CFLAGS) $(srcdir)/missing/$*.c
++	$(CC) $(CFLAGS) -c $(srcdir)/missing/$*.c
  getnameinfo.o:	$(srcdir)/missing/getnameinfo.c
 -	$(CC) -c $(srcdir)/missing/$*.c
-+	$(CC) -c $(CFLAGS) $(srcdir)/missing/$*.c
++	$(CC) $(CFLAGS) -c $(srcdir)/missing/$*.c
  strlcat.o:	$(srcdir)/missing/strlcat.c
 -	$(CC) -c $(srcdir)/missing/$*.c
-+	$(CC) -c $(CFLAGS) $(srcdir)/missing/$*.c
++	$(CC) $(CFLAGS) -c $(srcdir)/missing/$*.c
  strlcpy.o:	$(srcdir)/missing/strlcpy.c
 -	$(CC) -c $(srcdir)/missing/$*.c
-+	$(CC) -c $(CFLAGS) $(srcdir)/missing/$*.c
++	$(CC) $(CFLAGS) -c $(srcdir)/missing/$*.c
  arc4random.o:	$(srcdir)/missing/arc4random.c
--	$(CC) $(CFLAGS) -c $(srcdir)/missing/$*.c
-+	$(CC) -c $(CFLAGS) $(srcdir)/missing/$*.c
+ 	$(CC) $(CFLAGS) -c $(srcdir)/missing/$*.c
  getifaddrs.o:	$(srcdir)/missing/getifaddrs.c
 -	$(CC) -c $(srcdir)/missing/$*.c
-+	$(CC) -c $(CFLAGS) $(srcdir)/missing/$*.c
++	$(CC) $(CFLAGS) -c $(srcdir)/missing/$*.c
  daemon.o:	$(srcdir)/missing/daemon.c
 -	$(CC) -c $(srcdir)/missing/$*.c
-+	$(CC) -c $(CFLAGS) $(srcdir)/missing/$*.c
++	$(CC) $(CFLAGS) -c $(srcdir)/missing/$*.c
  warnx.o:	$(srcdir)/missing/warnx.c
 -	$(CC) -c $(srcdir)/missing/$*.c
-+	$(CC) -c $(CFLAGS) $(srcdir)/missing/$*.c
++	$(CC) $(CFLAGS) -c $(srcdir)/missing/$*.c
  
  $(srcdir)/ianaopts.h: gentab.pl bootp-dhcp-parameters
  	expand bootp-dhcp-parameters | perl gentab.pl > ianaopts.h
