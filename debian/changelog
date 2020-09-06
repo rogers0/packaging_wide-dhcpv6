@@ -13,6 +13,7 @@ wide-dhcpv6 (20080615-23) UNRELEASED; urgency=medium
         => copyright-not-using-common-license-for-gpl
   * debian/control:
     - Move Vcs-* to salsa.
+    - Bump up debhelper version to 12.
   * Add debian/upstream/metadata
 
  -- Roger Shimizu <rosh@debian.org>  Sat, 05 Sep 2020 22:33:01 +0900
