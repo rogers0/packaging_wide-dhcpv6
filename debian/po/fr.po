@@ -17,18 +17,18 @@ msgstr ""
 "Report-Msgid-Bugs-To: wide-dhcpv6@packages.debian.org\n"
 "POT-Creation-Date: 2009-03-09 11:13+0100\n"
 "PO-Revision-Date: 2006-02-22 19:35+0100\n"
-"Last-Translator: Jérémie Corbier <jeremie.corbier@resel.enst-bretagne.fr>\n"
+"Last-Translator: JÃ©rÃ©mie Corbier <jeremie.corbier@resel.enst-bretagne.fr>\n"
 "Language-Team: French <debian-l10n-french@lists.debian.org>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=ISO-8859-15\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
 #. Type: string
 #. Description
 #: ../wide-dhcpv6-client.templates:1001
 msgid "Interfaces on which the DHCPv6 client sends requests:"
-msgstr "Interfaces sur lesquelles le client DHCPv6 envoie ses requêtes :"
+msgstr "Interfaces sur lesquelles le client DHCPv6 envoie ses requÃªtesÂ :"
 
 #. Type: string
 #. Description
@@ -38,16 +38,16 @@ msgid ""
 "specified here. Multiple interfaces are separated with spaces. An empty line "
 "temporarily disables dhcp6c."
 msgstr ""
-"Veuillez indiquer les interfaces réseau sur lesquelles le client DHCPv6 "
-"enverra les requêtes. Lorsque plusieurs interfaces sont indiquées, elles "
-"doivent être séparées par des espaces. Une ligne vide désactive "
+"Veuillez indiquer les interfaces rÃ©seau sur lesquelles le client DHCPv6 "
+"enverra les requÃªtes. Lorsque plusieurs interfaces sont indiquÃ©es, elles "
+"doivent Ãªtre sÃ©parÃ©es par des espaces. Une ligne vide dÃ©sactive "
 "temporairement dhcp6c."
 
 #. Type: string
 #. Description
 #: ../wide-dhcpv6-relay.templates:1001
 msgid "Interfaces on which the DHCPv6 relay operates:"
-msgstr "Interfaces sur lesquelles le relais DHCPv6 est actif :"
+msgstr "Interfaces sur lesquelles le relais DHCPv6 est actifÂ :"
 
 #. Type: string
 #. Description
@@ -57,9 +57,9 @@ msgid ""
 "specified here. Multiple interfaces are separated with spaces. An empty line "
 "temporarily disables dhcp6relay."
 msgstr ""
-"Veuillez indiquer les interfaces réseau sur lesquelles le relais DHCPv6 "
-"traitera les requêtes. Lorsque plusieurs interfaces sont indiquées, elles "
-"doivent être séparées par des espaces. Une ligne vide désactive "
+"Veuillez indiquer les interfaces rÃ©seau sur lesquelles le relais DHCPv6 "
+"traitera les requÃªtes. Lorsque plusieurs interfaces sont indiquÃ©es, elles "
+"doivent Ãªtre sÃ©parÃ©es par des espaces. Une ligne vide dÃ©sactive "
 "temporairement dhcp6relay."
 
 #. Type: note
@@ -73,7 +73,7 @@ msgstr "Configuration du serveur DHCPv6 WIDE"
 #: ../wide-dhcpv6-server.templates:1001
 msgid "The DHCPv6 server requires manual configuration after installation."
 msgstr ""
-"Le serveur DHCPv6 nécessite une configuration manuelle après installation."
+"Le serveur DHCPv6 nÃ©cessite une configuration manuelle aprÃ¨s installation."
 
 #. Type: note
 #. Description
@@ -83,9 +83,9 @@ msgid ""
 "editing the file /etc/wide-dhcpv6/dhcp6s.conf. A sample dhcp6s.conf is "
 "available at /usr/share/doc/wide-dhcpv6-server/examples."
 msgstr ""
-"Après l'installation du serveur DHCPv6, vous devrez le configurer vous-même "
+"AprÃ¨s l'installation du serveur DHCPv6, vous devrez le configurer vous-mÃªme "
 "en modifiant /etc/wide-dhcpv6/dhcp6s.conf. Un fichier d'exemple est "
-"disponible dans le répertoire /usr/share/doc/wide-dhcpv6-server/examples."
+"disponible dans le rÃ©pertoire /usr/share/doc/wide-dhcpv6-server/examples."
 
 #. Type: note
 #. Description
@@ -93,13 +93,13 @@ msgstr ""
 msgid ""
 "Please configure the DHCPv6 server as soon as the installation finishes."
 msgstr ""
-"Veuillez configurer le serveur DHCPv6 dès que l'installation est terminée."
+"Veuillez configurer le serveur DHCPv6 dÃ¨s que l'installation est terminÃ©e."
 
 #. Type: string
 #. Description
 #: ../wide-dhcpv6-server.templates:2001
 msgid "Interfaces on which the DHCPv6 server listens to requests:"
-msgstr "Interfaces sur lesquelles le serveur DHCPv6 écoute les requêtes :"
+msgstr "Interfaces sur lesquelles le serveur DHCPv6 Ã©coute les requÃªtesÂ :"
 
 #. Type: string
 #. Description
@@ -109,9 +109,9 @@ msgid ""
 "specified here. Multiple interfaces are separated with spaces. An empty line "
 "temporarily disables dhcp6s."
 msgstr ""
-"Veuillez indiquer les interfaces réseau sur lesquelles le serveur DHCPv6 "
-"écoutera les requêtes. Lorsque plusieurs interfaces sont indiquées, elles "
-"doivent être séparées par des espaces. Une ligne vide désactive "
+"Veuillez indiquer les interfaces rÃ©seau sur lesquelles le serveur DHCPv6 "
+"Ã©coutera les requÃªtes. Lorsque plusieurs interfaces sont indiquÃ©es, elles "
+"doivent Ãªtre sÃ©parÃ©es par des espaces. Une ligne vide dÃ©sactive "
 "temporairement dhcp6s."
 
 #~ msgid "WIDE DHCPv6 client configuration"
@@ -119,18 +119,18 @@ msgstr ""
 
 #~ msgid "The DHCPv6 client requires manual configuration after installation."
 #~ msgstr ""
-#~ "Le client DHCPv6 nécessite une configuration manuelle après installation."
+#~ "Le client DHCPv6 nÃ©cessite une configuration manuelle aprÃ¨s installation."
 
 #~ msgid ""
 #~ "After the DHCPv6 client is installed it has to be manually configured by "
 #~ "editing the file /etc/wide-dhcpv6/dhcp6c.conf. A sample dhcp6c.conf is "
 #~ "available at /usr/share/doc/wide-dhcpv6-client/examples."
 #~ msgstr ""
-#~ "Après l'installation du client DHCPv6, vous devrez le configurer vous-"
-#~ "même en modifiant /etc/wide-dhcpv6/dhcp6c.conf. Un fichier d'exemple est "
-#~ "disponible dans le répertoire /usr/share/doc/wide-dhcpv6-client/examples."
+#~ "AprÃ¨s l'installation du client DHCPv6, vous devrez le configurer vous-"
+#~ "mÃªme en modifiant /etc/wide-dhcpv6/dhcp6c.conf. Un fichier d'exemple est "
+#~ "disponible dans le rÃ©pertoire /usr/share/doc/wide-dhcpv6-client/examples."
 
 #~ msgid ""
 #~ "Please configure the DHCPv6 client as soon as the installation finishes."
 #~ msgstr ""
-#~ "Veuillez configurer le client DHCPv6 dès que l'installation est terminée."
+#~ "Veuillez configurer le client DHCPv6 dÃ¨s que l'installation est terminÃ©e."
